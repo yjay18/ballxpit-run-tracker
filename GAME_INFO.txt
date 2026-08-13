@@ -165,9 +165,9 @@ The immediate projectile count drops, so a poorly timed Fusion can reduce wave
 clear until the open slot is filled again.
 
 Evolution is a specific recipe. Every ball component must be level 3. The
-ingredients are consumed and replaced by the evolved ball. Pit Crew's Evolution
-Bench detects these recipes and performs the same inventory transformation in
-the tracker.
+ingredients are consumed and replaced by the evolved ball. Pit Crew's compact
+recommendation panel detects ready recipes and performs the same inventory
+transformation in the tracker.
 
 Passive artifacts are different: their components only need to be held, not
 leveled. Combining them frees a passive slot.
@@ -326,8 +326,6 @@ curated priorities and exclusions. It then adjusts scores using current state:
 - Baby-ball passives rise when the loadout can already spawn baby balls.
 - Magic Staff rises when the loadout already deals AOE damage.
 - Conditional passives remain hidden until their required status is present.
-- The chosen focus (Balanced, Status, Swarm, Sustain, or Crit) adds another
-  weight without overriding hard character restrictions.
 
 Absolute character rules are applied before general synergy. Direct-damage-only
 ideas are penalized for Sisyphus. Speed passives are removed for Tactician.
@@ -342,16 +340,15 @@ the best practical choice.
 10. USING THE TRACKER DURING A RUN
 ----------------------------------
 1. Press Start a Run and choose the current character.
-2. Match the biome selector to the run.
-3. Add every ball and passive when it is taken in-game.
-4. Use the minus and plus controls to match ball levels.
-5. Increase standard ball capacity from 3 toward 5 when the game opens slots.
-6. Watch the Evolution Bench for ready recipes and close alternatives.
-7. Use Evolve or Forge only after performing the corresponding action in-game.
-8. Change the build focus if the run has committed to Status, Swarm, Sustain,
-   or Crit.
-9. Read coach warnings before opening a new branch or reducing projectile count.
-10. The state saves automatically in the current browser. End Run clears it.
+2. Add every ball and passive when it is taken in-game.
+3. Use the minus and plus controls to match ball levels.
+4. Standard characters display 4 ball slots and 4 passive slots. Character-
+   specific limits still override this where needed.
+5. Read the compact Recommended Next panel for the strongest two available
+   balls and passives.
+6. When a recipe is ready, Evolve or Forge appears in the same panel. Use it
+   only after performing the corresponding action in-game.
+7. The state saves automatically in the current browser. End Run clears it.
 
 
 CREDITS

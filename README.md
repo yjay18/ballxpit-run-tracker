@@ -11,19 +11,18 @@ state and encyclopedia checkmarks stay in the browser's `localStorage`.
 ## What it does
 
 - Starts with a play-first character picker covering 23 character profiles.
-- Tracks the active character, biome, elapsed time, ball capacity, ball levels,
-  passive slots, completed evolutions, and a chronological run log.
+- Shows only the active character, 4 current ball slots, current passives, and
+  the best next pickups so the screen stays readable during active play.
 - Detects ball evolutions when every recipe component is level 3.
 - Detects passive artifacts as soon as all required components are held.
-- Applies an evolution from the bench, consumes its ingredients, and adds the
-  result at level 1.
-- Re-scores ball and passive suggestions whenever the loadout or desired build
-  style changes.
+- Applies a ready evolution from the recommendation panel, consumes its
+  ingredients, and adds the result at level 1.
+- Re-scores ball and passive suggestions whenever the loadout changes.
 - Handles character overrides such as Sisyphus's zero direct damage,
   Tactician's irrelevant Speed stat, Empty Nester's missing baby balls, Hoary
   Hoarder's 2/8 slot split, and Ballbearer's 10/0 slot split.
-- Warns about slot-lock, narrow wave clear before Fusion, the Ethereal Cloak
-  piercing paradox, and the Vampiric Sword health loop.
+- Surfaces ready ball evolutions and passive artifacts directly above the next
+  pickup suggestions.
 - Keeps the original searchable encyclopedia for 20 base balls, 59 ball
   evolutions, 53 base passives, 13 passive artifacts, and Matchmaker pairs.
 - Works as a single responsive page on desktop and mobile.
@@ -60,8 +59,8 @@ audited, so community corrections are welcome.
 
 Recommendations are practical heuristics, not a claim of a solved optimal
 meta. Character rules act as hard filters where appropriate; recipe proximity,
-current loadout, conditional loot requirements, and the selected build style
-then contribute to the ranking.
+current loadout and conditional loot requirements then contribute to the
+ranking.
 
 ## Original tracker credit
 

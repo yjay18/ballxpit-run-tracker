@@ -408,39 +408,33 @@ main{max-width:1240px;padding:0 1rem 5rem}
 .starter-chip .sprite{width:20px;height:20px}
 
 /* active run */
-.run-topbar{display:grid;grid-template-columns:minmax(230px,1fr) auto auto;gap:.7rem;align-items:stretch;padding:1.1rem 0}
-.runner-card,.run-meter,.run-controls{border:1px solid var(--border);background:rgba(18,22,17,.88);padding:.7rem}
+.run-topbar{display:flex;align-items:center;gap:.7rem;padding:1rem 0}
+.runner-card{border:1px solid var(--border);background:rgba(18,22,17,.88);padding:.7rem;flex:1}
 .runner-card{display:flex;align-items:center;gap:.7rem}.runner-card .avatar{width:48px;height:48px;border-radius:2px}
 .runner-name{font-family:"Press Start 2P",monospace;font-size:.62rem;line-height:1.5}.runner-detail{font-size:.68rem;color:var(--muted);margin-top:.18rem}
-.run-meter{display:flex;align-items:center;gap:1.2rem;padding:.7rem 1rem}.meter-block{min-width:72px}.meter-label{font-size:.58rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em}.meter-value{display:block;color:var(--text);font-family:"Press Start 2P",monospace;font-size:.68rem;margin-top:.28rem}
-.run-controls{display:flex;align-items:center;gap:.45rem}.run-controls select{max-width:165px;background:var(--panel2);color:var(--text);border:1px solid var(--border);padding:.45rem;border-radius:2px;font-size:.7rem}.danger-btn{color:#f4aaa5;border-color:#673a37}.danger-btn:hover{background:#34201f}
-.run-layout{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(300px,.75fr);gap:.9rem;align-items:start}
+.danger-btn{color:#f4aaa5;border-color:#673a37;white-space:nowrap;align-self:stretch}.danger-btn:hover{background:#34201f}
+.run-layout{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(300px,.7fr);gap:.9rem;align-items:start}
 .run-stack{display:grid;gap:.9rem}
 .run-panel{border:1px solid var(--border);background:rgba(18,22,17,.94);box-shadow:7px 7px 0 rgba(0,0,0,.18)}
 .panel-head{display:flex;align-items:center;justify-content:space-between;gap:.8rem;padding:.8rem .9rem;border-bottom:1px solid var(--border);background:rgba(255,255,255,.018)}
 .panel-head h2,.panel-head h3{font-family:"Press Start 2P",monospace;color:var(--text);font-size:.62rem;margin:0;line-height:1.4}
 .panel-head p{margin:.16rem 0 0;font-size:.67rem;color:var(--muted)}
-.panel-count{color:var(--accent);font-family:"Press Start 2P",monospace;font-size:.58rem;white-space:nowrap}
-.capacity-control{display:flex;align-items:center;gap:.4rem}.capacity-control button{width:23px;height:23px;padding:0;border:1px solid var(--border);background:#0d100c;color:var(--text)}.capacity-control button:hover{border-color:var(--accent)}
-.slot-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.55rem;padding:.75rem}
+.panel-actions{display:flex;align-items:center;gap:.55rem}.panel-count{color:var(--accent);font-family:"Press Start 2P",monospace;font-size:.58rem;white-space:nowrap}
+.quick-add{border:1px solid var(--accent);background:transparent;color:var(--accent);padding:.38rem .5rem;font-size:.62rem;font-weight:800}.quick-add:hover{background:var(--accent);color:#11140d}.quick-add:disabled{opacity:.35;cursor:default}
+.slot-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:.55rem;padding:.75rem}
 .item-slot{position:relative;display:flex;flex-direction:column;align-items:center;min-height:154px;padding:.7rem .45rem .55rem;background:#0d100c;border:1px solid #2b3327;text-align:center}
 .item-slot.evolved{border-color:#6f4b74;background:linear-gradient(180deg,rgba(127,73,139,.1),#0d100c 55%)}
 .item-slot .sprite{width:52px;height:52px;margin:.05rem auto .4rem}.item-slot-name{font-weight:750;font-size:.75rem;line-height:1.25;min-height:2.4em}.item-tier{color:var(--muted);font-size:.58rem;text-transform:uppercase;margin-top:.18rem}.level-control{display:flex;align-items:center;justify-content:center;gap:.35rem;margin-top:auto;padding-top:.45rem}.level-control button{width:25px;height:25px;border:1px solid var(--border);background:var(--panel2);color:var(--text);line-height:1}.level-control button:hover{border-color:var(--accent)}.level-pips{display:flex;gap:3px}.level-pips i{width:7px;height:7px;background:#3c4437;display:block}.level-pips i.on{background:var(--accent)}
 .slot-remove{position:absolute;right:5px;top:4px;border:0;background:transparent;color:#646c5e;padding:.2rem;font-size:.8rem}.slot-remove:hover{color:var(--danger)}
-.empty-slot{display:grid;place-items:center;border:1px dashed #3b4436;min-height:154px;background:transparent;color:var(--muted);font-size:.68rem;padding:.75rem;text-align:center}.empty-slot button{border:0;background:transparent;color:inherit;width:100%;height:100%}.empty-plus{display:block;color:var(--accent);font-size:1.5rem;line-height:1;margin-bottom:.35rem}
-.passive-list{grid-template-columns:repeat(4,minmax(0,1fr))}.passive-list .item-slot{min-height:130px}.passive-list .item-slot .sprite{width:46px;height:46px}.passive-list .empty-slot{min-height:130px}
-.evolution-list{padding:.75rem;display:grid;gap:.55rem}.evo-ready{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:.65rem;padding:.6rem;background:#10150e;border:1px solid #3f512c}.evo-ready .sprite{width:42px;height:42px}.evo-ready h4{margin:0;font-size:.76rem}.evo-ready p{margin:.18rem 0 0;color:var(--muted);font-size:.65rem}.evolve-btn,.mini-add{
+.loadout-empty{grid-column:1/-1;color:var(--muted);font-size:.7rem;padding:.15rem}
+.passive-list .item-slot{min-height:130px}.passive-list .item-slot .sprite{width:46px;height:46px}
+.evo-ready{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:.65rem;padding:.6rem;background:#10150e;border:1px solid #3f512c}.evo-ready .sprite{width:42px;height:42px}.evo-ready h4{margin:0;font-size:.76rem}.evo-ready p{margin:.18rem 0 0;color:var(--muted);font-size:.65rem}.evolve-btn,.mini-add{
   border:1px solid var(--accent);background:var(--accent);color:#11140d;padding:.5rem .6rem;font-size:.65rem;font-weight:800;text-transform:uppercase;
 }
 .evolve-btn:hover,.mini-add:hover{background:#efffa7}.empty-copy{color:var(--muted);font-size:.72rem;padding:.25rem;line-height:1.55}
 .coach-panel{position:sticky;top:132px}
-.character-brief{padding:.85rem;border-bottom:1px solid var(--border)}
-.character-brief-row{display:flex;gap:.7rem;align-items:center}.character-brief .avatar{width:58px;height:58px;border-radius:2px}.brief-name{font-family:"Press Start 2P",monospace;font-size:.6rem;line-height:1.45}.brief-role{color:var(--accent);font-size:.68rem;margin-top:.22rem}.brief-copy{font-size:.72rem;color:#c5c8b8;line-height:1.55;margin:.65rem 0 0}
-.style-tabs{display:flex;gap:.35rem;overflow:auto;padding:.7rem;border-bottom:1px solid var(--border);scrollbar-width:none}.style-tabs button{flex:0 0 auto;border:1px solid var(--border);background:#0d100c;color:var(--muted);padding:.34rem .5rem;font-size:.62rem}.style-tabs button.active{border-color:var(--accent);color:#11140d;background:var(--accent)}
 .recommendations{padding:.75rem}.rec-group+.rec-group{margin-top:.9rem}.rec-group-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:.45rem}.rec-group-title h4{font-family:"Press Start 2P",monospace;font-size:.52rem;color:var(--text);margin:0}.rec-group-title span{font-size:.58rem;color:var(--muted)}
 .rec-card{display:grid;grid-template-columns:34px 1fr auto;gap:.5rem;align-items:center;padding:.5rem 0;border-top:1px solid #282f25}.rec-card:first-of-type{border-top:0}.rec-card .sprite{width:34px;height:34px}.rec-card h5{font-size:.7rem;margin:0}.rec-card p{font-size:.61rem;color:var(--muted);margin:.15rem 0 0;line-height:1.35}.mini-add{padding:.35rem .45rem;background:transparent;color:var(--accent);font-size:.58rem}.mini-add:hover{color:#11140d;background:var(--accent)}.mini-add:disabled{border-color:#3c4437;color:#646c5e;background:transparent;cursor:default}
-.coach-calls{border-top:1px solid var(--border);padding:.75rem}.callout{display:flex;gap:.5rem;color:#c9cbbd;font-size:.67rem;line-height:1.45;padding:.45rem;background:#171a13;border-left:3px solid var(--orange)}.callout+.callout{margin-top:.4rem}.callout.good{border-left-color:var(--accent)}
-.run-log{padding:.6rem .8rem;max-height:150px;overflow:auto}.log-row{display:flex;gap:.6rem;font-size:.65rem;padding:.25rem 0;color:var(--muted)}.log-row time{color:#6f7668;min-width:48px}.log-row b{color:var(--text);font-weight:600}
 
 /* picker drawer */
 .picker-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:120;display:grid;place-items:end center;padding:1rem;backdrop-filter:blur(4px)}
@@ -452,12 +446,12 @@ main{max-width:1240px;padding:0 1rem 5rem}
 footer{background:#0b0d0a;margin-top:1rem}.footer-brand{color:var(--text);font-family:"Press Start 2P",monospace;font-size:.58rem}
 
 @media(max-width:900px){
-  .run-hero{grid-template-columns:1fr;min-height:auto;padding-top:3.5rem}.hero-visual{min-height:400px}.run-layout{grid-template-columns:1fr}.coach-panel{position:static}.run-topbar{grid-template-columns:1fr 1fr}.runner-card{grid-column:1/-1}.run-controls{justify-content:flex-end}.slot-list{grid-template-columns:repeat(3,1fr)}
+  .run-hero{grid-template-columns:1fr;min-height:auto;padding-top:3.5rem}.hero-visual{min-height:400px}.run-layout{grid-template-columns:1fr}.coach-panel{position:static}
 }
 @media(max-width:640px){
   .site-header{padding:.55rem .7rem}.brand-copy span,.live-pill span:not(.live-dot){display:none}.live-pill{padding:.45rem}.brand-copy h1{font-size:.61rem}.brand-mark{width:30px;height:30px}.hdr-top{gap:.45rem}nav.tabs{margin-left:-.1rem;margin-right:-.1rem}nav.tabs button{padding:.42rem .56rem;font-size:.63rem}
   main{padding-left:.7rem;padding-right:.7rem}.run-hero{padding:2.6rem 0 3rem;gap:1.5rem}.hero-title{font-size:clamp(2rem,14vw,3.8rem)}.hero-title span{text-shadow:3px 3px 0 #3e4b17}.hero-lede{font-size:.95rem}.hero-visual{min-height:310px}.pit-board{width:min(92%,330px)}.hero-orb{width:58px;height:58px}.hero-orb.o2{width:66px;height:66px}.hero-orb.o3{width:72px;height:72px}.board-caption{right:0;bottom:24px}
-  .setup-wrap{padding:1.5rem 0}.setup-head{align-items:flex-start}.run-char-grid{grid-template-columns:1fr}.run-topbar{grid-template-columns:1fr;padding:.7rem 0}.runner-card{grid-column:auto}.run-meter{justify-content:space-between;gap:.4rem}.run-controls{justify-content:stretch}.run-controls select{max-width:none;flex:1}.run-layout{gap:.65rem}.panel-head{padding:.7rem}.slot-list{grid-template-columns:repeat(2,minmax(0,1fr));padding:.55rem}.item-slot,.empty-slot{min-height:145px}.passive-list{grid-template-columns:repeat(2,minmax(0,1fr))}.evo-ready{grid-template-columns:auto 1fr}.evo-ready .evolve-btn{grid-column:1/-1}.picker-backdrop{padding:0;place-items:end}.picker-drawer{max-height:88vh;border-left:0;border-right:0}.picker-head{flex-wrap:wrap}.picker-head input{order:3;width:100%}.picker-grid{grid-template-columns:repeat(2,minmax(0,1fr));padding:.5rem}.picker-item{grid-template-columns:32px 1fr;padding:.4rem}.picker-item .sprite{width:32px;height:32px}
+  .setup-wrap{padding:1.5rem 0}.setup-head{align-items:flex-start}.run-char-grid{grid-template-columns:1fr}.run-topbar{padding:.7rem 0}.runner-card{min-width:0}.runner-card .avatar{width:42px;height:42px}.runner-detail{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.run-layout{gap:.65rem}.panel-head{padding:.7rem}.slot-list{grid-template-columns:repeat(2,minmax(0,1fr));padding:.55rem}.item-slot{min-height:145px}.evo-ready{grid-template-columns:auto 1fr}.evo-ready .evolve-btn{grid-column:1/-1}.picker-backdrop{padding:0;place-items:end}.picker-drawer{max-height:88vh;border-left:0;border-right:0}.picker-head{flex-wrap:wrap}.picker-head input{order:3;width:100%}.picker-grid{grid-template-columns:repeat(2,minmax(0,1fr));padding:.5rem}.picker-item{grid-template-columns:32px 1fr;padding:.4rem}.picker-item .sprite{width:32px;height:32px}
 }
 </style>
 </head>
@@ -537,56 +531,25 @@ footer{background:#0b0d0a;margin-top:1rem}.footer-brand{color:var(--text);font-f
     <div id="run-dashboard" class="hidden">
       <div class="run-topbar">
         <div class="runner-card" id="run-runner-card"></div>
-        <div class="run-meter">
-          <div class="meter-block"><span class="meter-label">Run time</span><span class="meter-value" id="run-timer">00:00</span></div>
-          <div class="meter-block"><span class="meter-label">Balls</span><span class="meter-value" id="run-ball-meter">0 / 3</span></div>
-          <div class="meter-block"><span class="meter-label">Passives</span><span class="meter-value" id="run-passive-meter">0 / 4</span></div>
-        </div>
-        <div class="run-controls">
-          <select id="run-biome" aria-label="Current biome">
-            <option>The BONExYARD</option><option>The SNOWYxSHORES</option><option>The LIMINALxDESERT</option>
-            <option>The FUNGALxFOREST</option><option>The GORYxGRASSLANDS</option><option>The SMOLDERINGxDEPTHS</option>
-            <option>The HEAVENLYxGATES</option><option>The VASTxVOID</option><option>Endless Mode</option>
-          </select>
-          <button class="danger-btn" id="end-run-btn">End run</button>
-        </div>
+        <button class="danger-btn" id="end-run-btn">End run</button>
       </div>
 
       <div class="run-layout">
         <div class="run-stack">
           <section class="run-panel">
-            <div class="panel-head"><div><h2>Ball loadout</h2><p>Tap +/− to match in-game levels.</p></div><div class="capacity-control" id="ball-cap-control"><button data-cap-dir="-1" aria-label="Decrease ball slots">−</button><span class="panel-count" id="ball-slot-count">0 / 3</span><button data-cap-dir="1" aria-label="Increase ball slots">+</button></div></div>
+            <div class="panel-head"><div><h2>Your balls</h2><p>Tap +/− to match their current levels.</p></div><div class="panel-actions"><span class="panel-count" id="ball-slot-count">0 / 4</span><button class="quick-add" id="add-ball-btn" data-open-picker="ball">+ Add</button></div></div>
             <div class="slot-list" id="run-ball-list"></div>
           </section>
 
           <section class="run-panel">
-            <div class="panel-head"><div><h2>Passive loadout</h2><p>Artifacts combine automatically when their pieces are held.</p></div><span class="panel-count" id="passive-slot-count">0 / 4</span></div>
+            <div class="panel-head"><div><h2>Your passives</h2><p>Keep only what is currently equipped.</p></div><div class="panel-actions"><span class="panel-count" id="passive-slot-count">0 / 4</span><button class="quick-add" id="add-passive-btn" data-open-picker="passive">+ Add</button></div></div>
             <div class="slot-list passive-list" id="run-passive-list"></div>
-          </section>
-
-          <section class="run-panel">
-            <div class="panel-head"><div><h2>Evolution bench</h2><p>Ready recipes and the closest build paths.</p></div><span class="panel-count" id="ready-evo-count">0 ready</span></div>
-            <div class="evolution-list" id="run-evolution-list"></div>
-          </section>
-
-          <section class="run-panel">
-            <div class="panel-head"><div><h2>Run log</h2><p>Your latest build changes.</p></div></div>
-            <div class="run-log" id="run-log"></div>
           </section>
         </div>
 
         <aside class="run-panel coach-panel">
-          <div class="panel-head"><div><h2>Build coach</h2><p>Re-scores every time your loadout changes.</p></div><span class="eyebrow">Live</span></div>
-          <div class="character-brief" id="character-brief"></div>
-          <div class="style-tabs" id="run-style-tabs" aria-label="Build focus">
-            <button data-style="balanced" class="active">Balanced</button>
-            <button data-style="status">Status</button>
-            <button data-style="swarm">Swarm</button>
-            <button data-style="sustain">Sustain</button>
-            <button data-style="crit">Crit</button>
-          </div>
+          <div class="panel-head"><div><h2>Recommended next</h2><p>Updates as your selected items change.</p></div></div>
           <div class="recommendations" id="run-recommendations"></div>
-          <div class="coach-calls" id="coach-calls"></div>
         </aside>
       </div>
     </div>
@@ -1555,14 +1518,6 @@ const RUN_GUIDES = {
   "The Ballbearer": { role:"Evolution architect", summary:"Ten ball slots and zero passive slots make this the safest home for Nosferatu, Satan, Nuclear Bomb, and other nested recipes.", balls:["Vampire","Brood Mother","Egg Sac","Charm","Dark","Burn","Iron","Poison"], passives:[], avoid:[] }
 };
 
-const STYLE_RULES = {
-  balanced:{ label:"Balanced" },
-  status:{ label:"Status", balls:["Burn","Poison","Freeze","Bleed","Charm","Wind"], passives:["Magic Staff","Midnight Oil","Frozen Spike","Voodoo Doll","Cursed Elixir"] },
-  swarm:{ label:"Swarm", balls:["Brood Mother","Egg Sac","Cell"], passives:["War Horn","Baby Rattle","Bandage Roll","Slingshot","Turret"] },
-  sustain:{ label:"Sustain", balls:["Vampire","Ghost","Bleed","Charm"], passives:["Everflowing Goblet","Vampiric Sword","Bandage Roll","Breastplate","Healer's Effigy"] },
-  crit:{ label:"Crit", balls:["Dark","Iron","Ghost","Stone"], passives:["Deadeye's Amulet","Diamond Hilted Dagger","Emerald Hilted Dagger","Ruby Hilted Dagger","Sapphire Hilted Dagger"] }
-};
-
 let runState = null;
 try { runState = JSON.parse(localStorage.getItem(RUN_KEY)); } catch(e) { runState = null; }
 let pickerMode = "ball";
@@ -1574,9 +1529,8 @@ function activeRunCharacter(){
 function ballCapFor(c){
   if(c.name==="The Ballbearer") return 10;
   if(c.name==="The Hoary Hoarder") return 2;
-  return 3;
+  return 4;
 }
-function ballCapLimit(c){ return c.name==="The Ballbearer"?10:(c.name==="The Hoary Hoarder"?2:5); }
 function passiveCapFor(c){ return c.name==="The Ballbearer"?0:(c.name==="The Hoary Hoarder"?8:4); }
 function saveRun(){
   if(runState) localStorage.setItem(RUN_KEY, JSON.stringify(runState));
@@ -1594,8 +1548,8 @@ function startRun(characterName){
   const c = GAME_DATA.characters.find(x=>x.name===characterName);
   if(!c) return;
   runState = {
-    active:true, character:c.name, startedAt:Date.now(), biome:"The BONExYARD",
-    ballCap:ballCapFor(c), passiveCap:passiveCapFor(c), style:"balanced",
+    active:true, character:c.name, startedAt:Date.now(),
+    ballCap:ballCapFor(c), passiveCap:passiveCapFor(c),
     balls:c.ball!=="None"?[{name:c.ball,level:1}]:[], passives:[], log:[]
   };
   logRun(`Entered the pit as ${c.name}${c.ball!=="None"?` with ${c.ball}`:""}.`);
@@ -1635,25 +1589,13 @@ function renderRunCharacterGrid(){
     </button>`;
   }).join("");
 }
-function formatDuration(ms){
-  const total = Math.max(0,Math.floor(ms/1000));
-  const h = Math.floor(total/3600), m = Math.floor((total%3600)/60), s = total%60;
-  return (h?String(h).padStart(2,"0")+":":"")+String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");
-}
-function updateRunTimer(){
-  if(!runState || !runState.active) return;
-  const textValue = formatDuration(Date.now()-runState.startedAt);
-  const timer = document.getElementById("run-timer");
-  if(timer) timer.textContent = textValue;
-  updateHeaderRunStatus(textValue);
-}
-function updateHeaderRunStatus(timerValue){
+function updateHeaderRunStatus(){
   const el = document.getElementById("header-run-status");
   if(!el) return;
   const active = runState&&runState.active;
   el.classList.toggle("active",!!active);
   el.innerHTML = active
-    ? `<span class="live-dot"></span><span>${esc(runState.character.replace(/^The /,""))} · ${timerValue||formatDuration(Date.now()-runState.startedAt)}</span>`
+    ? `<span class="live-dot"></span><span>${esc(runState.character.replace(/^The /,""))}</span>`
     : `<span class="live-dot"></span><span>No active run</span>`;
 }
 
@@ -1673,21 +1615,6 @@ function matchRecipe(slots, inventory, needsLevel){
     return false;
   }
   return visit(0)?chosen.slice():null;
-}
-function evolutionProgress(evo){
-  const available = runState.balls;
-  const used = new Set();
-  const pieces = evo.slots.map(slot=>{
-    let best = -1;
-    for(let i=0;i<available.length;i++){
-      if(used.has(i)||!slot.includes(available[i].name)) continue;
-      if(best<0 || available[i].level>available[best].level) best=i;
-    }
-    if(best>=0){ used.add(best); return {name:available[best].name,level:available[best].level,held:true}; }
-    return {name:slot[0],level:0,held:false,alternatives:slot.slice(1)};
-  });
-  const score = pieces.reduce((n,p)=>n+(p.held?(p.level===3?2:1):0),0);
-  return { pieces, score };
 }
 function readyBallEvolutions(){ return GAME_DATA.evolvedBalls.filter(e=>matchRecipe(e.slots,runState.balls,true)); }
 function readyPassiveEvolutions(){ return GAME_DATA.evolvedPassives.filter(e=>matchRecipe(e.slots,runState.passives,false)); }
@@ -1731,19 +1658,19 @@ function removeRunItem(kind,index){
 function renderRun(){
   const c = activeRunCharacter(); if(!c) return;
   const guide = RUN_GUIDES[c.name] || {role:"Flexible runner",summary:c.ability,balls:[],passives:[],avoid:[]};
+  if(runState.ballCap<ballCapFor(c)){
+    runState.ballCap=ballCapFor(c);
+    saveRun();
+  }
   document.getElementById("run-runner-card").innerHTML = `${avatarHTML(c)}<div><div class="runner-name">${esc(c.name)}</div><div class="runner-detail">${esc(guide.role)}${c.ball!=="None"?` · starts with ${esc(c.ball)}`:""}</div></div>`;
-  document.getElementById("run-biome").value = runState.biome;
-  document.getElementById("run-ball-meter").textContent = `${runState.balls.length} / ${runState.ballCap}`;
-  document.getElementById("run-passive-meter").textContent = `${runState.passives.length} / ${runState.passiveCap}`;
   document.getElementById("ball-slot-count").textContent = `${runState.balls.length} / ${runState.ballCap}`;
   document.getElementById("passive-slot-count").textContent = `${runState.passives.length} / ${runState.passiveCap}`;
-  document.querySelectorAll("[data-cap-dir]").forEach(btn=>{
-    const dir = Number(btn.dataset.capDir), limit=ballCapLimit(c);
-    btn.disabled = (dir<0 && runState.ballCap<=ballCapFor(c)) || (dir>0 && runState.ballCap>=limit) || (dir<0 && runState.ballCap<=runState.balls.length);
-  });
-  renderRunBalls(); renderRunPassives(); renderRunEvolutions();
-  renderCharacterBrief(c,guide); renderRecommendations(c,guide); renderCoachCalls(c);
-  renderRunLog(); updateRunTimer(); updateHeaderRunStatus();
+  document.getElementById("add-ball-btn").disabled = runState.balls.length>=runState.ballCap;
+  document.getElementById("add-passive-btn").disabled = runState.passives.length>=runState.passiveCap;
+  renderRunBalls();
+  renderRunPassives();
+  renderRecommendations(c,guide);
+  updateHeaderRunStatus();
 }
 function renderRunBalls(){
   const list = document.getElementById("run-ball-list");
@@ -1755,8 +1682,7 @@ function renderRunBalls(){
       <div class="level-control"><button data-level-index="${i}" data-level-delta="-1" aria-label="Lower level">−</button><span class="level-pips">${[1,2,3].map(n=>`<i class="${n<=b.level?"on":""}"></i>`).join("")}</span><button data-level-index="${i}" data-level-delta="1" aria-label="Raise level">+</button></div>
     </article>`;
   });
-  for(let i=runState.balls.length;i<runState.ballCap;i++) cards.push(`<div class="empty-slot"><button data-open-picker="ball"><span class="empty-plus">+</span>Add ball</button></div>`);
-  list.innerHTML = cards.length?cards.join(""):`<div class="empty-copy">This character cannot hold balls.</div>`;
+  list.innerHTML = cards.length?cards.join(""):`<div class="loadout-empty">No balls selected.</div>`;
 }
 function renderRunPassives(){
   const list = document.getElementById("run-passive-list");
@@ -1765,33 +1691,8 @@ function renderRunPassives(){
     <button class="slot-remove" data-remove-kind="passive" data-index="${i}" aria-label="Remove ${esc(p.name)}">✕</button>
     ${spriteHTML(p.name,"passives")}<div class="item-slot-name">${esc(p.name)}</div><div class="item-tier">${evolvedNames.has(p.name)?"Artifact":"Base passive"}</div>
   </article>`);
-  for(let i=runState.passives.length;i<runState.passiveCap;i++) cards.push(`<div class="empty-slot"><button data-open-picker="passive"><span class="empty-plus">+</span>Add passive</button></div>`);
-  list.innerHTML = cards.length?cards.join(""):`<div class="empty-copy">The Ballbearer cannot equip passives. Put the extra space to work on multi-tier ball recipes.</div>`;
+  list.innerHTML = cards.length?cards.join(""):`<div class="loadout-empty">${runState.passiveCap?"No passives selected.":"This character cannot equip passives."}</div>`;
 }
-function recipePieceText(piece){
-  if(piece.held) return `${piece.name} Lv ${piece.level}`;
-  return piece.alternatives&&piece.alternatives.length?`${piece.name} / ${piece.alternatives.join(" / ")}`:piece.name;
-}
-function renderRunEvolutions(){
-  const target = document.getElementById("run-evolution-list");
-  const readyBalls = readyBallEvolutions(), readyPassives = readyPassiveEvolutions();
-  document.getElementById("ready-evo-count").textContent = `${readyBalls.length+readyPassives.length} ready`;
-  const rows=[];
-  readyBalls.forEach(e=>rows.push(`<article class="evo-ready">${spriteHTML(e.name,"balls")}<div><h4>${esc(e.name)}</h4><p>${e.slots.map(s=>s.join(" / ")).join(" + ")} · all level 3</p></div><button class="evolve-btn" data-evolve-ball="${slug(e.name)}">Evolve</button></article>`));
-  readyPassives.forEach(e=>rows.push(`<article class="evo-ready">${spriteHTML(e.name,"passives")}<div><h4>${esc(e.name)}</h4><p>${e.slots.map(s=>s.join(" / ")).join(" + ")} · passive artifact</p></div><button class="evolve-btn" data-evolve-passive="${slug(e.name)}">Forge</button></article>`));
-  const near = GAME_DATA.evolvedBalls
-    .filter(e=>!readyBalls.includes(e))
-    .map(e=>({e,progress:evolutionProgress(e)}))
-    .filter(x=>x.progress.score>0)
-    .sort((a,b)=>b.progress.score-a.progress.score || a.e.tier-b.e.tier || a.e.name.localeCompare(b.e.name)).slice(0,3);
-  if(near.length){
-    rows.push(`<div class="eyebrow" style="margin-top:.35rem">Closest paths</div>`);
-    near.forEach(({e,progress})=>rows.push(`<article class="evo-ready" style="border-color:#30382b">${spriteHTML(e.name,"balls")}<div><h4>${esc(e.name)}</h4><p>${progress.pieces.map(recipePieceText).join(" + ")}</p></div><span class="tier-badge tier-${e.tier}">T${e.tier}</span></article>`));
-  }
-  if(!rows.length) rows.push(`<div class="empty-copy">Add balls or passives to reveal evolution paths. Ball ingredients must reach level 3; passive ingredients only need to be held.</div>`);
-  target.innerHTML=rows.join("");
-}
-
 function currentBallHasStatus(status){
   return runState.balls.some(b=>{
     const item=BASE_BY_NAME[b.name]||EVO_BY_NAME[b.name];
@@ -1814,11 +1715,10 @@ function passiveAllowed(p){
   return true;
 }
 function ballRecommendations(c,guide){
-  const held = new Set(runState.balls.map(b=>b.name)), style=STYLE_RULES[runState.style]||STYLE_RULES.balanced;
+  const held = new Set(runState.balls.map(b=>b.name));
   return GAME_DATA.baseBalls.filter(b=>!held.has(b.name)).map(b=>{
     let score=0,reason="Adds a new evolution branch.";
     const gi=guide.balls.indexOf(b.name); if(gi>=0){score+=70-gi*6;reason=`Strong fit for ${guide.role.toLowerCase()}.`;}
-    if(style.balls&&style.balls.includes(b.name)){score+=24;reason=`Supports the ${style.label.toLowerCase()} plan.`;}
     const direct=[];
     runState.balls.forEach(heldBall=>findDirectEvos(b.name,heldBall.name).forEach(e=>direct.push({e,heldBall})));
     if(direct.length){
@@ -1834,15 +1734,14 @@ function ballRecommendations(c,guide){
     if(c.tags.includes("noBabyBalls") && ["Brood Mother","Egg Sac","Cell"].includes(b.name)) score-=80;
     if(c.tags.includes("moreBalls") && b.statusEffects.length) score+=12;
     return {item:b,score,reason};
-  }).sort((a,b)=>b.score-a.score||a.item.name.localeCompare(b.item.name)).slice(0,3);
+  }).sort((a,b)=>b.score-a.score||a.item.name.localeCompare(b.item.name)).slice(0,2);
 }
 function passiveRecommendations(c,guide){
-  const held=new Set(runState.passives.map(p=>p.name)), style=STYLE_RULES[runState.style]||STYLE_RULES.balanced;
+  const held=new Set(runState.passives.map(p=>p.name));
   if(runState.passiveCap===0) return [];
   return GAME_DATA.basePassives.filter(p=>!held.has(p.name)&&passiveAllowed(p)&&!guide.avoid.includes(p.name)).map(p=>{
     let score=0,reason="Flexible support for the current build.";
     const gi=guide.passives.indexOf(p.name); if(gi>=0){score+=70-gi*6;reason=`Core ${guide.role.toLowerCase()} passive.`;}
-    if(style.passives&&style.passives.includes(p.name)){score+=24;reason=`Supports the ${style.label.toLowerCase()} plan.`;}
     GAME_DATA.evolvedPassives.forEach(e=>{
       const slotIndex=e.slots.findIndex(slot=>slot.includes(p.name));
       if(slotIndex<0) return;
@@ -1856,36 +1755,21 @@ function passiveRecommendations(c,guide){
     if(held.has("Ethereal Cloak")&&p.name==="Upturned Hatchet"){score+=55;reason="Covers the damage drop after the back-wall bounce.";}
     if(c.name==="The Hoary Hoarder") score+=12;
     return {item:p,score,reason};
-  }).sort((a,b)=>b.score-a.score||a.item.name.localeCompare(b.item.name)).slice(0,3);
-}
-function renderCharacterBrief(c,guide){
-  document.getElementById("character-brief").innerHTML=`<div class="character-brief-row">${avatarHTML(c)}<div><div class="brief-name">${esc(c.name)}</div><div class="brief-role">${esc(guide.role)}</div></div></div><p class="brief-copy">${esc(guide.summary)}</p>`;
+  }).sort((a,b)=>b.score-a.score||a.item.name.localeCompare(b.item.name)).slice(0,2);
 }
 function renderRecommendations(c,guide){
   const balls=ballRecommendations(c,guide),passives=passiveRecommendations(c,guide);
+  const readyBalls=readyBallEvolutions(),readyPassives=readyPassiveEvolutions();
   const fullBalls=runState.balls.length>=runState.ballCap,fullPassives=runState.passives.length>=runState.passiveCap;
   function recRows(items,kind){ return items.map(({item,reason})=>`<article class="rec-card">${spriteHTML(item.name,kind==="ball"?"balls":"passives")}<div><h5>${esc(item.name)}</h5><p>${esc(reason)}</p></div><button class="mini-add" data-rec-kind="${kind}" data-rec-name="${esc(item.name)}" ${(kind==="ball"?fullBalls:fullPassives)?"disabled":""}>Add</button></article>`).join(""); }
+  const readyRows=[
+    ...readyBalls.map(e=>`<article class="evo-ready">${spriteHTML(e.name,"balls")}<div><h4>${esc(e.name)}</h4><p>Evolution ready</p></div><button class="evolve-btn" data-evolve-ball="${slug(e.name)}">Evolve</button></article>`),
+    ...readyPassives.map(e=>`<article class="evo-ready">${spriteHTML(e.name,"passives")}<div><h4>${esc(e.name)}</h4><p>Artifact ready</p></div><button class="evolve-btn" data-evolve-passive="${slug(e.name)}">Forge</button></article>`)
+  ].join("");
   document.getElementById("run-recommendations").innerHTML=`
-    <div class="rec-group"><div class="rec-group-title"><h4>Next balls</h4><span>${esc(STYLE_RULES[runState.style].label)}</span></div>${recRows(balls,"ball")||'<div class="empty-copy">No open ball recommendations.</div>'}</div>
-    <div class="rec-group"><div class="rec-group-title"><h4>Next passives</h4><span>Conditional pool</span></div>${recRows(passives,"passive")||'<div class="empty-copy">No passive slots available.</div>'}</div>`;
-  document.querySelectorAll("#run-style-tabs button").forEach(b=>b.classList.toggle("active",b.dataset.style===runState.style));
-}
-function renderCoachCalls(c){
-  const calls=[];
-  if(c.name==="The Makeshift Sisyphus") calls.push({text:"Direct impact damage is disabled. AOE and status effects receive the 4× priority override."});
-  if(c.name==="The Tactician") calls.push({text:"Speed modifiers are hidden from recommendations because this run is turn-based."});
-  if(c.tags.includes("autoplay")) calls.push({text:"This character chooses upgrades automatically; use recommendations as path analysis, not a live decision prompt."});
-  if(runState.balls.length>=runState.ballCap&&!readyBallEvolutions().length) calls.push({text:"Slot-lock risk: every ball slot is occupied and no recipe is ready. Level a compatible pair before taking another branch."});
-  if(runState.balls.filter(b=>b.level===3).length>=2&&!hasAOE()) calls.push({text:"Fusion pacing: your wave clear is narrow. Stabilize with Fission or an AOE pickup before reducing projectile count."});
-  if(runState.passives.some(p=>p.name==="Vampiric Sword")) calls.push({text:"Health loop active: Everflowing Goblet → Soul Reaver, then Bandage Roll converts healing into free shots.",good:true});
-  if(runState.passives.some(p=>p.name==="Ethereal Cloak")&&!runState.passives.some(p=>p.name==="Phantom Regalia")) calls.push({text:"Pierce paradox: Ethereal Cloak ends at the back wall. Find Ghostly Corset for Phantom Regalia or take Upturned Hatchet."});
-  if(readyBallEvolutions().length||readyPassiveEvolutions().length) calls.unshift({text:`${readyBallEvolutions().length+readyPassiveEvolutions().length} evolution${readyBallEvolutions().length+readyPassiveEvolutions().length===1?" is":"s are"} ready on the bench.`,good:true});
-  if(!calls.length) calls.push({text:"Build is stable. Level your current recipe pieces before widening into another path.",good:true});
-  document.getElementById("coach-calls").innerHTML=calls.slice(0,3).map(c=>`<div class="callout${c.good?" good":""}"><span>${c.good?"◆":"!"}</span><span>${esc(c.text)}</span></div>`).join("");
-}
-function renderRunLog(){
-  const target=document.getElementById("run-log"), logs=runState.log||[];
-  target.innerHTML=logs.length?logs.map(row=>`<div class="log-row"><time>${formatDuration(row.at)}</time><b>${esc(row.message)}</b></div>`).join(""):`<div class="empty-copy">Your build changes will appear here.</div>`;
+    ${readyRows?`<div class="rec-group"><div class="rec-group-title"><h4>Ready now</h4></div>${readyRows}</div>`:""}
+    <div class="rec-group"><div class="rec-group-title"><h4>Next ball</h4></div>${recRows(balls,"ball")||'<div class="empty-copy">No open ball recommendations.</div>'}</div>
+    <div class="rec-group"><div class="rec-group-title"><h4>Next passive</h4></div>${recRows(passives,"passive")||'<div class="empty-copy">No passive slots available.</div>'}</div>`;
 }
 
 function openPicker(mode){ pickerMode=mode; pickerFilter="all"; document.getElementById("picker-search").value=""; document.getElementById("item-picker").classList.remove("hidden"); renderPicker(); setTimeout(()=>document.getElementById("picker-search").focus(),0); }
@@ -1911,12 +1795,6 @@ document.getElementById("end-run-btn").addEventListener("click",()=>{
   if(!confirm("End this run and clear its live tracker?")) return;
   runState=null;saveRun();showRunLanding();
 });
-document.getElementById("run-biome").addEventListener("change",ev=>{runState.biome=ev.target.value;logRun(`Moved into ${runState.biome}.`);saveRun();renderRunLog();});
-document.getElementById("ball-cap-control").addEventListener("click",ev=>{
-  const btn=ev.target.closest("[data-cap-dir]");if(!btn||btn.disabled)return;
-  const c=activeRunCharacter(),min=ballCapFor(c),max=ballCapLimit(c);
-  runState.ballCap=Math.max(min,Math.min(max,runState.ballCap+Number(btn.dataset.capDir)));saveRun();renderRun();
-});
 document.getElementById("run-dashboard").addEventListener("click",ev=>{
   const open=ev.target.closest("[data-open-picker]");if(open){openPicker(open.dataset.openPicker);return;}
   const lvl=ev.target.closest("[data-level-index]");if(lvl){setBallLevel(Number(lvl.dataset.levelIndex),Number(lvl.dataset.levelDelta));return;}
@@ -1925,7 +1803,6 @@ document.getElementById("run-dashboard").addEventListener("click",ev=>{
   const passiveEvo=ev.target.closest("[data-evolve-passive]");if(passiveEvo){const e=GAME_DATA.evolvedPassives.find(x=>slug(x.name)===passiveEvo.dataset.evolvePassive);if(e)evolvePassive(e.name);return;}
   const rec=ev.target.closest("[data-rec-kind]");if(rec&&!rec.disabled){(rec.dataset.recKind==="ball"?addBall:addPassive)(rec.dataset.recName);}
 });
-document.getElementById("run-style-tabs").addEventListener("click",ev=>{const btn=ev.target.closest("[data-style]");if(!btn)return;runState.style=btn.dataset.style;saveRun();renderRun();});
 document.getElementById("picker-close").addEventListener("click",closePicker);
 document.getElementById("item-picker").addEventListener("click",ev=>{
   if(ev.target.id==="item-picker"){closePicker();return;}
@@ -1934,7 +1811,6 @@ document.getElementById("item-picker").addEventListener("click",ev=>{
 });
 document.getElementById("picker-search").addEventListener("input",renderPicker);
 document.addEventListener("keydown",ev=>{if(ev.key==="Escape")closePicker();});
-setInterval(updateRunTimer,1000);
 
 /* ============================ search / tabs / events ============================ */
 let activeView = "run";
