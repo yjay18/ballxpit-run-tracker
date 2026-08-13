@@ -1,52 +1,91 @@
-# BALL x PIT Evolution Tracker
+# Pit Crew — BALL x PIT Run Companion
 
-An unofficial, single-page tracker for every ball, passive, and evolution in
-**BALL x PIT**, with check-off progress that saves in your browser, and a
-Matchmaker team builder that recommends character pairings.
+Pit Crew is an unofficial, mobile-friendly companion for following a **BALL x
+PIT** run as it happens. Pick a character, add the balls and passives offered by
+the game, match their levels, and let the build coach surface compatible
+evolutions and character-specific next picks.
 
-**Live site:** https://cryphixi.github.io/ballxpit-tracker/
+The app is a static site with no framework, account, analytics, or backend. Run
+state and encyclopedia checkmarks stay in the browser's `localStorage`.
 
-Data current through the **Shadow Update (April 27, 2026)**. The Naturalist
-Update (July 2026) is not yet included.
+## What it does
 
-## Features
+- Starts with a play-first character picker covering 23 character profiles.
+- Tracks the active character, biome, elapsed time, ball capacity, ball levels,
+  passive slots, completed evolutions, and a chronological run log.
+- Detects ball evolutions when every recipe component is level 3.
+- Detects passive artifacts as soon as all required components are held.
+- Applies an evolution from the bench, consumes its ingredients, and adds the
+  result at level 1.
+- Re-scores ball and passive suggestions whenever the loadout or desired build
+  style changes.
+- Handles character overrides such as Sisyphus's zero direct damage,
+  Tactician's irrelevant Speed stat, Empty Nester's missing baby balls, Hoary
+  Hoarder's 2/8 slot split, and Ballbearer's 10/0 slot split.
+- Warns about slot-lock, narrow wave clear before Fusion, the Ethereal Cloak
+  piercing paradox, and the Vampiric Sword health loop.
+- Keeps the original searchable encyclopedia for 20 base balls, 59 ball
+  evolutions, 53 base passives, 13 passive artifacts, and Matchmaker pairs.
+- Works as a single responsive page on desktop and mobile.
 
-- **Base Balls** — all 20, with damage types, status effects, starting characters, and unlock conditions.
-- **Evolutions** — all 59 evolved balls with exact recipes, sortable and filterable by tier or by which base ball they use. Every row expands into a detail panel.
-- **By Base Ball** — pick a base ball, see everything it makes (direct recipes and full-chain indirect ones).
-- **Passives** — all 53 base passives plus the 13 evolved passives with recipes.
-- **Team Builder** — drag or tap two characters into the Matchmaker slots. Recommendations are scored on two separate axes: **ball fusion** (do their starting balls evolve together?) and **ability synergy** (do their abilities actually complement each other?), plus curated community combos.
-- Check-off boxes on every evolution and evolved passive, saved to `localStorage`, with live progress counters.
-- Works offline once loaded. No build step, no framework, no tracking, no backend.
+## Run locally
 
-## Running locally
+Open `index.html` directly in a modern browser. No install or build command is
+required.
 
-Clone or download, then open `index.html` in a browser. That's it.
+For a local web server, run:
 
-## Contributing / updating data
+```sh
+python3 -m http.server 8000
+```
 
-All game data lives in a single `GAME_DATA` object at the top of the `<script>`
-block in `index.html`. Add or edit entries there — the tables, filters,
-by-base-ball grouping, and team-builder scoring all derive from it at runtime.
-Console assertions check the expected counts on load.
+Then open `http://localhost:8000`.
 
-Sprite images live in `img/balls/`, `img/passives/`, and `img/characters/`.
-Filenames are slugified item names (`Frozen Flame` → `frozen-flame.png`); see
-`sprite-manifest.txt` for the full list. Any missing file automatically falls
-back to a generated placeholder, so new entries render fine before art exists.
+## Project layout
 
-Corrections and additions are welcome, open an issue or PR.
+- `index.html` — UI, game database, recommendation rules, and persistence.
+- `img/balls/` — base and evolved ball sprites.
+- `img/passives/` — base passive and artifact sprites.
+- `img/characters/` — character sprites.
+- `sprite-manifest.txt` — expected image names and paths.
+- `GAME_INFO.txt` — plain-text game explanation, tracker model, and recipe
+  quick reference.
 
-## Credits & disclaimer
+## Data status
 
-Game data compiled from [ballxpit.wiki.gg](https://ballxpit.wiki.gg).
-Curated team combos credit: [Dexerto](https://www.dexerto.com).
+The encyclopedia foundation is current through the **Shadow Update (April 27,
+2026)**. The supplied systems brief adds strategy profiles for the Hoary
+Hoarder and Ballbearer. The wider Naturalist Update data set has not been fully
+audited, so community corrections are welcome.
 
-**BALL x PIT** and all associated artwork are the property of Kenny Sun and
-Devolver Digital. This is an unofficial fan project and is **not affiliated with
-or endorsed by** the developer or publisher. Sprite assets are included for the
-convenience of players and **will be removed on request** — open an issue or
-contact the repository owner.
+Recommendations are practical heuristics, not a claim of a solved optimal
+meta. Character rules act as hard filters where appropriate; recipe proximity,
+current loadout, conditional loot requirements, and the selected build style
+then contribute to the ranking.
 
-The original code in this repository is released under the MIT License. That
-license covers the code only, not the game assets or game data.
+## Original tracker credit
+
+This project is built on the excellent **BALL x PIT Evolution Tracker** by
+**Allena Oglivie / Cryphixi**:
+
+- Original live tracker: <https://cryphixi.github.io/ballxpit-tracker/>
+- Original project: <https://github.com/cryphixi/ballxpit-tracker>
+
+The original tracker supplied the encyclopedia structure, recipe coverage,
+Matchmaker logic, and sprite collection that made this run companion possible.
+Its MIT license and copyright notice are preserved in `LICENSE`. Thank you to
+the original creator and contributors.
+
+Additional game data was compiled from
+[ballxpit.wiki.gg](https://ballxpit.wiki.gg). Curated Matchmaker combinations in
+the inherited tracker credit [Dexerto](https://www.dexerto.com).
+
+## Disclaimer and asset ownership
+
+**BALL x PIT**, its names, characters, and all associated artwork are the
+property of Kenny Sun and Devolver Digital. This is an unofficial fan project
+and is not affiliated with or endorsed by the developer or publisher.
+
+Sprite assets are included only for player convenience and will be removed on
+request. The MIT license applies to the original code, not to game data or game
+artwork.

@@ -177,3 +177,5 @@ img/characters/the-carouser.png   <- The Carouser
 img/characters/the-tunneller.png   <- The Tunneller
 img/characters/the-tiptoer.png   <- The Tiptoer
 img/characters/the-false-messiah.png   <- The False Messiah
+img/characters/the-hoary-hoarder.png   <- The Hoary Hoarder (optional; initials placeholder currently used)
+img/characters/the-ballbearer.png   <- The Ballbearer (optional; initials placeholder currently used)

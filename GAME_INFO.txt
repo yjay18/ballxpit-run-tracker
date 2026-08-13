@@ -1,0 +1,368 @@
+PIT CREW — BALL x PIT GAME AND TRACKER GUIDE
+============================================
+
+Purpose
+-------
+This document explains the systems represented by Pit Crew and gives a quick
+reference for playing BALL x PIT alongside the tracker. It is fan-maintained,
+not official documentation. Numbers and recipes can change between game
+updates; the in-game encyclopedia should win if it disagrees with this file.
+
+
+1. THE BASIC LOOP
+-----------------
+BALL x PIT mixes a physics-based combat run with persistent town building.
+During a run, the player fires balls into ranks of enemies. Balls bounce from
+walls, strike enemies, apply statuses, spawn extra projectiles, or create area
+effects. Defeated enemies drop experience and resources. Level-up choices add
+or improve balls and passive items. Mini-boss rewards and Fusion Reactors let
+the player combine a mature build into stronger forms.
+
+Between runs, resources are spent in the town. Buildings unlock characters,
+raise account-wide attributes, expand utility, and affect future runs. A run
+build therefore begins with three layers of state:
+
+1. permanent town upgrades;
+2. the selected character and that character's special rule;
+3. balls and passives collected during the current run.
+
+Pit Crew currently focuses on layers 2 and 3. Town values are useful context
+for judgment, but are not yet editable in the interface.
+
+
+2. TOWN ECONOMY AND HARVESTING
+------------------------------
+The primary construction resources are Wheat, Wood, and Stone. Gold pays for
+grid expansions, market exchanges, and some utility actions. Resource nodes
+regenerate over real time up to their capacity.
+
+Harvesting is an active physics phase. Workers are launched through the town
+and gather from buildings they touch. Dense arrangements, corridors, and
+U-shaped pockets create additional rebounds before the timer expires. The
+Watch Tower can extend Harvest time. Farms, Lumberyards, and Stone Mines
+process adjacent resource nodes on their own schedules.
+
+Permanent stat buildings generally fall into two groups:
+
+- Flat attributes: Consulate, Schoolhouse, Shoemaker, Gunsmith, Barracks, and
+  Clinic.
+- Percentage scaling: Diplomacy Hall, University, Wheelwright, Archery Range,
+  Military Academy, and Alchemist.
+
+Biome trophies scale with the number of distinct characters used to clear a
+biome and can receive further value from fast clears. Utility buildings such
+as the Adventurer's Guild, Matchmaker, and Necromancer alter the rules of a
+run by enabling Endless Mode, dual characters, or a one-time revive.
+
+
+3. THE SIX CHARACTER ATTRIBUTES
+-------------------------------
+Endurance: raises maximum health and the value of close-range play.
+
+Strength: raises direct impact damage before critical and item multipliers.
+
+Leadership: increases baby-ball capacity and damage. It is the core stat for
+Brood Mother, Egg Sac, Cell, and other swarm engines.
+
+Speed: affects character movement and projectile velocity. Faster projectiles
+can improve coverage, while slower projectiles sometimes gain value from
+bounce-scaling effects.
+
+Dexterity: improves firing frequency and critical hit output. It is valuable
+for effects that need many contacts or stacks.
+
+Intelligence: improves area size, status damage and duration, and passive item
+potency. It is central to AOE and damage-over-time builds.
+
+Attributes do not have equal value for every character. The Tactician makes
+Speed irrelevant because combat is turn-based. The Makeshift Sisyphus removes
+direct impact damage and multiplies AOE/status damage. The Tiptoer is so fragile
+that shields and avoidance matter more than simply stacking Endurance.
+
+
+4. CHARACTER BUILD IDENTITIES
+------------------------------
+The Warrior — starts with Bleed. Neutral rules make this the baseline character.
+
+The Itchy Finger — starts with Burn. Fires rapidly and continuously with
+scattered aim; favor on-hit statuses and nearby AOE coverage.
+
+The Repentant — starts with Freeze. Gains stacking damage per bounce and hurts
+enemies on the return trip; favor rebound and back-wall tools.
+
+The Cohabitants — start with Brood Mother. Mirrored half-damage shots double
+contacts; favor status application and baby-ball engines.
+
+The Cogitator — starts with Laser (Vertical). Chooses upgrades automatically;
+use the tracker mainly to record and interpret the resulting build.
+
+The Embedded — starts with Poison. Native pierce spreads effects through enemy
+columns; area and status evolutions are high-value.
+
+The Shade — starts with Dark. Fires from the far side and has base critical
+chance; backstab and directional-critical passives are natural fits.
+
+The Shieldbearer — starts with Iron. A frontal shield reflects balls; slow,
+heavy shots and repeated-bounce damage are especially useful.
+
+The Spendthrift — starts with Vampire. Fires the full inventory in one wide
+volley; keep levels even and protect the health economy.
+
+The Juggler — starts with Lightning. Lobs balls to a chosen landing point;
+precision AOE matters more than conventional straight-line pierce.
+
+The Empty Nester — starts with Ghost. Fires multiple special balls but no
+normal baby balls; avoid passives that only improve baby balls.
+
+The Flagellant — starts with Egg Sac. Balls rebound from a lower barrier rather
+than simply returning; persistent swarm and bounce effects stay active longer.
+
+The Makeshift Sisyphus — starts with Earthquake. Direct contact deals no damage,
+while AOE and statuses are multiplied four times. Pure impact recommendations
+must be rejected unless they are ingredients for a useful AOE evolution.
+
+The Physicist — starts with Light. Gravity pulls balls toward the back of the
+screen; back-wall triggers and row-wide effects benefit.
+
+The Tactician — starts with Iron. Combat is turn-based, so Speed and velocity
+passives have no meaningful value.
+
+The Radical — starts with Wind. Aims, moves, and chooses upgrades automatically;
+the tracker acts as a spectator and route analyzer.
+
+The Falconer — starts with Lightning. Two side falcons launch the balls; favor
+ranged coverage and avoid pairing with layouts that create unreachable zones.
+
+The Carouser — starts with Charm. Returning balls can orbit the player; close-
+range damage and defenses complement this kinetic shield.
+
+The Tunneller — starts with Earthquake. Balls wrap vertically; persistent AOE
+and statuses can make repeated passes through the formation.
+
+The Tiptoer — starts with Laser (Horizontal). Most normal enemies cannot detect
+the character, but very few hits are survivable; shields and control come first.
+
+The False Messiah — starts with Bleed. Twitch viewers can influence choices and
+events; resilient, flexible recipes tolerate that uncertainty.
+
+The Hoary Hoarder — has no starting ball, only 2 ball slots, and up to 8 passive
+slots. Choose one realistic ball recipe and focus on passive artifacts.
+
+The Ballbearer — starts with Stone, can carry up to 10 balls, and cannot equip
+passives. This is the best environment for nested, multi-tier recipes.
+
+
+5. BALL LEVELS, FISSION, FUSION, AND EVOLUTION
+----------------------------------------------
+Base and evolved balls can reach level 3.
+
+Fission distributes one or more random level gains among equipped items. It is
+usually the safe early choice because it raises current power without reducing
+projectile count. If everything is already maxed, Fission can become Gold.
+
+Fusion combines two level-3 balls to free a slot and retain both properties.
+The immediate projectile count drops, so a poorly timed Fusion can reduce wave
+clear until the open slot is filled again.
+
+Evolution is a specific recipe. Every ball component must be level 3. The
+ingredients are consumed and replaced by the evolved ball. Pit Crew's Evolution
+Bench detects these recipes and performs the same inventory transformation in
+the tracker.
+
+Passive artifacts are different: their components only need to be held, not
+leveled. Combining them frees a passive slot.
+
+Slot-lock happens when every slot contains a different unfinished recipe piece.
+There is then no room to take the missing component and no valid merge. Pick a
+target, level compatible pairs, and avoid opening too many branches at once.
+
+
+6. BASE BALL IDENTITIES
+-----------------------
+Bleed — stacking wound damage triggered by later projectile contacts.
+Brood Mother — chance to create a baby ball on enemy impact.
+Burn — short-duration true damage over time.
+Cell — splits into copies after impact.
+Charm — may turn an enemy against its allies.
+Dark — very high impact multiplier, then destroys itself and waits to refire.
+Earthquake — area damage around the impact tile.
+Egg Sac — bursts into several baby balls and has a refire delay.
+Freeze — immobilizes and amplifies damage received.
+Ghost — passes through enemies.
+Iron — heavy double-damage projectile with reduced movement speed.
+Laser (Horizontal) — damages the full row.
+Laser (Vertical) — damages the full column.
+Light — blinds targets and causes melee misses.
+Lightning — arcs damage into nearby enemies.
+Poison — longer stacking damage over time.
+Stone — begins with very high damage that erodes through successive targets.
+Time — creates a time snare and feeds chronological evolutions.
+Vampire — has a chance to heal on enemy contact.
+Wind — pierces and slows at the cost of direct damage.
+
+
+7. BALL EVOLUTION QUICK REFERENCE
+---------------------------------
+Parentheses indicate alternatives for one recipe slot.
+
+Assassin = Iron + (Ghost OR Dark)
+Banished Flame = Dark + Burn
+Banshee = Phantom + Wraith
+Berserk = Charm + (Bleed OR Burn)
+Black Hole = Sun + (Dark OR Time)
+Blizzard = Freeze + (Wind OR Lightning)
+Bomb = Burn + Iron
+Brimstone = (Stone OR Poison) + Burn
+Catapult = Stone + Egg Sac
+Erosion = Time + Wind
+Fireworks = Burn + Egg Sac
+Flash = Lightning + Light
+Flicker = Light + Dark
+Freeze Ray = Freeze + (Laser Horizontal OR Laser Vertical)
+Frozen Flame = Burn + Freeze
+Glacier = Freeze + (Earthquake OR Stone)
+Heart Swallower = Bleed + Ghost
+Hemorrhage = Bleed + Iron
+Holy Laser = Laser Horizontal + Laser Vertical
+Incubus = Charm + Dark
+Inferno = Burn + (Wind OR Time)
+Landslide = Stone + Earthquake
+Laser Beam = Light + (Laser Horizontal OR Laser Vertical)
+Laser Cutter = (Laser Horizontal OR Laser Vertical) + Steel
+Leech = Brood Mother + Bleed
+Lightning Rod = Lightning + Iron
+Lovestruck = Charm + (Light OR Lightning OR Time)
+Maggot = Brood Mother + Cell
+Magma = Burn + Earthquake
+Mosquito King = Vampire + Brood Mother
+Mosquito Swarm = Vampire + Egg Sac
+Nosferatu = Vampire Lord + Spider Queen + Mosquito King
+Noxious = Wind + (Poison OR Dark)
+Nuclear Bomb = Bomb + Poison
+Overgrowth = Earthquake + Cell
+Phantom = Dark + Ghost
+Radiation Beam = (Laser Horizontal OR Laser Vertical) + (Poison OR Cell)
+Reaper = Soul Sucker + Heart Swallower
+Sacrifice = Bleed + Dark
+Sandstorm = (Earthquake OR Stone) + Wind
+Satan = Incubus + Succubus
+Shotgun = Iron + Egg Sac
+Sniper = Shotgun + Assassin
+Soul Sucker = Vampire + Ghost
+Spider Queen = Brood Mother + Egg Sac
+Steel = Iron + Stone
+Storm = Lightning + Wind
+Succubus = Charm + Vampire
+Sun = Burn + Light
+Swamp = Poison + Earthquake
+Time Bomb = Time + Bomb
+Timestop = Time + Freeze
+Vampire Lord = Vampire + (Bleed OR Dark)
+Venom = Poison + Freeze
+Virus = Poison + (Ghost OR Cell)
+Voluptuous Egg Sac = Egg Sac + Cell
+Warp = Time + Light
+Wraith = Freeze + Ghost
+X Ray = Holy Laser + Laser Beam
+
+Nested targets need deliberate inventory planning:
+
+- Nuclear Bomb: create Bomb from Burn + Iron, then level Bomb and Poison.
+- Satan: create Incubus from Charm + Dark and Succubus from Charm + Vampire.
+- Nosferatu: create Vampire Lord, Mosquito King, and Spider Queen, then bring
+  all three evolved components to level 3 at the same time.
+- Reaper: create Soul Sucker and Heart Swallower, then level both.
+- X Ray: create Holy Laser and Laser Beam, then level both.
+
+
+8. PASSIVES AND ARTIFACTS
+-------------------------
+Passives alter projectile physics, damage, defenses, summons, economy, and the
+health loop. Some are conditional and should not be expected in the loot pool
+until a compatible effect is already held. Examples:
+
+- Midnight Oil needs a Burn-applying ball.
+- Frozen Spike needs Freeze.
+- Voodoo Doll needs Curse.
+- Silver Blindfold needs Blind.
+- Bandage Roll is useful only when healing occurs often enough to trigger it.
+
+Important mechanical loops:
+
+- Vampiric Sword + Everflowing Goblet becomes Soul Reaver. Add Bandage Roll so
+  repeated healing also launches free baby balls.
+- Ethereal Cloak loses its pierce after the back-wall impact. Ghostly Corset
+  creates Phantom Regalia and preserves the intended pierce cycle. Upturned
+  Hatchet is a fallback that makes the rebound valuable.
+- Brood Mother or Egg Sac makes War Horn and Baby Rattle stronger. Together the
+  passives become Cornucopia and further multiply spawned balls.
+- Wretched Onion and Breastplate become Odiferous Shell, turning dangerous
+  close contact into a chance to execute enemies.
+
+Passive artifact recipes:
+
+Argent Stopwatch = Hourglass + Silver Bullet
+Arrow of Fate = Lover's Quiver + Hand Mirror
+Cornucopia = Baby Rattle + War Horn
+Deadeye's Cross = all four directional Hilted Daggers
+Deadeye's Impaler = Deadeye's Cross + Gracious Impaler
+Full Metal Rapier = Iron Onesie + Sword Breaker
+Gracious Impaler = Reacher's Spear + Deadeye's Amulet
+Grotesque Artillery = Turret + Hand Fan
+Odiferous Shell = Wretched Onion + Breastplate
+Phantom Regalia = Ghostly Corset + Ethereal Cloak
+Soul Reaver = Vampiric Sword + Everflowing Goblet
+Tormenters Mask = Spiked Collar + Crown of Thorns
+Wings of the Anointed = Radiant Feather + Fleet Feet
+
+
+9. HOW PIT CREW RECOMMENDS ITEMS
+--------------------------------
+The recommendation engine is heuristic. It starts with the selected character's
+curated priorities and exclusions. It then adjusts scores using current state:
+
+- A ball receives a large bonus when it completes an evolution with a held ball.
+- A passive receives a large bonus when it completes a held artifact recipe.
+- Baby-ball passives rise when the loadout can already spawn baby balls.
+- Magic Staff rises when the loadout already deals AOE damage.
+- Conditional passives remain hidden until their required status is present.
+- The chosen focus (Balanced, Status, Swarm, Sustain, or Crit) adds another
+  weight without overriding hard character restrictions.
+
+Absolute character rules are applied before general synergy. Direct-damage-only
+ideas are penalized for Sisyphus. Speed passives are removed for Tactician.
+Baby-ball-only tools are removed for Empty Nester. Passive suggestions disappear
+entirely for Ballbearer.
+
+The result is a live decision aid, not a mathematical proof. Enemy composition,
+town upgrades, player execution, unlocked loot, and game patches can all change
+the best practical choice.
+
+
+10. USING THE TRACKER DURING A RUN
+----------------------------------
+1. Press Start a Run and choose the current character.
+2. Match the biome selector to the run.
+3. Add every ball and passive when it is taken in-game.
+4. Use the minus and plus controls to match ball levels.
+5. Increase standard ball capacity from 3 toward 5 when the game opens slots.
+6. Watch the Evolution Bench for ready recipes and close alternatives.
+7. Use Evolve or Forge only after performing the corresponding action in-game.
+8. Change the build focus if the run has committed to Status, Swarm, Sustain,
+   or Crit.
+9. Read coach warnings before opening a new branch or reducing projectile count.
+10. The state saves automatically in the current browser. End Run clears it.
+
+
+CREDITS
+-------
+Pit Crew is built on the BALL x PIT Evolution Tracker by Allena Oglivie /
+Cryphixi. The original encyclopedia structure, recipe coverage, Matchmaker
+logic, and included sprites made this companion possible.
+
+Original site: https://cryphixi.github.io/ballxpit-tracker/
+Original project: https://github.com/cryphixi/ballxpit-tracker
+Community wiki: https://ballxpit.wiki.gg
+
+BALL x PIT and its artwork belong to Kenny Sun and Devolver Digital. This is an
+unofficial fan project and is not endorsed by either party.
