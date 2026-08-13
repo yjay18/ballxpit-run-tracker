@@ -1,4 +1,4 @@
-# Pit Crew — BALL x PIT Run Companion
+# Pit Crew
 
 Pit Crew is an unofficial, mobile-friendly companion for following a **BALL x
 PIT** run as it happens. Pick a character, add the balls and passives offered by
@@ -13,6 +13,8 @@ state and encyclopedia checkmarks stay in the browser's `localStorage`.
 - Starts with a play-first character picker covering 23 character profiles.
 - Shows only the active character, 4 current ball slots, current passives, and
   the best next pickups so the screen stays readable during active play.
+- Tracks levels 1–3 for base balls, evolved balls, base passives, and evolved
+  passive artifacts.
 - Detects ball evolutions when every recipe component is level 3.
 - Detects passive artifacts as soon as all required components are held.
 - Applies a ready evolution from the recommendation panel, consumes its

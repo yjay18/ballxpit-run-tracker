@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pit Crew — BALL x PIT Run Companion</title>
+<title>Pit Crew</title>
 <meta name="description" content="A live BALL x PIT run companion with character-aware build advice, ball and passive tracking, evolution paths, and an offline encyclopedia.">
-<meta property="og:title" content="Pit Crew — BALL x PIT Run Companion">
+<meta property="og:title" content="Pit Crew">
 <meta property="og:description" content="Pick a character, press play, and track every ball, passive, level, and evolution while your run is happening.">
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -331,7 +331,6 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid 
 }
 .brand-copy{min-width:0}
 .brand-copy h1{font-size:.72rem;color:var(--text);white-space:nowrap}
-.brand-copy span{display:block;color:var(--muted);font-size:.62rem;margin-top:.15rem;white-space:nowrap}
 .live-pill{
   display:flex;align-items:center;gap:.45rem;border:1px solid var(--border);border-radius:999px;
   background:var(--panel);padding:.35rem .65rem;font-size:.68rem;color:var(--muted);white-space:nowrap;
@@ -449,7 +448,7 @@ footer{background:#0b0d0a;margin-top:1rem}.footer-brand{color:var(--text);font-f
   .run-hero{grid-template-columns:1fr;min-height:auto;padding-top:3.5rem}.hero-visual{min-height:400px}.run-layout{grid-template-columns:1fr}.coach-panel{position:static}
 }
 @media(max-width:640px){
-  .site-header{padding:.55rem .7rem}.brand-copy span,.live-pill span:not(.live-dot){display:none}.live-pill{padding:.45rem}.brand-copy h1{font-size:.61rem}.brand-mark{width:30px;height:30px}.hdr-top{gap:.45rem}nav.tabs{margin-left:-.1rem;margin-right:-.1rem}nav.tabs button{padding:.42rem .56rem;font-size:.63rem}
+  .site-header{padding:.55rem .7rem}.live-pill span:not(.live-dot){display:none}.live-pill{padding:.45rem}.brand-copy h1{font-size:.61rem}.brand-mark{width:30px;height:30px}.hdr-top{gap:.45rem}nav.tabs{margin-left:-.1rem;margin-right:-.1rem}nav.tabs button{padding:.42rem .56rem;font-size:.63rem}
   main{padding-left:.7rem;padding-right:.7rem}.run-hero{padding:2.6rem 0 3rem;gap:1.5rem}.hero-title{font-size:clamp(2rem,14vw,3.8rem)}.hero-title span{text-shadow:3px 3px 0 #3e4b17}.hero-lede{font-size:.95rem}.hero-visual{min-height:310px}.pit-board{width:min(92%,330px)}.hero-orb{width:58px;height:58px}.hero-orb.o2{width:66px;height:66px}.hero-orb.o3{width:72px;height:72px}.board-caption{right:0;bottom:24px}
   .setup-wrap{padding:1.5rem 0}.setup-head{align-items:flex-start}.run-char-grid{grid-template-columns:1fr}.run-topbar{padding:.7rem 0}.runner-card{min-width:0}.runner-card .avatar{width:42px;height:42px}.runner-detail{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.run-layout{gap:.65rem}.panel-head{padding:.7rem}.slot-list{grid-template-columns:repeat(2,minmax(0,1fr));padding:.55rem}.item-slot{min-height:145px}.evo-ready{grid-template-columns:auto 1fr}.evo-ready .evolve-btn{grid-column:1/-1}.picker-backdrop{padding:0;place-items:end}.picker-drawer{max-height:88vh;border-left:0;border-right:0}.picker-head{flex-wrap:wrap}.picker-head input{order:3;width:100%}.picker-grid{grid-template-columns:repeat(2,minmax(0,1fr));padding:.5rem}.picker-item{grid-template-columns:32px 1fr;padding:.4rem}.picker-item .sprite{width:32px;height:32px}
 }
@@ -464,7 +463,6 @@ footer{background:#0b0d0a;margin-top:1rem}.footer-brand{color:var(--text);font-f
         <div class="brand-mark" aria-hidden="true">P×</div>
         <div class="brand-copy">
           <h1>PIT CREW</h1>
-          <span>BALL x PIT run companion</span>
         </div>
       </div>
       <div class="live-pill" id="header-run-status"><span class="live-dot"></span><span>No active run</span></div>
@@ -542,7 +540,7 @@ footer{background:#0b0d0a;margin-top:1rem}.footer-brand{color:var(--text);font-f
           </section>
 
           <section class="run-panel">
-            <div class="panel-head"><div><h2>Your passives</h2><p>Keep only what is currently equipped.</p></div><div class="panel-actions"><span class="panel-count" id="passive-slot-count">0 / 4</span><button class="quick-add" id="add-passive-btn" data-open-picker="passive">+ Add</button></div></div>
+            <div class="panel-head"><div><h2>Your passives</h2><p>Tap +/− to match their current levels.</p></div><div class="panel-actions"><span class="panel-count" id="passive-slot-count">0 / 4</span><button class="quick-add" id="add-passive-btn" data-open-picker="passive">+ Add</button></div></div>
             <div class="slot-list passive-list" id="run-passive-list"></div>
           </section>
         </div>
@@ -638,7 +636,7 @@ footer{background:#0b0d0a;margin-top:1rem}.footer-brand{color:var(--text);font-f
 </main>
 
 <footer>
-  <p class="footer-brand">PIT CREW · UNOFFICIAL BALL x PIT COMPANION</p>
+  <p class="footer-brand">PIT CREW</p>
   <p>Built on the <a href="https://cryphixi.github.io/ballxpit-tracker/">BALL x PIT Evolution Tracker</a> by <b>Allena Oglivie / Cryphixi</b>. Its encyclopedia structure, recipes, Matchmaker logic, and sprite collection made this companion possible. Original MIT license preserved.</p>
   <p>Core encyclopedia data from <a href="https://ballxpit.wiki.gg/wiki/Balls">ballxpit.wiki.gg</a>, current through the Shadow Update (April 27, 2026), with supplied post-update character profiles. The broader Naturalist data set has not yet been fully audited. Curated team combos credit: <a href="https://www.dexerto.com">Dexerto</a>.</p>
   <p>BALL x PIT and all game art are the property of Kenny Sun and Devolver Digital. This is an unofficial fan project, not affiliated with or endorsed by the developer or publisher. Sprite assets will be removed on request.</p>
@@ -1632,7 +1630,7 @@ function evolvePassive(name){
   if(!evo||!used) return;
   const ingredients = used.map(i=>runState.passives[i].name);
   used.sort((a,b)=>b-a).forEach(i=>runState.passives.splice(i,1));
-  runState.passives.push({name:evo.name});
+  runState.passives.push({name:evo.name,level:1});
   logRun(`Forged ${evo.name} from ${ingredients.join(" + ")}.`);
   setCheck(slug(evo.name),true); saveRun(); renderRun();
 }
@@ -1642,12 +1640,17 @@ function addBall(name){
 }
 function addPassive(name){
   if(!runState || runState.passives.length>=runState.passiveCap || runState.passives.some(p=>p.name===name)) return false;
-  runState.passives.push({name}); logRun(`Equipped ${name}.`); saveRun(); renderRun(); return true;
+  runState.passives.push({name,level:1}); logRun(`Equipped ${name} at level 1.`); saveRun(); renderRun(); return true;
 }
 function setBallLevel(index,delta){
   const ball = runState.balls[index]; if(!ball) return;
   ball.level = Math.max(1,Math.min(3,(ball.level||1)+delta));
   logRun(`${ball.name} reached level ${ball.level}.`); saveRun(); renderRun();
+}
+function setPassiveLevel(index,delta){
+  const passive = runState.passives[index]; if(!passive) return;
+  passive.level = Math.max(1,Math.min(3,(passive.level||1)+delta));
+  logRun(`${passive.name} reached level ${passive.level}.`); saveRun(); renderRun();
 }
 function removeRunItem(kind,index){
   const list = kind==="ball"?runState.balls:runState.passives;
@@ -1662,6 +1665,11 @@ function renderRun(){
     runState.ballCap=ballCapFor(c);
     saveRun();
   }
+  let migratedPassives=false;
+  runState.passives.forEach(passive=>{
+    if(!passive.level){ passive.level=1; migratedPassives=true; }
+  });
+  if(migratedPassives) saveRun();
   document.getElementById("run-runner-card").innerHTML = `${avatarHTML(c)}<div><div class="runner-name">${esc(c.name)}</div><div class="runner-detail">${esc(guide.role)}${c.ball!=="None"?` · starts with ${esc(c.ball)}`:""}</div></div>`;
   document.getElementById("ball-slot-count").textContent = `${runState.balls.length} / ${runState.ballCap}`;
   document.getElementById("passive-slot-count").textContent = `${runState.passives.length} / ${runState.passiveCap}`;
@@ -1690,6 +1698,7 @@ function renderRunPassives(){
   const cards = runState.passives.map((p,i)=>`<article class="item-slot${evolvedNames.has(p.name)?" evolved":""}">
     <button class="slot-remove" data-remove-kind="passive" data-index="${i}" aria-label="Remove ${esc(p.name)}">✕</button>
     ${spriteHTML(p.name,"passives")}<div class="item-slot-name">${esc(p.name)}</div><div class="item-tier">${evolvedNames.has(p.name)?"Artifact":"Base passive"}</div>
+    <div class="level-control"><button data-passive-level-index="${i}" data-level-delta="-1" aria-label="Lower ${esc(p.name)} level">−</button><span class="level-pips">${[1,2,3].map(n=>`<i class="${n<=p.level?"on":""}"></i>`).join("")}</span><button data-passive-level-index="${i}" data-level-delta="1" aria-label="Raise ${esc(p.name)} level">+</button></div>
   </article>`);
   list.innerHTML = cards.length?cards.join(""):`<div class="loadout-empty">${runState.passiveCap?"No passives selected.":"This character cannot equip passives."}</div>`;
 }
@@ -1798,6 +1807,7 @@ document.getElementById("end-run-btn").addEventListener("click",()=>{
 document.getElementById("run-dashboard").addEventListener("click",ev=>{
   const open=ev.target.closest("[data-open-picker]");if(open){openPicker(open.dataset.openPicker);return;}
   const lvl=ev.target.closest("[data-level-index]");if(lvl){setBallLevel(Number(lvl.dataset.levelIndex),Number(lvl.dataset.levelDelta));return;}
+  const passiveLvl=ev.target.closest("[data-passive-level-index]");if(passiveLvl){setPassiveLevel(Number(passiveLvl.dataset.passiveLevelIndex),Number(passiveLvl.dataset.levelDelta));return;}
   const rm=ev.target.closest("[data-remove-kind]");if(rm){removeRunItem(rm.dataset.removeKind,Number(rm.dataset.index));return;}
   const ballEvo=ev.target.closest("[data-evolve-ball]");if(ballEvo){const e=GAME_DATA.evolvedBalls.find(x=>slug(x.name)===ballEvo.dataset.evolveBall);if(e)evolveBall(e.name);return;}
   const passiveEvo=ev.target.closest("[data-evolve-passive]");if(passiveEvo){const e=GAME_DATA.evolvedPassives.find(x=>slug(x.name)===passiveEvo.dataset.evolvePassive);if(e)evolvePassive(e.name);return;}

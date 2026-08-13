@@ -170,7 +170,9 @@ recommendation panel detects ready recipes and performs the same inventory
 transformation in the tracker.
 
 Passive artifacts are different: their components only need to be held, not
-leveled. Combining them frees a passive slot.
+leveled. Combining them frees a passive slot. Pit Crew still records levels
+1-3 for both ordinary passives and evolved artifacts so the displayed loadout
+matches the current in-game run.
 
 Slot-lock happens when every slot contains a different unfinished recipe piece.
 There is then no room to take the missing component and no valid merge. Pick a
@@ -341,7 +343,8 @@ the best practical choice.
 ----------------------------------
 1. Press Start a Run and choose the current character.
 2. Add every ball and passive when it is taken in-game.
-3. Use the minus and plus controls to match ball levels.
+3. Use the minus and plus controls to match ball and passive levels. This also
+   applies to evolved balls and evolved passive artifacts.
 4. Standard characters display 4 ball slots and 4 passive slots. Character-
    specific limits still override this where needed.
 5. Read the compact Recommended Next panel for the strongest two available
