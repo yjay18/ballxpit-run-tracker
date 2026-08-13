@@ -348,6 +348,8 @@ nav.tabs button:hover{color:var(--text);background:var(--panel)}
 nav.tabs button.active{background:var(--accent);color:#10120d;border-color:var(--accent);font-weight:800}
 .hdr-controls{padding-top:.45rem;border-top:1px solid var(--border);margin-top:.45rem}
 body.run-mode .hdr-controls{display:none}
+body.active-run nav.tabs{display:none}
+body.active-run footer{display:none}
 main{max-width:1240px;padding:0 1rem 5rem}
 
 /* landing */
@@ -407,11 +409,13 @@ main{max-width:1240px;padding:0 1rem 5rem}
 .starter-chip .sprite{width:20px;height:20px}
 
 /* active run */
-.run-topbar{display:flex;align-items:center;gap:.7rem;padding:1rem 0}
+.run-topbar{display:flex;align-items:center;gap:.7rem;padding:1rem 0;flex-wrap:wrap}
 .runner-card{border:1px solid var(--border);background:rgba(18,22,17,.88);padding:.7rem;flex:1}
 .runner-card{display:flex;align-items:center;gap:.7rem}.runner-card .avatar{width:48px;height:48px;border-radius:2px}
 .runner-name{font-family:"Press Start 2P",monospace;font-size:.62rem;line-height:1.5}.runner-detail{font-size:.68rem;color:var(--muted);margin-top:.18rem}
-.danger-btn{color:#f4aaa5;border-color:#673a37;white-space:nowrap;align-self:stretch}.danger-btn:hover{background:#34201f}
+.run-actions{display:flex;align-self:stretch;gap:.4rem;flex-wrap:wrap;justify-content:flex-end}.action-btn{border:1px solid var(--border);background:var(--panel);color:var(--text);padding:.48rem .62rem;font-size:.66rem;white-space:nowrap}.action-btn:hover{border-color:var(--accent-dim);color:var(--accent)}.action-btn:disabled{opacity:.35;cursor:default;color:var(--muted);border-color:var(--border)}
+.danger-btn{color:#f4aaa5;border-color:#673a37;white-space:nowrap}.danger-btn:hover{background:#34201f}
+.target-strip{display:flex;align-items:center;gap:.45rem;width:100%;padding:.48rem .65rem;border:1px solid var(--accent-dim);background:rgba(217,255,82,.06);font-size:.68rem}.target-strip b{color:var(--accent)}.target-strip button{margin-left:auto;border:0;background:transparent;color:var(--muted);padding:.1rem .3rem}.target-strip button:hover{color:var(--danger)}
 .run-layout{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(300px,.7fr);gap:.9rem;align-items:start}
 .run-stack{display:grid;gap:.9rem}
 .run-panel{border:1px solid var(--border);background:rgba(18,22,17,.94);box-shadow:7px 7px 0 rgba(0,0,0,.18)}
@@ -432,6 +436,7 @@ main{max-width:1240px;padding:0 1rem 5rem}
 }
 .evolve-btn:hover,.mini-add:hover{background:#efffa7}.empty-copy{color:var(--muted);font-size:.72rem;padding:.25rem;line-height:1.55}
 .coach-panel{position:sticky;top:132px}
+.recommendation-head{width:100%;color:inherit;text-align:left;cursor:default}.rec-heading{font-family:"Press Start 2P",monospace;color:var(--text);font-size:.62rem;line-height:1.4}.recommendation-head .rec-chevron{display:none;color:var(--accent);font-size:.8rem}.rec-summary{display:none;color:var(--muted);font-size:.62rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:160px}
 .recommendations{padding:.75rem}.rec-group+.rec-group{margin-top:.9rem}.rec-group-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:.45rem}.rec-group-title h4{font-family:"Press Start 2P",monospace;font-size:.52rem;color:var(--text);margin:0}.rec-group-title span{font-size:.58rem;color:var(--muted)}
 .rec-card{display:grid;grid-template-columns:34px 1fr auto;gap:.5rem;align-items:center;padding:.5rem 0;border-top:1px solid #282f25}.rec-card:first-of-type{border-top:0}.rec-card .sprite{width:34px;height:34px}.rec-card h5{font-size:.7rem;margin:0}.rec-card p{font-size:.61rem;color:var(--muted);margin:.15rem 0 0;line-height:1.35}.mini-add{padding:.35rem .45rem;background:transparent;color:var(--accent);font-size:.58rem}.mini-add:hover{color:#11140d;background:var(--accent)}.mini-add:disabled{border-color:#3c4437;color:#646c5e;background:transparent;cursor:default}
 
@@ -441,6 +446,20 @@ main{max-width:1240px;padding:0 1rem 5rem}
 .picker-head{display:flex;align-items:center;gap:.7rem;padding:.8rem;border-bottom:1px solid var(--border)}.picker-head h3{margin:0 auto 0 0;font-size:.65rem;color:var(--text)}.picker-head input{min-width:220px;background:#090b09;border:1px solid var(--border);color:var(--text);padding:.5rem}.picker-close{border:0;background:transparent;color:var(--muted);font-size:1.1rem}
 .picker-tabs{display:flex;gap:.35rem;padding:.55rem .8rem;border-bottom:1px solid var(--border)}.picker-tabs button{border:1px solid var(--border);background:transparent;color:var(--muted);padding:.35rem .55rem;font-size:.65rem}.picker-tabs button.active{background:var(--accent);color:#10120d;border-color:var(--accent)}
 .picker-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:.45rem;padding:.75rem;overflow:auto}.picker-item{display:grid;grid-template-columns:38px 1fr;gap:.55rem;align-items:center;text-align:left;background:#0c0f0b;border:1px solid #2a3126;color:var(--text);padding:.5rem;min-height:60px}.picker-item:hover{border-color:var(--accent-dim);background:var(--panel2)}.picker-item .sprite{width:38px;height:38px}.picker-item b{display:block;font-size:.7rem;line-height:1.25}.picker-item small{display:block;color:var(--muted);font-size:.57rem;margin-top:.15rem}.picker-item:disabled{opacity:.35;cursor:not-allowed}
+.utility-drawer{width:min(100%,760px)}.utility-copy{padding:.65rem .8rem;color:var(--muted);font-size:.7rem;border-bottom:1px solid var(--border)}
+.offer-selected{display:flex;gap:.4rem;align-items:center;min-height:49px;padding:.55rem .8rem;border-bottom:1px solid var(--border);overflow-x:auto}.offer-chip{display:inline-flex;align-items:center;gap:.35rem;flex:0 0 auto;border:1px solid var(--accent-dim);background:rgba(217,255,82,.07);color:var(--text);padding:.35rem .45rem;font-size:.65rem}.offer-chip button{border:0;background:transparent;color:var(--muted);padding:0}.offer-submit{margin-left:auto;flex:0 0 auto;border:1px solid var(--accent);background:var(--accent);color:#11140d;padding:.45rem .6rem;font-size:.65rem;font-weight:800}.offer-submit:disabled{opacity:.35;cursor:default}.picker-item.selected{border-color:var(--accent);background:rgba(217,255,82,.09)}
+.offer-results{padding:.75rem;overflow:auto}.offer-result{display:grid;grid-template-columns:28px 42px 1fr auto;gap:.55rem;align-items:center;border:1px solid var(--border);padding:.6rem;background:#0c0f0b}.offer-result+.offer-result{margin-top:.45rem}.offer-result.best{border-color:var(--accent)}.offer-rank{font-family:"Press Start 2P",monospace;color:var(--accent);font-size:.6rem}.offer-result .sprite{width:42px;height:42px}.offer-result h4{margin:0;font-size:.75rem}.offer-result p{margin:.18rem 0 0;color:var(--muted);font-size:.63rem;line-height:1.35}
+.target-grid .picker-item{grid-template-columns:38px 1fr}.target-grid .picker-item.active{border-color:var(--accent);background:rgba(217,255,82,.09)}
+
+body.compact-run .slot-list{grid-template-columns:repeat(4,minmax(0,1fr));gap:.35rem;padding:.55rem}
+body.compact-run .item-slot{min-height:94px;padding:.4rem .2rem .3rem}
+body.compact-run .item-slot .sprite,body.compact-run .passive-list .item-slot .sprite{width:42px;height:42px;margin:.05rem auto .2rem}
+body.compact-run .item-slot-name,body.compact-run .item-tier{display:none}
+body.compact-run .level-control{padding-top:.1rem;gap:.2rem}
+body.compact-run .level-control button{width:21px;height:21px;font-size:.7rem}
+body.compact-run .level-pips{gap:2px}body.compact-run .level-pips i{width:5px;height:5px}
+body.compact-run .rec-card p,body.compact-run .evo-ready p{display:none}
+body.compact-run .rec-card{padding:.35rem 0}
 
 footer{background:#0b0d0a;margin-top:1rem}.footer-brand{color:var(--text);font-family:"Press Start 2P",monospace;font-size:.58rem}
 
@@ -450,7 +469,7 @@ footer{background:#0b0d0a;margin-top:1rem}.footer-brand{color:var(--text);font-f
 @media(max-width:640px){
   .site-header{padding:.55rem .7rem}.live-pill span:not(.live-dot){display:none}.live-pill{padding:.45rem}.brand-copy h1{font-size:.61rem}.brand-mark{width:30px;height:30px}.hdr-top{gap:.45rem}nav.tabs{margin-left:-.1rem;margin-right:-.1rem}nav.tabs button{padding:.42rem .56rem;font-size:.63rem}
   main{padding-left:.7rem;padding-right:.7rem}.run-hero{padding:2.6rem 0 3rem;gap:1.5rem}.hero-title{font-size:clamp(2rem,14vw,3.8rem)}.hero-title span{text-shadow:3px 3px 0 #3e4b17}.hero-lede{font-size:.95rem}.hero-visual{min-height:310px}.pit-board{width:min(92%,330px)}.hero-orb{width:58px;height:58px}.hero-orb.o2{width:66px;height:66px}.hero-orb.o3{width:72px;height:72px}.board-caption{right:0;bottom:24px}
-  .setup-wrap{padding:1.5rem 0}.setup-head{align-items:flex-start}.run-char-grid{grid-template-columns:1fr}.run-topbar{padding:.7rem 0}.runner-card{min-width:0}.runner-card .avatar{width:42px;height:42px}.runner-detail{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.run-layout{gap:.65rem}.panel-head{padding:.7rem}.slot-list{grid-template-columns:repeat(2,minmax(0,1fr));padding:.55rem}.item-slot{min-height:145px}.evo-ready{grid-template-columns:auto 1fr}.evo-ready .evolve-btn{grid-column:1/-1}.picker-backdrop{padding:0;place-items:end}.picker-drawer{max-height:88vh;border-left:0;border-right:0}.picker-head{flex-wrap:wrap}.picker-head input{order:3;width:100%}.picker-grid{grid-template-columns:repeat(2,minmax(0,1fr));padding:.5rem}.picker-item{grid-template-columns:32px 1fr;padding:.4rem}.picker-item .sprite{width:32px;height:32px}
+  body.active-run main{padding-bottom:5.6rem}.setup-wrap{padding:1.5rem 0}.setup-head{align-items:flex-start}.run-char-grid{grid-template-columns:1fr}.run-topbar{padding:.7rem 0}.runner-card{min-width:0}.runner-card .avatar{width:42px;height:42px}.runner-detail{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.run-actions{width:100%;display:grid;grid-template-columns:repeat(5,1fr);gap:.3rem}.action-btn,.danger-btn{padding:.5rem .15rem;font-size:.55rem}.run-layout{gap:.65rem}.panel-head{padding:.7rem}.slot-list{grid-template-columns:repeat(2,minmax(0,1fr));padding:.55rem}.item-slot{min-height:145px}.coach-panel{position:fixed;left:.7rem;right:.7rem;bottom:.55rem;top:auto;z-index:75;max-height:72vh;overflow:auto;box-shadow:0 -8px 28px rgba(0,0,0,.55)}.recommendation-head{position:sticky;top:0;z-index:2;cursor:pointer;background:var(--panel)}.recommendation-head .rec-chevron,.rec-summary{display:block}.coach-panel:not(.open) .recommendations{display:none}.coach-panel.open .rec-chevron{transform:rotate(180deg)}.evo-ready{grid-template-columns:auto 1fr}.evo-ready .evolve-btn{grid-column:1/-1}.picker-backdrop{padding:0;place-items:end}.picker-drawer{max-height:88vh;border-left:0;border-right:0}.picker-head{flex-wrap:wrap}.picker-head input{order:3;width:100%}.picker-grid{grid-template-columns:repeat(2,minmax(0,1fr));padding:.5rem}.picker-item{grid-template-columns:32px 1fr;padding:.4rem}.picker-item .sprite{width:32px;height:32px}.offer-result{grid-template-columns:24px 34px 1fr}.offer-result .sprite{width:34px;height:34px}.offer-result .mini-add{grid-column:1/-1}.offer-selected{flex-wrap:wrap}.offer-submit{margin-left:0}
 }
 </style>
 </head>
@@ -529,7 +548,14 @@ footer{background:#0b0d0a;margin-top:1rem}.footer-brand{color:var(--text);font-f
     <div id="run-dashboard" class="hidden">
       <div class="run-topbar">
         <div class="runner-card" id="run-runner-card"></div>
-        <button class="danger-btn" id="end-run-btn">End run</button>
+        <div class="run-actions">
+          <button class="action-btn" id="offer-btn">Compare offer</button>
+          <button class="action-btn" id="target-btn">Set target</button>
+          <button class="action-btn" id="compact-btn">Compact</button>
+          <button class="action-btn" id="undo-btn" disabled>↶ Undo</button>
+          <button class="danger-btn" id="end-run-btn">End run</button>
+        </div>
+        <div class="target-strip hidden" id="target-strip"><span>Target:</span><b id="target-name"></b><button id="clear-target-btn" aria-label="Clear evolution target">✕</button></div>
       </div>
 
       <div class="run-layout">
@@ -546,7 +572,7 @@ footer{background:#0b0d0a;margin-top:1rem}.footer-brand{color:var(--text);font-f
         </div>
 
         <aside class="run-panel coach-panel">
-          <div class="panel-head"><div><h2>Recommended next</h2><p>Updates as your selected items change.</p></div></div>
+          <button class="panel-head recommendation-head" id="recommendation-toggle" type="button"><span><span class="rec-heading">Recommended next</span><span class="rec-summary" id="rec-summary">Tap to view</span></span><span class="rec-chevron">▲</span></button>
           <div class="recommendations" id="run-recommendations"></div>
         </aside>
       </div>
@@ -561,6 +587,40 @@ footer{background:#0b0d0a;margin-top:1rem}.footer-brand{color:var(--text);font-f
         </div>
         <div class="picker-tabs" id="picker-tabs"></div>
         <div class="picker-grid" id="picker-grid"></div>
+      </div>
+    </div>
+
+    <div class="picker-backdrop hidden" id="offer-modal" role="dialog" aria-modal="true" aria-labelledby="offer-title">
+      <div class="picker-drawer utility-drawer">
+        <div class="picker-head">
+          <h3 id="offer-title">Compare an offer</h3>
+          <input id="offer-search" type="search" placeholder="Search offered items…" aria-label="Search offered items">
+          <button class="picker-close" id="offer-close" aria-label="Close">✕</button>
+        </div>
+        <p class="utility-copy">Choose the 2–3 items shown in-game. Pit Crew will rank only those choices.</p>
+        <div class="picker-tabs" id="offer-type-tabs">
+          <button data-offer-type="ball" class="active">Balls</button>
+          <button data-offer-type="passive">Passives</button>
+        </div>
+        <div class="offer-selected" id="offer-selected"></div>
+        <div class="picker-grid" id="offer-grid"></div>
+        <div class="offer-results hidden" id="offer-results"></div>
+      </div>
+    </div>
+
+    <div class="picker-backdrop hidden" id="target-modal" role="dialog" aria-modal="true" aria-labelledby="target-title">
+      <div class="picker-drawer utility-drawer">
+        <div class="picker-head">
+          <h3 id="target-title">Pin an evolution target</h3>
+          <input id="target-search" type="search" placeholder="Search evolutions…" aria-label="Search evolution targets">
+          <button class="picker-close" id="target-close" aria-label="Close">✕</button>
+        </div>
+        <p class="utility-copy">Missing ingredients for the pinned target move to the top of recommendations.</p>
+        <div class="picker-tabs" id="target-type-tabs">
+          <button data-target-type="ball" class="active">Ball evolutions</button>
+          <button data-target-type="passive">Passive artifacts</button>
+        </div>
+        <div class="picker-grid target-grid" id="target-grid"></div>
       </div>
     </div>
   </section>
@@ -874,6 +934,7 @@ const BASE_NAMES = new Set(GAME_DATA.baseBalls.map(b=>b.name));
 const EVO_BY_NAME = Object.fromEntries(GAME_DATA.evolvedBalls.map(e=>[e.name,e]));
 const BASE_BY_NAME = Object.fromEntries(GAME_DATA.baseBalls.map(b=>[b.name,b]));
 const EVOPAS_NAMES = new Set(GAME_DATA.evolvedPassives.map(p=>p.name));
+const EVOPAS_BY_NAME = Object.fromEntries(GAME_DATA.evolvedPassives.map(p=>[p.name,p]));
 
 // direct base-ball ingredients of an evolved ball
 function directBases(evo){
@@ -890,6 +951,16 @@ function chainBases(name, seen){
   if(!evo || seen.has(name)) return out;
   seen.add(name);
   evo.slots.forEach(slot=>slot.forEach(o=>{ chainBases(o, seen).forEach(b=>out.add(b)); }));
+  return out;
+}
+function passiveChainBases(name, seen){
+  seen = seen || new Set();
+  const out = new Set();
+  if(GAME_DATA.basePassives.some(p=>p.name===name)){ out.add(name); return out; }
+  const evo = EVOPAS_BY_NAME[name];
+  if(!evo || seen.has(name)) return out;
+  seen.add(name);
+  evo.slots.forEach(slot=>slot.forEach(option=>passiveChainBases(option,seen).forEach(p=>out.add(p))));
   return out;
 }
 // evolutions that a given ball (base or evolved) is a direct ingredient of
@@ -1520,6 +1591,11 @@ let runState = null;
 try { runState = JSON.parse(localStorage.getItem(RUN_KEY)); } catch(e) { runState = null; }
 let pickerMode = "ball";
 let pickerFilter = "all";
+let runUndo = null;
+let offerType = "ball";
+let offerSelections = [];
+let offerRanked = false;
+let targetType = "ball";
 
 function activeRunCharacter(){
   return runState && GAME_DATA.characters.find(c=>c.name===runState.character);
@@ -1535,6 +1611,30 @@ function saveRun(){
   else localStorage.removeItem(RUN_KEY);
   updateHeaderRunStatus();
 }
+function checkpointUndo(label){
+  if(!runState) return;
+  runUndo = {
+    label,
+    state:JSON.parse(JSON.stringify(runState)),
+    checks:JSON.parse(JSON.stringify(checks))
+  };
+}
+function undoLastRunAction(){
+  if(!runUndo) return;
+  const snapshot=runUndo;
+  runUndo=null;
+  runState=snapshot.state;
+  checks=snapshot.checks;
+  saveChecks();
+  document.querySelectorAll("input[data-check]").forEach(cb=>{
+    cb.checked=!!checks[cb.dataset.check];
+    const row=cb.closest("tbody.item-row");
+    if(row) row.classList.toggle("collected",cb.checked);
+  });
+  updateProgress();
+  saveRun();
+  renderRun();
+}
 function logRun(message){
   if(!runState) return;
   const elapsed = Math.max(0, Date.now()-runState.startedAt);
@@ -1547,20 +1647,23 @@ function startRun(characterName){
   if(!c) return;
   runState = {
     active:true, character:c.name, startedAt:Date.now(),
-    ballCap:ballCapFor(c), passiveCap:passiveCapFor(c),
+    ballCap:ballCapFor(c), passiveCap:passiveCapFor(c), compact:false, target:null,
     balls:c.ball!=="None"?[{name:c.ball,level:1}]:[], passives:[], log:[]
   };
+  runUndo=null;
   logRun(`Entered the pit as ${c.name}${c.ball!=="None"?` with ${c.ball}`:""}.`);
   saveRun();
   showRunDashboard();
 }
 function showRunLanding(){
+  document.body.classList.remove("active-run","compact-run");
   document.getElementById("run-landing").classList.remove("hidden");
   document.getElementById("character-setup").classList.add("hidden");
   document.getElementById("run-dashboard").classList.add("hidden");
   document.getElementById("resume-run-btn").classList.toggle("hidden", !(runState&&runState.active));
 }
 function showCharacterSetup(){
+  document.body.classList.remove("active-run","compact-run");
   document.getElementById("run-landing").classList.add("hidden");
   document.getElementById("character-setup").classList.remove("hidden");
   document.getElementById("run-dashboard").classList.add("hidden");
@@ -1572,6 +1675,7 @@ function showRunDashboard(){
   document.getElementById("run-landing").classList.add("hidden");
   document.getElementById("character-setup").classList.add("hidden");
   document.getElementById("run-dashboard").classList.remove("hidden");
+  document.body.classList.add("active-run");
   renderRun();
   window.scrollTo({top:0,behavior:"smooth"});
 }
@@ -1619,42 +1723,55 @@ function readyPassiveEvolutions(){ return GAME_DATA.evolvedPassives.filter(e=>ma
 function evolveBall(name){
   const evo = EVO_BY_NAME[name], used = evo&&matchRecipe(evo.slots,runState.balls,true);
   if(!evo||!used) return;
+  checkpointUndo(`Evolve ${evo.name}`);
   const ingredients = used.map(i=>runState.balls[i].name);
   used.sort((a,b)=>b-a).forEach(i=>runState.balls.splice(i,1));
   runState.balls.push({name:evo.name,level:1});
+  if(runState.target&&runState.target.kind==="ball"&&runState.target.name===evo.name) runState.target=null;
   logRun(`Evolved ${ingredients.join(" + ")} into ${evo.name}.`);
   setCheck(slug(evo.name),true); saveRun(); renderRun();
 }
 function evolvePassive(name){
   const evo = GAME_DATA.evolvedPassives.find(e=>e.name===name), used = evo&&matchRecipe(evo.slots,runState.passives,false);
   if(!evo||!used) return;
+  checkpointUndo(`Forge ${evo.name}`);
   const ingredients = used.map(i=>runState.passives[i].name);
   used.sort((a,b)=>b-a).forEach(i=>runState.passives.splice(i,1));
   runState.passives.push({name:evo.name,level:1});
+  if(runState.target&&runState.target.kind==="passive"&&runState.target.name===evo.name) runState.target=null;
   logRun(`Forged ${evo.name} from ${ingredients.join(" + ")}.`);
   setCheck(slug(evo.name),true); saveRun(); renderRun();
 }
 function addBall(name){
   if(!runState || runState.balls.length>=runState.ballCap || runState.balls.some(b=>b.name===name)) return false;
+  checkpointUndo(`Add ${name}`);
   runState.balls.push({name,level:1}); logRun(`Added ${name} at level 1.`); saveRun(); renderRun(); return true;
 }
 function addPassive(name){
   if(!runState || runState.passives.length>=runState.passiveCap || runState.passives.some(p=>p.name===name)) return false;
+  checkpointUndo(`Add ${name}`);
   runState.passives.push({name,level:1}); logRun(`Equipped ${name} at level 1.`); saveRun(); renderRun(); return true;
 }
 function setBallLevel(index,delta){
   const ball = runState.balls[index]; if(!ball) return;
-  ball.level = Math.max(1,Math.min(3,(ball.level||1)+delta));
+  const next=Math.max(1,Math.min(3,(ball.level||1)+delta));
+  if(next===ball.level) return;
+  checkpointUndo(`Change ${ball.name} level`);
+  ball.level = next;
   logRun(`${ball.name} reached level ${ball.level}.`); saveRun(); renderRun();
 }
 function setPassiveLevel(index,delta){
   const passive = runState.passives[index]; if(!passive) return;
-  passive.level = Math.max(1,Math.min(3,(passive.level||1)+delta));
+  const next=Math.max(1,Math.min(3,(passive.level||1)+delta));
+  if(next===passive.level) return;
+  checkpointUndo(`Change ${passive.name} level`);
+  passive.level = next;
   logRun(`${passive.name} reached level ${passive.level}.`); saveRun(); renderRun();
 }
 function removeRunItem(kind,index){
   const list = kind==="ball"?runState.balls:runState.passives;
   const item = list[index]; if(!item) return;
+  checkpointUndo(`Remove ${item.name}`);
   list.splice(index,1); logRun(`Removed ${item.name} from the ${kind} loadout.`); saveRun(); renderRun();
 }
 
@@ -1665,6 +1782,8 @@ function renderRun(){
     runState.ballCap=ballCapFor(c);
     saveRun();
   }
+  if(typeof runState.compact!=="boolean") runState.compact=false;
+  if(runState.target&&typeof runState.target==="string") runState.target={kind:"ball",name:runState.target};
   let migratedPassives=false;
   runState.passives.forEach(passive=>{
     if(!passive.level){ passive.level=1; migratedPassives=true; }
@@ -1675,6 +1794,15 @@ function renderRun(){
   document.getElementById("passive-slot-count").textContent = `${runState.passives.length} / ${runState.passiveCap}`;
   document.getElementById("add-ball-btn").disabled = runState.balls.length>=runState.ballCap;
   document.getElementById("add-passive-btn").disabled = runState.passives.length>=runState.passiveCap;
+  document.body.classList.toggle("compact-run",runState.compact);
+  document.getElementById("compact-btn").textContent=runState.compact?"Comfort":"Compact";
+  const undoBtn=document.getElementById("undo-btn");
+  undoBtn.disabled=!runUndo;
+  undoBtn.title=runUndo?`Undo: ${runUndo.label}`:"Nothing to undo";
+  const targetStrip=document.getElementById("target-strip");
+  targetStrip.classList.toggle("hidden",!runState.target);
+  document.getElementById("target-name").textContent=runState.target?runState.target.name:"";
+  document.getElementById("target-btn").textContent=runState.target?"Change target":"Set target";
   renderRunBalls();
   renderRunPassives();
   renderRecommendations(c,guide);
@@ -1684,7 +1812,7 @@ function renderRunBalls(){
   const list = document.getElementById("run-ball-list");
   const cards = runState.balls.map((b,i)=>{
     const evolved = !!EVO_BY_NAME[b.name];
-    return `<article class="item-slot${evolved?" evolved":""}">
+    return `<article class="item-slot${evolved?" evolved":""}" aria-label="${esc(b.name)}, level ${b.level}" title="${esc(b.name)} · Level ${b.level}">
       <button class="slot-remove" data-remove-kind="ball" data-index="${i}" aria-label="Remove ${esc(b.name)}">✕</button>
       ${spriteHTML(b.name,"balls")}<div class="item-slot-name">${esc(b.name)}</div><div class="item-tier">${evolved?`Tier ${EVO_BY_NAME[b.name].tier} evolution`:"Base ball"}</div>
       <div class="level-control"><button data-level-index="${i}" data-level-delta="-1" aria-label="Lower level">−</button><span class="level-pips">${[1,2,3].map(n=>`<i class="${n<=b.level?"on":""}"></i>`).join("")}</span><button data-level-index="${i}" data-level-delta="1" aria-label="Raise level">+</button></div>
@@ -1695,7 +1823,7 @@ function renderRunBalls(){
 function renderRunPassives(){
   const list = document.getElementById("run-passive-list");
   const evolvedNames = new Set(GAME_DATA.evolvedPassives.map(p=>p.name));
-  const cards = runState.passives.map((p,i)=>`<article class="item-slot${evolvedNames.has(p.name)?" evolved":""}">
+  const cards = runState.passives.map((p,i)=>`<article class="item-slot${evolvedNames.has(p.name)?" evolved":""}" aria-label="${esc(p.name)}, level ${p.level}" title="${esc(p.name)} · Level ${p.level}">
     <button class="slot-remove" data-remove-kind="passive" data-index="${i}" aria-label="Remove ${esc(p.name)}">✕</button>
     ${spriteHTML(p.name,"passives")}<div class="item-slot-name">${esc(p.name)}</div><div class="item-tier">${evolvedNames.has(p.name)?"Artifact":"Base passive"}</div>
     <div class="level-control"><button data-passive-level-index="${i}" data-level-delta="-1" aria-label="Lower ${esc(p.name)} level">−</button><span class="level-pips">${[1,2,3].map(n=>`<i class="${n<=p.level?"on":""}"></i>`).join("")}</span><button data-passive-level-index="${i}" data-level-delta="1" aria-label="Raise ${esc(p.name)} level">+</button></div>
@@ -1723,48 +1851,64 @@ function passiveAllowed(p){
   if(p.name==="Bandage Roll" && !runState.balls.some(b=>["Vampire","Soul Sucker","Heart Swallower","Vampire Lord","Mosquito King","Mosquito Swarm","Reaper"].includes(b.name)) && !runState.passives.some(x=>["Vampiric Sword","Healer's Effigy","Soul Reaver"].includes(x.name))) return false;
   return true;
 }
+function scoreBallCandidate(b,c,guide){
+  let score=0,reason="Adds a new evolution branch.";
+  const gi=guide.balls.indexOf(b.name);
+  if(gi>=0){score+=70-gi*6;reason=`Strong fit for ${guide.role.toLowerCase()}.`;}
+  const direct=[];
+  runState.balls.forEach(heldBall=>findDirectEvos(b.name,heldBall.name).forEach(e=>direct.push({e,heldBall})));
+  if(direct.length){
+    const best=direct.sort((x,y)=>(y.heldBall.level||1)-(x.heldBall.level||1))[0];
+    score+=best.heldBall.level===3?95:65;
+    reason=`Pairs with ${best.heldBall.name} for ${best.e.name}.`;
+  }
+  if(runState.target&&runState.target.kind==="ball"&&chainBases(runState.target.name).has(b.name)){
+    score+=180;reason=`Needed for pinned target ${runState.target.name}.`;
+  }
+  if(c.name==="The Makeshift Sisyphus"){
+    const useful=GAME_DATA.evolvedBalls.some(e=>directBases(e).has(b.name)&&(e.damageTypes.includes("AOE")||e.statusEffects.length));
+    score+=b.damageTypes.includes("AOE")||b.statusEffects.length?35:-60;
+    if(useful) score+=18;
+  }
+  if(c.tags.includes("noBabyBalls")&&["Brood Mother","Egg Sac","Cell"].includes(b.name)) score-=80;
+  if(c.tags.includes("moreBalls")&&b.statusEffects.length) score+=12;
+  return {item:b,score,reason};
+}
 function ballRecommendations(c,guide){
-  const held = new Set(runState.balls.map(b=>b.name));
-  return GAME_DATA.baseBalls.filter(b=>!held.has(b.name)).map(b=>{
-    let score=0,reason="Adds a new evolution branch.";
-    const gi=guide.balls.indexOf(b.name); if(gi>=0){score+=70-gi*6;reason=`Strong fit for ${guide.role.toLowerCase()}.`;}
-    const direct=[];
-    runState.balls.forEach(heldBall=>findDirectEvos(b.name,heldBall.name).forEach(e=>direct.push({e,heldBall})));
-    if(direct.length){
-      const best=direct.sort((x,y)=>(y.heldBall.level||1)-(x.heldBall.level||1))[0];
-      score+=best.heldBall.level===3?95:65;
-      reason=`Pairs with ${best.heldBall.name} for ${best.e.name}.`;
-    }
-    if(c.name==="The Makeshift Sisyphus"){
-      const useful=GAME_DATA.evolvedBalls.some(e=>directBases(e).has(b.name)&&(e.damageTypes.includes("AOE")||e.statusEffects.length));
-      score+=b.damageTypes.includes("AOE")||b.statusEffects.length?35:-60;
-      if(useful) score+=18;
-    }
-    if(c.tags.includes("noBabyBalls") && ["Brood Mother","Egg Sac","Cell"].includes(b.name)) score-=80;
-    if(c.tags.includes("moreBalls") && b.statusEffects.length) score+=12;
-    return {item:b,score,reason};
-  }).sort((a,b)=>b.score-a.score||a.item.name.localeCompare(b.item.name)).slice(0,2);
+  const held=new Set(runState.balls.map(b=>b.name));
+  return GAME_DATA.baseBalls.filter(b=>!held.has(b.name)).map(b=>scoreBallCandidate(b,c,guide))
+    .sort((a,b)=>b.score-a.score||a.item.name.localeCompare(b.item.name)).slice(0,2);
+}
+function scorePassiveCandidate(p,c,guide){
+  const held=new Set(runState.passives.map(x=>x.name));
+  let score=0,reason="Flexible support for the current build.";
+  const gi=guide.passives.indexOf(p.name);
+  if(gi>=0){score+=70-gi*6;reason=`Core ${guide.role.toLowerCase()} passive.`;}
+  GAME_DATA.evolvedPassives.forEach(e=>{
+    const slotIndex=e.slots.findIndex(slot=>slot.includes(p.name));
+    if(slotIndex<0) return;
+    const otherReady=e.slots.every((slot,i)=>i===slotIndex||runState.passives.some(x=>slot.includes(x.name)));
+    if(otherReady){score+=100;reason=`Completes ${e.name}.`;}
+  });
+  if(hasBabyBallEngine()&&["War Horn","Baby Rattle","Bandage Roll"].includes(p.name)){score+=34;reason="Multiplies your baby-ball engine.";}
+  if(hasAOE()&&p.name==="Magic Staff"){score+=35;reason="Boosts your current area damage.";}
+  if(held.has("Vampiric Sword")&&["Everflowing Goblet","Bandage Roll"].includes(p.name)){score+=90;reason=p.name==="Everflowing Goblet"?"Completes Soul Reaver and stabilizes the health economy.":"Turns repeated healing into free baby balls.";}
+  if(held.has("Ethereal Cloak")&&p.name==="Ghostly Corset"){score+=105;reason="Completes Phantom Regalia for permanent pierce.";}
+  if(held.has("Ethereal Cloak")&&p.name==="Upturned Hatchet"){score+=55;reason="Covers the damage drop after the back-wall bounce.";}
+  if(!passiveAllowed(p)){score-=100;reason="Your current build does not activate this passive yet.";}
+  if(guide.avoid.includes(p.name)){score-=180;reason=`Poor fit for ${c.name}.`;}
+  if(runState.target&&runState.target.kind==="passive"&&passiveChainBases(runState.target.name).has(p.name)){
+    score+=240;reason=`Needed for pinned target ${runState.target.name}.`;
+  }
+  if(c.name==="The Hoary Hoarder") score+=12;
+  return {item:p,score,reason};
 }
 function passiveRecommendations(c,guide){
-  const held=new Set(runState.passives.map(p=>p.name));
   if(runState.passiveCap===0) return [];
-  return GAME_DATA.basePassives.filter(p=>!held.has(p.name)&&passiveAllowed(p)&&!guide.avoid.includes(p.name)).map(p=>{
-    let score=0,reason="Flexible support for the current build.";
-    const gi=guide.passives.indexOf(p.name); if(gi>=0){score+=70-gi*6;reason=`Core ${guide.role.toLowerCase()} passive.`;}
-    GAME_DATA.evolvedPassives.forEach(e=>{
-      const slotIndex=e.slots.findIndex(slot=>slot.includes(p.name));
-      if(slotIndex<0) return;
-      const otherReady=e.slots.every((slot,i)=>i===slotIndex||runState.passives.some(x=>slot.includes(x.name)));
-      if(otherReady){score+=100;reason=`Completes ${e.name}.`;}
-    });
-    if(hasBabyBallEngine()&&["War Horn","Baby Rattle","Bandage Roll"].includes(p.name)){score+=34;reason="Multiplies your baby-ball engine.";}
-    if(hasAOE()&&p.name==="Magic Staff"){score+=35;reason="Boosts your current area damage.";}
-    if(held.has("Vampiric Sword")&&["Everflowing Goblet","Bandage Roll"].includes(p.name)){score+=90;reason=p.name==="Everflowing Goblet"?"Completes Soul Reaver and stabilizes the health economy.":"Turns repeated healing into free baby balls.";}
-    if(held.has("Ethereal Cloak")&&p.name==="Ghostly Corset"){score+=105;reason="Completes Phantom Regalia for permanent pierce.";}
-    if(held.has("Ethereal Cloak")&&p.name==="Upturned Hatchet"){score+=55;reason="Covers the damage drop after the back-wall bounce.";}
-    if(c.name==="The Hoary Hoarder") score+=12;
-    return {item:p,score,reason};
-  }).sort((a,b)=>b.score-a.score||a.item.name.localeCompare(b.item.name)).slice(0,2);
+  const held=new Set(runState.passives.map(p=>p.name));
+  const targetBases=runState.target&&runState.target.kind==="passive"?passiveChainBases(runState.target.name):new Set();
+  return GAME_DATA.basePassives.filter(p=>!held.has(p.name)&&((passiveAllowed(p)&&!guide.avoid.includes(p.name))||targetBases.has(p.name)))
+    .map(p=>scorePassiveCandidate(p,c,guide)).sort((a,b)=>b.score-a.score||a.item.name.localeCompare(b.item.name)).slice(0,2);
 }
 function renderRecommendations(c,guide){
   const balls=ballRecommendations(c,guide),passives=passiveRecommendations(c,guide);
@@ -1779,6 +1923,62 @@ function renderRecommendations(c,guide){
     ${readyRows?`<div class="rec-group"><div class="rec-group-title"><h4>Ready now</h4></div>${readyRows}</div>`:""}
     <div class="rec-group"><div class="rec-group-title"><h4>Next ball</h4></div>${recRows(balls,"ball")||'<div class="empty-copy">No open ball recommendations.</div>'}</div>
     <div class="rec-group"><div class="rec-group-title"><h4>Next passive</h4></div>${recRows(passives,"passive")||'<div class="empty-copy">No passive slots available.</div>'}</div>`;
+  const summary=[readyBalls[0]&&readyBalls[0].name,balls[0]&&balls[0].item.name,passives[0]&&passives[0].item.name].filter(Boolean).slice(0,2).join(" · ");
+  document.getElementById("rec-summary").textContent=summary||"No recommendations";
+}
+
+function openOffer(){
+  offerType="ball";offerSelections=[];offerRanked=false;
+  document.getElementById("offer-search").value="";
+  document.getElementById("offer-modal").classList.remove("hidden");
+  renderOffer();
+  setTimeout(()=>document.getElementById("offer-search").focus(),0);
+}
+function closeOffer(){ document.getElementById("offer-modal").classList.add("hidden"); }
+function offerPool(){ return offerType==="ball"?GAME_DATA.baseBalls:GAME_DATA.basePassives; }
+function renderOffer(){
+  document.querySelectorAll("[data-offer-type]").forEach(btn=>btn.classList.toggle("active",btn.dataset.offerType===offerType));
+  const selected=document.getElementById("offer-selected");
+  selected.innerHTML=(offerSelections.length?offerSelections.map((name,i)=>`<span class="offer-chip">${esc(name)}<button data-offer-remove="${i}" aria-label="Remove ${esc(name)}">✕</button></span>`).join(""):`<span class="empty-copy">Select 2–3 choices</span>`)+`<button class="offer-submit" data-offer-rank ${offerSelections.length<2?"disabled":""}>Rank choices</button>`;
+  const query=document.getElementById("offer-search").value.trim().toLowerCase();
+  const held=new Set((offerType==="ball"?runState.balls:runState.passives).map(x=>x.name));
+  const items=offerPool().filter(item=>!held.has(item.name)&&(!query||(item.name+" "+item.description).toLowerCase().includes(query)));
+  document.getElementById("offer-grid").innerHTML=items.map(item=>`<button class="picker-item${offerSelections.includes(item.name)?" selected":""}" data-offer-name="${esc(item.name)}">${spriteHTML(item.name,offerType==="ball"?"balls":"passives")}<span><b>${esc(item.name)}</b><small>${offerSelections.includes(item.name)?"Selected":"Tap to compare"}</small></span></button>`).join("")||`<div class="empty-copy">No matching items.</div>`;
+  document.getElementById("offer-grid").classList.toggle("hidden",offerRanked);
+  const results=document.getElementById("offer-results");
+  results.classList.toggle("hidden",!offerRanked);
+  if(offerRanked){
+    const c=activeRunCharacter(),guide=RUN_GUIDES[c.name]||{role:"Flexible runner",balls:[],passives:[],avoid:[]};
+    const lookup=Object.fromEntries(offerPool().map(item=>[item.name,item]));
+    const ranked=offerSelections.map(name=>offerType==="ball"?scoreBallCandidate(lookup[name],c,guide):scorePassiveCandidate(lookup[name],c,guide)).sort((a,b)=>b.score-a.score||a.item.name.localeCompare(b.item.name));
+    const full=offerType==="ball"?runState.balls.length>=runState.ballCap:runState.passives.length>=runState.passiveCap;
+    results.innerHTML=`<button class="back-btn" data-offer-edit>← Change choices</button>`+ranked.map(({item,reason},i)=>`<article class="offer-result${i===0?" best":""}"><span class="offer-rank">${i+1}</span>${spriteHTML(item.name,offerType==="ball"?"balls":"passives")}<div><h4>${esc(item.name)}${i===0?' <span class="eyebrow">Best</span>':""}</h4><p>${esc(reason)}</p></div><button class="mini-add" data-offer-take="${esc(item.name)}" ${full?"disabled":""}>Choose</button></article>`).join("");
+  }
+}
+function openTarget(){
+  targetType=runState.target?runState.target.kind:"ball";
+  document.getElementById("target-search").value="";
+  document.getElementById("target-modal").classList.remove("hidden");
+  renderTargetPicker();
+  setTimeout(()=>document.getElementById("target-search").focus(),0);
+}
+function closeTarget(){ document.getElementById("target-modal").classList.add("hidden"); }
+function renderTargetPicker(){
+  document.querySelectorAll("[data-target-type]").forEach(btn=>btn.classList.toggle("active",btn.dataset.targetType===targetType));
+  const query=document.getElementById("target-search").value.trim().toLowerCase();
+  const items=(targetType==="ball"?GAME_DATA.evolvedBalls:GAME_DATA.evolvedPassives).filter(item=>!query||(item.name+" "+item.description).toLowerCase().includes(query));
+  document.getElementById("target-grid").innerHTML=items.map(item=>`<button class="picker-item${runState.target&&runState.target.kind===targetType&&runState.target.name===item.name?" active":""}" data-target-name="${esc(item.name)}">${spriteHTML(item.name,targetType==="ball"?"balls":"passives")}<span><b>${esc(item.name)}</b><small>${item.slots.map(slot=>slot.join(" / ")).join(" + ")}</small></span></button>`).join("")||`<div class="empty-copy">No matching evolutions.</div>`;
+}
+function setEvolutionTarget(kind,name){
+  checkpointUndo(`Set target ${name}`);
+  runState.target={kind,name};
+  logRun(`Pinned ${name} as the evolution target.`);
+  saveRun();closeTarget();renderRun();
+}
+function clearEvolutionTarget(){
+  if(!runState.target) return;
+  checkpointUndo(`Clear target ${runState.target.name}`);
+  runState.target=null;saveRun();renderRun();
 }
 
 function openPicker(mode){ pickerMode=mode; pickerFilter="all"; document.getElementById("picker-search").value=""; document.getElementById("item-picker").classList.remove("hidden"); renderPicker(); setTimeout(()=>document.getElementById("picker-search").focus(),0); }
@@ -1802,8 +2002,14 @@ document.getElementById("setup-back-btn").addEventListener("click",showRunLandin
 document.getElementById("run-character-grid").addEventListener("click",ev=>{const btn=ev.target.closest("[data-start-character]");if(btn)startRun(btn.dataset.startCharacter);});
 document.getElementById("end-run-btn").addEventListener("click",()=>{
   if(!confirm("End this run and clear its live tracker?")) return;
-  runState=null;saveRun();showRunLanding();
+  runState=null;runUndo=null;saveRun();showRunLanding();
 });
+document.getElementById("offer-btn").addEventListener("click",openOffer);
+document.getElementById("target-btn").addEventListener("click",openTarget);
+document.getElementById("compact-btn").addEventListener("click",()=>{runState.compact=!runState.compact;saveRun();renderRun();});
+document.getElementById("undo-btn").addEventListener("click",undoLastRunAction);
+document.getElementById("clear-target-btn").addEventListener("click",clearEvolutionTarget);
+document.getElementById("recommendation-toggle").addEventListener("click",()=>document.querySelector(".coach-panel").classList.toggle("open"));
 document.getElementById("run-dashboard").addEventListener("click",ev=>{
   const open=ev.target.closest("[data-open-picker]");if(open){openPicker(open.dataset.openPicker);return;}
   const lvl=ev.target.closest("[data-level-index]");if(lvl){setBallLevel(Number(lvl.dataset.levelIndex),Number(lvl.dataset.levelDelta));return;}
@@ -1820,7 +2026,29 @@ document.getElementById("item-picker").addEventListener("click",ev=>{
   const item=ev.target.closest("[data-picker-name]");if(item&&!item.disabled){const added=(pickerMode==="ball"?addBall:addPassive)(item.dataset.pickerName);if(added)closePicker();}
 });
 document.getElementById("picker-search").addEventListener("input",renderPicker);
-document.addEventListener("keydown",ev=>{if(ev.key==="Escape")closePicker();});
+document.getElementById("offer-close").addEventListener("click",closeOffer);
+document.getElementById("offer-search").addEventListener("input",()=>{offerRanked=false;renderOffer();});
+document.getElementById("offer-modal").addEventListener("click",ev=>{
+  if(ev.target.id==="offer-modal"){closeOffer();return;}
+  const type=ev.target.closest("[data-offer-type]");
+  if(type){offerType=type.dataset.offerType;offerSelections=[];offerRanked=false;renderOffer();return;}
+  const item=ev.target.closest("[data-offer-name]");
+  if(item){const i=offerSelections.indexOf(item.dataset.offerName);if(i>=0)offerSelections.splice(i,1);else if(offerSelections.length<3)offerSelections.push(item.dataset.offerName);offerRanked=false;renderOffer();return;}
+  const remove=ev.target.closest("[data-offer-remove]");
+  if(remove){offerSelections.splice(Number(remove.dataset.offerRemove),1);offerRanked=false;renderOffer();return;}
+  if(ev.target.closest("[data-offer-rank]")){if(offerSelections.length>=2){offerRanked=true;renderOffer();}return;}
+  if(ev.target.closest("[data-offer-edit]")){offerRanked=false;renderOffer();return;}
+  const take=ev.target.closest("[data-offer-take]");
+  if(take&&!take.disabled){const added=(offerType==="ball"?addBall:addPassive)(take.dataset.offerTake);if(added)closeOffer();}
+});
+document.getElementById("target-close").addEventListener("click",closeTarget);
+document.getElementById("target-search").addEventListener("input",renderTargetPicker);
+document.getElementById("target-modal").addEventListener("click",ev=>{
+  if(ev.target.id==="target-modal"){closeTarget();return;}
+  const type=ev.target.closest("[data-target-type]");if(type){targetType=type.dataset.targetType;renderTargetPicker();return;}
+  const item=ev.target.closest("[data-target-name]");if(item)setEvolutionTarget(targetType,item.dataset.targetName);
+});
+document.addEventListener("keydown",ev=>{if(ev.key==="Escape"){closePicker();closeOffer();closeTarget();}});
 
 /* ============================ search / tabs / events ============================ */
 let activeView = "run";

@@ -349,9 +349,14 @@ the best practical choice.
    specific limits still override this where needed.
 5. Read the compact Recommended Next panel for the strongest two available
    balls and passives.
-6. When a recipe is ready, Evolve or Forge appears in the same panel. Use it
+6. Use Compare Offer when the game presents 2-3 choices. Select only those
+   choices, rank them, and tap Choose to add the selected pickup immediately.
+7. Pin an evolution or artifact target to prioritize its missing ingredients.
+8. Compact mode reduces selected items to icon-focused controls. Undo restores
+   the most recent add, removal, level change, evolution, or target change.
+9. When a recipe is ready, Evolve or Forge appears in the same panel. Use it
    only after performing the corresponding action in-game.
-7. The state saves automatically in the current browser. End Run clears it.
+10. The state saves automatically in the current browser. End Run clears it.
 
 
 CREDITS

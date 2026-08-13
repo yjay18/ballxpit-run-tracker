@@ -15,6 +15,12 @@ state and encyclopedia checkmarks stay in the browser's `localStorage`.
   the best next pickups so the screen stays readable during active play.
 - Tracks levels 1–3 for base balls, evolved balls, base passives, and evolved
   passive artifacts.
+- Compares only the 2–3 items currently offered by the game and ranks the best
+  choice for the active character and build.
+- Supports one-step Undo for run changes, a compact icon-focused layout, and a
+  pinned ball evolution or passive artifact target.
+- Hides encyclopedia navigation during active runs and keeps recommendations in
+  a collapsible mobile tray at the bottom of the screen.
 - Detects ball evolutions when every recipe component is level 3.
 - Detects passive artifacts as soon as all required components are held.
 - Applies a ready evolution from the recommendation panel, consumes its
@@ -61,8 +67,29 @@ audited, so community corrections are welcome.
 
 Recommendations are practical heuristics, not a claim of a solved optimal
 meta. Character rules act as hard filters where appropriate; recipe proximity,
-current loadout and conditional loot requirements then contribute to the
-ranking.
+current loadout, conditional loot requirements, and an optional pinned target
+then contribute to the ranking.
+
+## Visit analytics
+
+Pit Crew does not ship with analytics. GitHub's repository
+[**Insights → Traffic**](https://docs.github.com/en/repositories/viewing-activity-and-data-for-your-repository/viewing-traffic-to-a-repository)
+page reports visits to the repository itself, not reliable page-view analytics
+for the deployed site.
+
+To track the live GitHub Pages site, create an account with an analytics
+provider and place its generated script in `index.html`:
+
+- [Cloudflare Web Analytics](https://developers.cloudflare.com/web-analytics/get-started/)
+  provides a lightweight site beacon. Use its manual setup and place the
+  generated script immediately before `</body>`.
+- [Google Analytics](https://support.google.com/analytics/answer/9304153)
+  provides realtime, acquisition, geography, and event reports. Create a GA4
+  web data stream and place its Google tag immediately after `<head>`.
+
+After adding either provider, commit and push the changed `index.html`. Review
+the provider's privacy and consent requirements for the locations where the
+site is offered.
 
 ## Original tracker credit
 
