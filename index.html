@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BALL x PIT Evolution Tracker</title>
-<meta name="description" content="Fan-made BALL x PIT evolution tracker: every ball, passive, and evolution recipe with check-off progress tracking, plus a Matchmaker team builder with pairing recommendations.">
-<meta property="og:title" content="BALL x PIT Evolution Tracker">
-<meta property="og:description" content="Every ball, passive, and evolution recipe — checkable, searchable, with a Matchmaker team builder. Current through the Shadow Update.">
+<title>Pit Crew — BALL x PIT Run Companion</title>
+<meta name="description" content="A live BALL x PIT run companion with character-aware build advice, ball and passive tracking, evolution paths, and an offline encyclopedia.">
+<meta property="og:title" content="Pit Crew — BALL x PIT Run Companion">
+<meta property="og:description" content="Pick a character, press play, and track every ball, passive, level, and evolution while your run is happening.">
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -278,38 +278,344 @@ footer{
   .slot-mid{flex-direction:row}
   h1{font-size:.8rem}
 }
+
+/* ============================ Pit Crew shell ============================ */
+:root{
+  --bg:#090b09;
+  --panel:#121611;
+  --panel2:#1a2017;
+  --border:#30382b;
+  --text:#f5f2df;
+  --muted:#a9ad99;
+  --accent:#d9ff52;
+  --accent-dim:#71882a;
+  --acid:#baf03d;
+  --orange:#ff8a42;
+  --blue:#65d9e8;
+  --danger:#ff6961;
+  --green:#a5e85d;
+  --radius:4px;
+  font-size:15px;
+}
+html{scroll-behavior:smooth;background:var(--bg)}
+body{
+  min-height:100vh;
+  background:
+    radial-gradient(circle at 12% -10%,rgba(217,255,82,.11),transparent 28rem),
+    radial-gradient(circle at 92% 8%,rgba(101,217,232,.08),transparent 24rem),
+    linear-gradient(rgba(255,255,255,.012) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.012) 1px,transparent 1px),
+    var(--bg);
+  background-size:auto,auto,24px 24px,24px 24px,auto;
+}
+body:before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:1000;opacity:.08;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.88' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.45'/%3E%3C/svg%3E");
+}
+button,input,select{font:inherit}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.hidden{display:none!important}
+.eyebrow{
+  color:var(--accent);font-family:"Press Start 2P",monospace;font-size:.58rem;
+  letter-spacing:.12em;text-transform:uppercase;
+}
+.site-header{padding:.65rem 1rem .55rem;background:rgba(9,11,9,.94);backdrop-filter:blur(14px);border-color:#39432e}
+.nav-shell{max-width:1240px;margin:0 auto}
+.hdr-top{flex-wrap:nowrap}
+.brand-lockup{display:flex;align-items:center;gap:.65rem;min-width:0;margin-right:auto}
+.brand-mark{
+  width:34px;height:34px;display:grid;place-items:center;flex:0 0 auto;
+  border:2px solid var(--accent);background:var(--accent);color:#10120d;
+  font-family:"Press Start 2P",monospace;font-size:.72rem;
+  box-shadow:4px 4px 0 #435119;
+}
+.brand-copy{min-width:0}
+.brand-copy h1{font-size:.72rem;color:var(--text);white-space:nowrap}
+.brand-copy span{display:block;color:var(--muted);font-size:.62rem;margin-top:.15rem;white-space:nowrap}
+.live-pill{
+  display:flex;align-items:center;gap:.45rem;border:1px solid var(--border);border-radius:999px;
+  background:var(--panel);padding:.35rem .65rem;font-size:.68rem;color:var(--muted);white-space:nowrap;
+}
+.live-pill.active{border-color:var(--accent-dim);color:var(--text)}
+.live-dot{width:7px;height:7px;border-radius:50%;background:#5c6355}
+.live-pill.active .live-dot{background:var(--accent);box-shadow:0 0 0 4px rgba(217,255,82,.1)}
+nav.tabs{gap:.25rem;margin-top:.6rem;overflow-x:auto;flex-wrap:nowrap;scrollbar-width:none;padding-bottom:.05rem}
+nav.tabs::-webkit-scrollbar{display:none}
+nav.tabs button{
+  flex:0 0 auto;background:transparent;border-color:transparent;border-radius:2px;
+  padding:.42rem .68rem;font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;
+}
+nav.tabs button:hover{color:var(--text);background:var(--panel)}
+nav.tabs button.active{background:var(--accent);color:#10120d;border-color:var(--accent);font-weight:800}
+.hdr-controls{padding-top:.45rem;border-top:1px solid var(--border);margin-top:.45rem}
+body.run-mode .hdr-controls{display:none}
+main{max-width:1240px;padding:0 1rem 5rem}
+
+/* landing */
+.run-hero{min-height:calc(100vh - 116px);display:grid;grid-template-columns:minmax(0,1.08fr) minmax(360px,.92fr);gap:clamp(2rem,6vw,6rem);align-items:center;padding:clamp(3rem,7vw,6.5rem) 0}
+.hero-copy{position:relative;z-index:2}
+.hero-kicker{display:flex;align-items:center;gap:.65rem;margin-bottom:1.25rem}
+.hero-kicker:before{content:"";width:34px;height:2px;background:var(--accent)}
+.hero-title{font-family:"Press Start 2P",monospace;font-size:clamp(2.25rem,6.2vw,5.6rem);line-height:1.04;letter-spacing:-.055em;margin:0;text-transform:uppercase;color:var(--text)}
+.hero-title span{display:block;color:var(--accent);text-shadow:5px 5px 0 #3e4b17}
+.hero-lede{max-width:610px;font-size:clamp(1rem,1.5vw,1.2rem);line-height:1.65;color:#c9cbbd;margin:1.55rem 0 1.75rem}
+.hero-actions{display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+.play-btn{
+  position:relative;display:inline-flex;align-items:center;gap:.8rem;border:2px solid #efffb7;
+  background:var(--accent);color:#11140d;padding:1rem 1.35rem;font-family:"Press Start 2P",monospace;
+  font-size:.75rem;text-transform:uppercase;box-shadow:6px 6px 0 #53631f;transition:transform .12s,box-shadow .12s;
+}
+.play-btn:hover{transform:translate(2px,2px);box-shadow:4px 4px 0 #53631f}
+.play-icon{width:0;height:0;border-top:7px solid transparent;border-bottom:7px solid transparent;border-left:11px solid #11140d}
+.resume-link{border:0;background:transparent;color:var(--muted);text-decoration:underline;text-underline-offset:4px;font-size:.78rem;padding:.6rem}
+.resume-link:hover{color:var(--text)}
+.trust-row{display:flex;gap:1.25rem;flex-wrap:wrap;margin-top:2.4rem}
+.trust-item{display:flex;align-items:center;gap:.45rem;color:var(--muted);font-size:.72rem;text-transform:uppercase;letter-spacing:.06em}
+.trust-item b{color:var(--text)}
+.hero-visual{position:relative;min-height:460px;display:grid;place-items:center}
+.pit-board{
+  position:relative;width:min(100%,440px);aspect-ratio:.84;border:2px solid #3a432f;
+  background:
+    linear-gradient(180deg,rgba(217,255,82,.07),transparent 30%),
+    repeating-linear-gradient(0deg,transparent 0 42px,rgba(255,255,255,.025) 43px),
+    repeating-linear-gradient(90deg,transparent 0 42px,rgba(255,255,255,.025) 43px),
+    #10140f;box-shadow:18px 18px 0 rgba(0,0,0,.3),inset 0 0 70px rgba(0,0,0,.55);
+  overflow:hidden;
+}
+.pit-board:before{content:"LIVE BUILD";position:absolute;top:14px;left:14px;color:var(--muted);font-family:"Press Start 2P",monospace;font-size:.48rem;letter-spacing:.1em}
+.pit-line{position:absolute;left:9%;right:9%;height:2px;background:#4a5640}.pit-line.a{top:35%}.pit-line.b{top:65%}
+.hero-orb{position:absolute;width:78px;height:78px;filter:drop-shadow(0 10px 12px rgba(0,0,0,.45));animation:float 4.5s ease-in-out infinite}
+.hero-orb img{width:100%;height:100%;object-fit:contain}
+.hero-orb.o1{left:13%;top:23%;animation-delay:-1s}.hero-orb.o2{right:12%;top:41%;width:90px;height:90px;animation-delay:-2.6s}.hero-orb.o3{left:34%;bottom:17%;width:98px;height:98px;animation-delay:-.2s}
+.route-line{position:absolute;height:2px;background:linear-gradient(90deg,var(--accent),transparent);transform-origin:left center;opacity:.55}.route-line.r1{width:170px;left:27%;top:38%;transform:rotate(22deg)}.route-line.r2{width:150px;right:21%;top:58%;transform:rotate(143deg)}
+.board-caption{position:absolute;right:-2px;bottom:38px;background:var(--orange);color:#1b1009;padding:.65rem .8rem;font-family:"Press Start 2P",monospace;font-size:.55rem;line-height:1.5;box-shadow:5px 5px 0 #6f361a}
+@keyframes float{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-14px) rotate(3deg)}}
+
+/* character setup */
+.setup-wrap{max-width:1080px;margin:0 auto;padding:2.8rem 0}
+.setup-head{display:flex;align-items:flex-end;justify-content:space-between;gap:1rem;margin-bottom:1.35rem}
+.setup-head h2{font-size:clamp(1rem,2.5vw,1.5rem);line-height:1.4;margin:.35rem 0 0;color:var(--text)}
+.back-btn,.ghost-btn,.danger-btn{
+  border:1px solid var(--border);background:var(--panel);color:var(--muted);padding:.5rem .75rem;font-size:.74rem;border-radius:2px;
+}
+.back-btn:hover,.ghost-btn:hover{border-color:var(--accent-dim);color:var(--text)}
+.run-char-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(235px,1fr));gap:.65rem}
+.run-char-card{
+  position:relative;display:grid;grid-template-columns:56px 1fr;gap:.75rem;text-align:left;color:var(--text);
+  background:var(--panel);border:1px solid var(--border);padding:.75rem;min-height:112px;overflow:hidden;
+}
+.run-char-card:after{content:"";position:absolute;inset:auto 0 0;height:3px;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .15s}
+.run-char-card:hover{background:var(--panel2);border-color:#536044}.run-char-card:hover:after{transform:scaleX(1)}
+.run-char-card .avatar{width:56px;height:56px;border-radius:2px;border:1px solid #3d4734}
+.run-char-card h3{margin:.05rem 0 .38rem;color:var(--text);font-size:.58rem;line-height:1.5}
+.run-char-card p{margin:.35rem 0 0;color:var(--muted);font-size:.7rem;line-height:1.42}
+.starter-chip{display:inline-flex;align-items:center;gap:.25rem;color:var(--accent);font-size:.65rem}
+.starter-chip .sprite{width:20px;height:20px}
+
+/* active run */
+.run-topbar{display:grid;grid-template-columns:minmax(230px,1fr) auto auto;gap:.7rem;align-items:stretch;padding:1.1rem 0}
+.runner-card,.run-meter,.run-controls{border:1px solid var(--border);background:rgba(18,22,17,.88);padding:.7rem}
+.runner-card{display:flex;align-items:center;gap:.7rem}.runner-card .avatar{width:48px;height:48px;border-radius:2px}
+.runner-name{font-family:"Press Start 2P",monospace;font-size:.62rem;line-height:1.5}.runner-detail{font-size:.68rem;color:var(--muted);margin-top:.18rem}
+.run-meter{display:flex;align-items:center;gap:1.2rem;padding:.7rem 1rem}.meter-block{min-width:72px}.meter-label{font-size:.58rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em}.meter-value{display:block;color:var(--text);font-family:"Press Start 2P",monospace;font-size:.68rem;margin-top:.28rem}
+.run-controls{display:flex;align-items:center;gap:.45rem}.run-controls select{max-width:165px;background:var(--panel2);color:var(--text);border:1px solid var(--border);padding:.45rem;border-radius:2px;font-size:.7rem}.danger-btn{color:#f4aaa5;border-color:#673a37}.danger-btn:hover{background:#34201f}
+.run-layout{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(300px,.75fr);gap:.9rem;align-items:start}
+.run-stack{display:grid;gap:.9rem}
+.run-panel{border:1px solid var(--border);background:rgba(18,22,17,.94);box-shadow:7px 7px 0 rgba(0,0,0,.18)}
+.panel-head{display:flex;align-items:center;justify-content:space-between;gap:.8rem;padding:.8rem .9rem;border-bottom:1px solid var(--border);background:rgba(255,255,255,.018)}
+.panel-head h2,.panel-head h3{font-family:"Press Start 2P",monospace;color:var(--text);font-size:.62rem;margin:0;line-height:1.4}
+.panel-head p{margin:.16rem 0 0;font-size:.67rem;color:var(--muted)}
+.panel-count{color:var(--accent);font-family:"Press Start 2P",monospace;font-size:.58rem;white-space:nowrap}
+.capacity-control{display:flex;align-items:center;gap:.4rem}.capacity-control button{width:23px;height:23px;padding:0;border:1px solid var(--border);background:#0d100c;color:var(--text)}.capacity-control button:hover{border-color:var(--accent)}
+.slot-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.55rem;padding:.75rem}
+.item-slot{position:relative;display:flex;flex-direction:column;align-items:center;min-height:154px;padding:.7rem .45rem .55rem;background:#0d100c;border:1px solid #2b3327;text-align:center}
+.item-slot.evolved{border-color:#6f4b74;background:linear-gradient(180deg,rgba(127,73,139,.1),#0d100c 55%)}
+.item-slot .sprite{width:52px;height:52px;margin:.05rem auto .4rem}.item-slot-name{font-weight:750;font-size:.75rem;line-height:1.25;min-height:2.4em}.item-tier{color:var(--muted);font-size:.58rem;text-transform:uppercase;margin-top:.18rem}.level-control{display:flex;align-items:center;justify-content:center;gap:.35rem;margin-top:auto;padding-top:.45rem}.level-control button{width:25px;height:25px;border:1px solid var(--border);background:var(--panel2);color:var(--text);line-height:1}.level-control button:hover{border-color:var(--accent)}.level-pips{display:flex;gap:3px}.level-pips i{width:7px;height:7px;background:#3c4437;display:block}.level-pips i.on{background:var(--accent)}
+.slot-remove{position:absolute;right:5px;top:4px;border:0;background:transparent;color:#646c5e;padding:.2rem;font-size:.8rem}.slot-remove:hover{color:var(--danger)}
+.empty-slot{display:grid;place-items:center;border:1px dashed #3b4436;min-height:154px;background:transparent;color:var(--muted);font-size:.68rem;padding:.75rem;text-align:center}.empty-slot button{border:0;background:transparent;color:inherit;width:100%;height:100%}.empty-plus{display:block;color:var(--accent);font-size:1.5rem;line-height:1;margin-bottom:.35rem}
+.passive-list{grid-template-columns:repeat(4,minmax(0,1fr))}.passive-list .item-slot{min-height:130px}.passive-list .item-slot .sprite{width:46px;height:46px}.passive-list .empty-slot{min-height:130px}
+.evolution-list{padding:.75rem;display:grid;gap:.55rem}.evo-ready{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:.65rem;padding:.6rem;background:#10150e;border:1px solid #3f512c}.evo-ready .sprite{width:42px;height:42px}.evo-ready h4{margin:0;font-size:.76rem}.evo-ready p{margin:.18rem 0 0;color:var(--muted);font-size:.65rem}.evolve-btn,.mini-add{
+  border:1px solid var(--accent);background:var(--accent);color:#11140d;padding:.5rem .6rem;font-size:.65rem;font-weight:800;text-transform:uppercase;
+}
+.evolve-btn:hover,.mini-add:hover{background:#efffa7}.empty-copy{color:var(--muted);font-size:.72rem;padding:.25rem;line-height:1.55}
+.coach-panel{position:sticky;top:132px}
+.character-brief{padding:.85rem;border-bottom:1px solid var(--border)}
+.character-brief-row{display:flex;gap:.7rem;align-items:center}.character-brief .avatar{width:58px;height:58px;border-radius:2px}.brief-name{font-family:"Press Start 2P",monospace;font-size:.6rem;line-height:1.45}.brief-role{color:var(--accent);font-size:.68rem;margin-top:.22rem}.brief-copy{font-size:.72rem;color:#c5c8b8;line-height:1.55;margin:.65rem 0 0}
+.style-tabs{display:flex;gap:.35rem;overflow:auto;padding:.7rem;border-bottom:1px solid var(--border);scrollbar-width:none}.style-tabs button{flex:0 0 auto;border:1px solid var(--border);background:#0d100c;color:var(--muted);padding:.34rem .5rem;font-size:.62rem}.style-tabs button.active{border-color:var(--accent);color:#11140d;background:var(--accent)}
+.recommendations{padding:.75rem}.rec-group+.rec-group{margin-top:.9rem}.rec-group-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:.45rem}.rec-group-title h4{font-family:"Press Start 2P",monospace;font-size:.52rem;color:var(--text);margin:0}.rec-group-title span{font-size:.58rem;color:var(--muted)}
+.rec-card{display:grid;grid-template-columns:34px 1fr auto;gap:.5rem;align-items:center;padding:.5rem 0;border-top:1px solid #282f25}.rec-card:first-of-type{border-top:0}.rec-card .sprite{width:34px;height:34px}.rec-card h5{font-size:.7rem;margin:0}.rec-card p{font-size:.61rem;color:var(--muted);margin:.15rem 0 0;line-height:1.35}.mini-add{padding:.35rem .45rem;background:transparent;color:var(--accent);font-size:.58rem}.mini-add:hover{color:#11140d;background:var(--accent)}.mini-add:disabled{border-color:#3c4437;color:#646c5e;background:transparent;cursor:default}
+.coach-calls{border-top:1px solid var(--border);padding:.75rem}.callout{display:flex;gap:.5rem;color:#c9cbbd;font-size:.67rem;line-height:1.45;padding:.45rem;background:#171a13;border-left:3px solid var(--orange)}.callout+.callout{margin-top:.4rem}.callout.good{border-left-color:var(--accent)}
+.run-log{padding:.6rem .8rem;max-height:150px;overflow:auto}.log-row{display:flex;gap:.6rem;font-size:.65rem;padding:.25rem 0;color:var(--muted)}.log-row time{color:#6f7668;min-width:48px}.log-row b{color:var(--text);font-weight:600}
+
+/* picker drawer */
+.picker-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:120;display:grid;place-items:end center;padding:1rem;backdrop-filter:blur(4px)}
+.picker-drawer{width:min(100%,920px);max-height:min(82vh,760px);display:flex;flex-direction:column;background:#111510;border:1px solid #46513c;box-shadow:0 0 0 1px #080a07,0 25px 80px rgba(0,0,0,.65)}
+.picker-head{display:flex;align-items:center;gap:.7rem;padding:.8rem;border-bottom:1px solid var(--border)}.picker-head h3{margin:0 auto 0 0;font-size:.65rem;color:var(--text)}.picker-head input{min-width:220px;background:#090b09;border:1px solid var(--border);color:var(--text);padding:.5rem}.picker-close{border:0;background:transparent;color:var(--muted);font-size:1.1rem}
+.picker-tabs{display:flex;gap:.35rem;padding:.55rem .8rem;border-bottom:1px solid var(--border)}.picker-tabs button{border:1px solid var(--border);background:transparent;color:var(--muted);padding:.35rem .55rem;font-size:.65rem}.picker-tabs button.active{background:var(--accent);color:#10120d;border-color:var(--accent)}
+.picker-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:.45rem;padding:.75rem;overflow:auto}.picker-item{display:grid;grid-template-columns:38px 1fr;gap:.55rem;align-items:center;text-align:left;background:#0c0f0b;border:1px solid #2a3126;color:var(--text);padding:.5rem;min-height:60px}.picker-item:hover{border-color:var(--accent-dim);background:var(--panel2)}.picker-item .sprite{width:38px;height:38px}.picker-item b{display:block;font-size:.7rem;line-height:1.25}.picker-item small{display:block;color:var(--muted);font-size:.57rem;margin-top:.15rem}.picker-item:disabled{opacity:.35;cursor:not-allowed}
+
+footer{background:#0b0d0a;margin-top:1rem}.footer-brand{color:var(--text);font-family:"Press Start 2P",monospace;font-size:.58rem}
+
+@media(max-width:900px){
+  .run-hero{grid-template-columns:1fr;min-height:auto;padding-top:3.5rem}.hero-visual{min-height:400px}.run-layout{grid-template-columns:1fr}.coach-panel{position:static}.run-topbar{grid-template-columns:1fr 1fr}.runner-card{grid-column:1/-1}.run-controls{justify-content:flex-end}.slot-list{grid-template-columns:repeat(3,1fr)}
+}
+@media(max-width:640px){
+  .site-header{padding:.55rem .7rem}.brand-copy span,.live-pill span:not(.live-dot){display:none}.live-pill{padding:.45rem}.brand-copy h1{font-size:.61rem}.brand-mark{width:30px;height:30px}.hdr-top{gap:.45rem}nav.tabs{margin-left:-.1rem;margin-right:-.1rem}nav.tabs button{padding:.42rem .56rem;font-size:.63rem}
+  main{padding-left:.7rem;padding-right:.7rem}.run-hero{padding:2.6rem 0 3rem;gap:1.5rem}.hero-title{font-size:clamp(2rem,14vw,3.8rem)}.hero-title span{text-shadow:3px 3px 0 #3e4b17}.hero-lede{font-size:.95rem}.hero-visual{min-height:310px}.pit-board{width:min(92%,330px)}.hero-orb{width:58px;height:58px}.hero-orb.o2{width:66px;height:66px}.hero-orb.o3{width:72px;height:72px}.board-caption{right:0;bottom:24px}.trust-row{gap:.75rem;margin-top:1.6rem}
+  .setup-wrap{padding:1.5rem 0}.setup-head{align-items:flex-start}.run-char-grid{grid-template-columns:1fr}.run-topbar{grid-template-columns:1fr;padding:.7rem 0}.runner-card{grid-column:auto}.run-meter{justify-content:space-between;gap:.4rem}.run-controls{justify-content:stretch}.run-controls select{max-width:none;flex:1}.run-layout{gap:.65rem}.panel-head{padding:.7rem}.slot-list{grid-template-columns:repeat(2,minmax(0,1fr));padding:.55rem}.item-slot,.empty-slot{min-height:145px}.passive-list{grid-template-columns:repeat(2,minmax(0,1fr))}.evo-ready{grid-template-columns:auto 1fr}.evo-ready .evolve-btn{grid-column:1/-1}.picker-backdrop{padding:0;place-items:end}.picker-drawer{max-height:88vh;border-left:0;border-right:0}.picker-head{flex-wrap:wrap}.picker-head input{order:3;width:100%}.picker-grid{grid-template-columns:repeat(2,minmax(0,1fr));padding:.5rem}.picker-item{grid-template-columns:32px 1fr;padding:.4rem}.picker-item .sprite{width:32px;height:32px}
+}
 </style>
 </head>
-<body>
+<body class="run-mode">
 
-<header>
-  <div class="hdr-top">
-    <h1>BALL x PIT Evolution Tracker</h1>
-    <span class="badge">Current through Shadow Update (Apr 27, 2026)</span>
-  </div>
-  <div class="hdr-controls">
-    <div class="progress-group">
-      <span class="progress-label">Evolutions: <b id="evo-count">0</b> / 59</span>
-      <div class="pbar"><span id="evo-bar"></span></div>
+<header class="site-header">
+  <div class="nav-shell">
+    <div class="hdr-top">
+      <div class="brand-lockup">
+        <div class="brand-mark" aria-hidden="true">P×</div>
+        <div class="brand-copy">
+          <h1>PIT CREW</h1>
+          <span>BALL x PIT run companion</span>
+        </div>
+      </div>
+      <div class="live-pill" id="header-run-status"><span class="live-dot"></span><span>No active run</span></div>
     </div>
-    <div class="progress-group">
-      <span class="progress-label">Evolved Passives: <b id="pas-count">0</b> / 13</span>
-      <div class="pbar"><span id="pas-bar"></span></div>
+    <nav class="tabs" id="tabs" aria-label="Primary navigation">
+      <button data-view="run" class="active">Run</button>
+      <button data-view="base">Balls</button>
+      <button data-view="evo">Evolutions</button>
+      <button data-view="bybase">Paths</button>
+      <button data-view="passives">Passives</button>
+      <button data-view="team">Duo Builder</button>
+    </nav>
+    <div class="hdr-controls">
+      <div class="progress-group">
+        <span class="progress-label">Evolutions found: <b id="evo-count">0</b> / 59</span>
+        <div class="pbar"><span id="evo-bar"></span></div>
+      </div>
+      <div class="progress-group">
+        <span class="progress-label">Passive artifacts: <b id="pas-count">0</b> / 13</span>
+        <div class="pbar"><span id="pas-bar"></span></div>
+      </div>
+      <input id="search" type="search" placeholder="Search name, recipe, description…" aria-label="Search encyclopedia">
+      <button id="reset-btn">Reset checks</button>
     </div>
-    <input id="search" type="search" placeholder="Search name, recipe, description…" aria-label="Search">
-    <button id="reset-btn">Reset all checks</button>
   </div>
-  <nav class="tabs" id="tabs">
-    <button data-view="base" class="active">Base Balls</button>
-    <button data-view="evo">Evolutions</button>
-    <button data-view="bybase">By Base Ball</button>
-    <button data-view="passives">Passives</button>
-    <button data-view="team">Team Builder</button>
-  </nav>
 </header>
 
 <main>
-  <section class="view active" id="view-base">
+  <section class="view active" id="view-run">
+    <div id="run-landing">
+      <div class="run-hero">
+        <div class="hero-copy">
+          <div class="hero-kicker eyebrow">Your co-pilot in the pit</div>
+          <h2 class="hero-title">Build.<span>Bounce.</span>Break.</h2>
+          <p class="hero-lede">Track every ball, passive, level and evolution while you play. Pit Crew reads your current build and surfaces the next pickup that actually makes sense for your character.</p>
+          <div class="hero-actions">
+            <button class="play-btn" id="start-run-btn"><span class="play-icon" aria-hidden="true"></span>Start a run</button>
+            <button class="resume-link hidden" id="resume-run-btn">Resume saved run</button>
+          </div>
+          <div class="trust-row" aria-label="Features">
+            <div class="trust-item"><b>79</b> balls mapped</div>
+            <div class="trust-item"><b>66</b> passives</div>
+            <div class="trust-item"><b>100%</b> local</div>
+          </div>
+        </div>
+        <div class="hero-visual" aria-hidden="true">
+          <div class="pit-board">
+            <div class="pit-line a"></div><div class="pit-line b"></div>
+            <span class="route-line r1"></span><span class="route-line r2"></span>
+            <span class="hero-orb o1"><img src="img/balls/frozen-flame.png" alt=""></span>
+            <span class="hero-orb o2"><img src="img/balls/spider-queen.png" alt=""></span>
+            <span class="hero-orb o3"><img src="img/balls/laser-cutter.png" alt=""></span>
+          </div>
+          <div class="board-caption">LIVE RECOMMENDATIONS<br>AS YOUR BUILD CHANGES</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="character-setup" class="setup-wrap hidden">
+      <div class="setup-head">
+        <div>
+          <div class="eyebrow">Step 1 / Pick your runner</div>
+          <h2>Who is entering the pit?</h2>
+        </div>
+        <button class="back-btn" id="setup-back-btn">← Back</button>
+      </div>
+      <div class="run-char-grid" id="run-character-grid"></div>
+    </div>
+
+    <div id="run-dashboard" class="hidden">
+      <div class="run-topbar">
+        <div class="runner-card" id="run-runner-card"></div>
+        <div class="run-meter">
+          <div class="meter-block"><span class="meter-label">Run time</span><span class="meter-value" id="run-timer">00:00</span></div>
+          <div class="meter-block"><span class="meter-label">Balls</span><span class="meter-value" id="run-ball-meter">0 / 3</span></div>
+          <div class="meter-block"><span class="meter-label">Passives</span><span class="meter-value" id="run-passive-meter">0 / 4</span></div>
+        </div>
+        <div class="run-controls">
+          <select id="run-biome" aria-label="Current biome">
+            <option>The BONExYARD</option><option>The SNOWYxSHORES</option><option>The LIMINALxDESERT</option>
+            <option>The FUNGALxFOREST</option><option>The GORYxGRASSLANDS</option><option>The SMOLDERINGxDEPTHS</option>
+            <option>The HEAVENLYxGATES</option><option>The VASTxVOID</option><option>Endless Mode</option>
+          </select>
+          <button class="danger-btn" id="end-run-btn">End run</button>
+        </div>
+      </div>
+
+      <div class="run-layout">
+        <div class="run-stack">
+          <section class="run-panel">
+            <div class="panel-head"><div><h2>Ball loadout</h2><p>Tap +/− to match in-game levels.</p></div><div class="capacity-control" id="ball-cap-control"><button data-cap-dir="-1" aria-label="Decrease ball slots">−</button><span class="panel-count" id="ball-slot-count">0 / 3</span><button data-cap-dir="1" aria-label="Increase ball slots">+</button></div></div>
+            <div class="slot-list" id="run-ball-list"></div>
+          </section>
+
+          <section class="run-panel">
+            <div class="panel-head"><div><h2>Passive loadout</h2><p>Artifacts combine automatically when their pieces are held.</p></div><span class="panel-count" id="passive-slot-count">0 / 4</span></div>
+            <div class="slot-list passive-list" id="run-passive-list"></div>
+          </section>
+
+          <section class="run-panel">
+            <div class="panel-head"><div><h2>Evolution bench</h2><p>Ready recipes and the closest build paths.</p></div><span class="panel-count" id="ready-evo-count">0 ready</span></div>
+            <div class="evolution-list" id="run-evolution-list"></div>
+          </section>
+
+          <section class="run-panel">
+            <div class="panel-head"><div><h2>Run log</h2><p>Your latest build changes.</p></div></div>
+            <div class="run-log" id="run-log"></div>
+          </section>
+        </div>
+
+        <aside class="run-panel coach-panel">
+          <div class="panel-head"><div><h2>Build coach</h2><p>Re-scores every time your loadout changes.</p></div><span class="eyebrow">Live</span></div>
+          <div class="character-brief" id="character-brief"></div>
+          <div class="style-tabs" id="run-style-tabs" aria-label="Build focus">
+            <button data-style="balanced" class="active">Balanced</button>
+            <button data-style="status">Status</button>
+            <button data-style="swarm">Swarm</button>
+            <button data-style="sustain">Sustain</button>
+            <button data-style="crit">Crit</button>
+          </div>
+          <div class="recommendations" id="run-recommendations"></div>
+          <div class="coach-calls" id="coach-calls"></div>
+        </aside>
+      </div>
+    </div>
+
+    <div class="picker-backdrop hidden" id="item-picker" role="dialog" aria-modal="true" aria-labelledby="picker-title">
+      <div class="picker-drawer">
+        <div class="picker-head">
+          <h3 id="picker-title">Add to loadout</h3>
+          <input id="picker-search" type="search" placeholder="Search items…" aria-label="Search items">
+          <button class="picker-close" id="picker-close" aria-label="Close">✕</button>
+        </div>
+        <div class="picker-tabs" id="picker-tabs"></div>
+        <div class="picker-grid" id="picker-grid"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="view" id="view-base">
     <h2>Base Balls</h2>
     <p class="section-note">The 20 base balls. Click a name for details, starting characters, and every evolution it feeds into.</p>
     <div class="tbl-wrap"><table id="base-table" class="sticky-tbl">
@@ -572,7 +878,9 @@ const GAME_DATA = {
     { name:"The Carouser", ball:"Charm", ability:"Balls can briefly orbit around the player when on a return trajectory.", unlock:"Build the Party House (blueprint: The VASTxVOID)", flavor:"The life of the party.", tags:["orbit"] },
     { name:"The Tunneller", ball:"Earthquake", ability:"Balls wrap around the top and bottom of the screen.", unlock:"Build the Stone Domain (blueprint: The SMOLDERINGxDEPTHS)", flavor:"Always digging deeper.", tags:["wrap"] },
     { name:"The Tiptoer", ball:"Laser (Horizontal)", ability:"Can't be detected by enemies (except bosses and minibosses), but has drastically less health.", unlock:"Build the Hidden Temple (blueprint: The SMOLDERINGxDEPTHS)", flavor:"One who tiptoes.", tags:["stealth"] },
-    { name:"The False Messiah", ball:"Bleed", ability:"If streaming on Twitch, the audience can vote on certain choices and random events.", unlock:"Activate the Twitch Extension (PC exclusive)", flavor:"A controversial leader with boundless charisma.", tags:[] }
+    { name:"The False Messiah", ball:"Bleed", ability:"If streaming on Twitch, the audience can vote on certain choices and random events.", unlock:"Activate the Twitch Extension (PC exclusive)", flavor:"A controversial leader with boundless charisma.", tags:[] },
+    { name:"The Hoary Hoarder", ball:"None", ability:"Limited to 2 ball slots, but can carry up to 8 passives. Build around artifact evolutions and passive slot compression.", unlock:"VASTxVOID / HEAVENLYxGATES progression", flavor:"Keeps everything except the ammunition.", tags:["passiveFocus"] },
+    { name:"The Ballbearer", ball:"Stone", ability:"Can carry up to 10 balls, but cannot equip passives. Ideal for long, multi-tier evolution paths.", unlock:"VASTxVOID / HEAVENLYxGATES progression", flavor:"Carries the whole armory.", tags:["ballFocus"] }
   ],
 
   curatedCombos: [
@@ -602,9 +910,9 @@ const GAME_DATA = {
   console.assert(JSON.stringify(t2)===JSON.stringify(["Banshee","Black Hole","Laser Cutter","Nosferatu","Nuclear Bomb","Reaper","Satan","Sniper","Time Bomb","X Ray"]), "Tier 2 list mismatch: "+t2.join(", "));
   console.assert(GAME_DATA.basePassives.length===53, "Expected 53 base passives, got "+GAME_DATA.basePassives.length);
   console.assert(GAME_DATA.evolvedPassives.length===13, "Expected 13 evolved passives, got "+GAME_DATA.evolvedPassives.length);
-  console.assert(GAME_DATA.characters.length===21, "Expected 21 characters, got "+GAME_DATA.characters.length);
+  console.assert(GAME_DATA.characters.length===23, "Expected 23 characters, got "+GAME_DATA.characters.length);
   const baseNames = new Set(GAME_DATA.baseBalls.map(b=>b.name));
-  GAME_DATA.characters.forEach(c=>console.assert(baseNames.has(c.ball), "Character "+c.name+" has unknown starting ball "+c.ball));
+  GAME_DATA.characters.forEach(c=>console.assert(c.ball==="None" || baseNames.has(c.ball), "Character "+c.name+" has unknown starting ball "+c.ball));
 })();
 
 /* ============================ helpers / derived ============================ */
@@ -1229,10 +1537,420 @@ function setupSlotsDnD(){
   });
 }
 
+/* ============================ live run companion ============================ */
+const RUN_KEY = "bxp-live-run-v2";
+const RUN_GUIDES = {
+  "The Warrior": { role:"Status bruiser", summary:"A clean slate with reliable Bleed. Use the starter to open Hemorrhage, Sacrifice, or Heart Swallower, then cover the board with control.", balls:["Iron","Dark","Ghost","Charm","Vampire"], passives:["Shortbow","Silver Bullet","Breastplate","Wagon Wheel","Magic Staff"], avoid:[] },
+  "The Itchy Finger": { role:"Rapid on-hit firestarter", summary:"Your doubled fire rate applies stacks quickly. Build Burn into a map-clearing evolution and use defenses to survive the scattered aim.", balls:["Iron","Egg Sac","Light","Wind","Freeze"], passives:["Midnight Oil","Magic Staff","Silver Bullet","Breastplate","Shortbow"], avoid:[] },
+  "The Repentant": { role:"Bounce scaler", summary:"Every rebound is damage. Favor balls that stay alive, cross the board repeatedly, or become devastating after the back-wall turn.", balls:["Wind","Ghost","Burn","Earthquake","Laser (Horizontal)"], passives:["Rubber Headband","Wagon Wheel","Upturned Hatchet","Radiant Feather","Ethereal Cloak"], avoid:[] },
+  "The Cohabitants": { role:"Mirrored swarm", summary:"Two half-damage shots are perfect for on-hit effects and baby-ball engines. Multiply projectiles, then buff every child on the board.", balls:["Egg Sac","Cell","Vampire","Bleed","Lightning"], passives:["Baby Rattle","War Horn","Bandage Roll","Bottled Tornado","Shortbow"], avoid:[] },
+  "The Cogitator": { role:"Autopilot observer", summary:"Upgrade choices happen automatically in-game. Use this companion as a record of what the Cogitator picked and where those pieces can evolve.", balls:["Light","Poison","Freeze","Iron","Cell"], passives:["Magic Staff","Breastplate","Silver Bullet","Protective Charm","Everflowing Goblet"], avoid:[] },
+  "The Embedded": { role:"Piercing poisoner", summary:"Native pierce spreads Poison through whole columns. Add area effects and status evolutions that benefit from repeated contact.", balls:["Earthquake","Wind","Laser (Horizontal)","Freeze","Dark"], passives:["Magic Staff","Upturned Hatchet","Midnight Oil","Frozen Spike","Breastplate"], avoid:["Ethereal Cloak"] },
+  "The Shade": { role:"Backline assassin", summary:"Ten-percent base crit and reverse firing reward backstabs, directional crit tools, and balls that become lethal after reaching the rear wall.", balls:["Iron","Ghost","Bleed","Light","Vampire"], passives:["Ruby Hilted Dagger","Upturned Hatchet","Wagon Wheel","Deadeye's Amulet","Rubber Headband"], avoid:[] },
+  "The Shieldbearer": { role:"Kinetic counterpuncher", summary:"Your shield sends balls back into the fight. Slow, heavy projectiles and wall-bounce multipliers convert each return into a huge hit.", balls:["Burn","Stone","Egg Sac","Bleed","Lightning"], passives:["Wagon Wheel","Rubber Headband","Breastplate","Upturned Hatchet","Silver Bullet"], avoid:[] },
+  "The Spendthrift": { role:"Full-loadout volley", summary:"Every shot empties the whole inventory. Keep ball levels even and build sustain so a single wide volley can clear without leaving you exposed.", balls:["Ghost","Brood Mother","Egg Sac","Bleed","Charm"], passives:["Everflowing Goblet","Breastplate","War Horn","Baby Rattle","Shortbow"], avoid:[] },
+  "The Juggler": { role:"Precision AOE", summary:"Aim the landing point, then let area damage do the work. Large, persistent zones are more valuable than straight-line piercing.", balls:["Earthquake","Freeze","Burn","Poison","Light"], passives:["Magic Staff","Dynamite","Cursed Elixir","Magnet","Breastplate"], avoid:["Ethereal Cloak"] },
+  "The Empty Nester": { role:"Special-ball specialist", summary:"You cannot create normal baby balls, so spend every slot on powerful special-ball effects and ignore passive engines that only buff babies.", balls:["Dark","Freeze","Iron","Vampire","Poison"], passives:["Magic Staff","Silver Bullet","Wagon Wheel","Breastplate","Everflowing Goblet"], avoid:["War Horn","Baby Rattle","Bandage Roll","Slingshot"] },
+  "The Flagellant": { role:"Endless rebound swarmer", summary:"The bottom barrier keeps balls in circulation. Flood the board with eggs and cells, then add effects that reward long-lived projectiles.", balls:["Brood Mother","Cell","Vampire","Burn","Stone"], passives:["War Horn","Baby Rattle","Bandage Roll","Wagon Wheel","Rubber Headband"], avoid:[] },
+  "The Makeshift Sisyphus": { role:"Four-times AOE engine", summary:"Direct hits deal nothing; area and status damage deal four times as much. Every recommendation is filtered toward zones, damage-over-time, and control.", balls:["Poison","Burn","Freeze","Wind","Laser (Horizontal)"], passives:["Magic Staff","Midnight Oil","Frozen Spike","Cursed Elixir","Wretched Onion"], avoid:["Silver Bullet","Deadeye's Amulet","Diamond Hilted Dagger"] },
+  "The Physicist": { role:"Back-wall controller", summary:"Gravity pulls shots toward the far wall. Use back-wall bonuses and effects that cover rows or pulse while the ball is away from you.", balls:["Dark","Laser (Horizontal)","Burn","Lightning","Ghost"], passives:["Upturned Hatchet","Wagon Wheel","Ruby Hilted Dagger","Rubber Headband","Magic Staff"], avoid:[] },
+  "The Tactician": { role:"Turn-based strategist", summary:"Speed does not matter in turn-based battles. Put the budget into damage, control, sustain, and precise evolution paths instead.", balls:["Burn","Egg Sac","Bleed","Lightning","Stone"], passives:["Silver Bullet","Breastplate","Magic Staff","Everflowing Goblet","Diamond Hilted Dagger"], avoid:["Fleet Feet","Radiant Feather","Rubber Headband"] },
+  "The Radical": { role:"Autonomous wildcard", summary:"The Radical aims, moves, and chooses upgrades alone. Track the resulting chaos here; recommendations describe the best available path, not a controllable plan.", balls:["Lightning","Poison","Earthquake","Burn","Freeze"], passives:["Magic Staff","Breastplate","Everflowing Goblet","Wagon Wheel","Silver Bullet"], avoid:[] },
+  "The Falconer": { role:"Side-lane artillery", summary:"Two side launchers naturally attack from unusual angles. Favor ranged area effects and flexible recipes that do not depend on a centered trajectory.", balls:["Wind","Light","Iron","Freeze","Cell"], passives:["Magic Staff","Sapphire Hilted Dagger","Emerald Hilted Dagger","Silver Bullet","Radiant Feather"], avoid:[] },
+  "The Carouser": { role:"Close-range orbit tank", summary:"Returning balls can orbit you as a kinetic shield. Pair crowd control with effects that punish enemies entering your personal space.", balls:["Burn","Bleed","Light","Vampire","Dark"], passives:["Wretched Onion","Breastplate","Crown of Thorns","Spiked Collar","Everflowing Goblet"], avoid:[] },
+  "The Tunneller": { role:"Wraparound status engine", summary:"Vertical wrap keeps effects cycling through the formation. Persistent AOE and stacked statuses extract the most value from every lap.", balls:["Burn","Poison","Freeze","Wind","Cell"], passives:["Magic Staff","Midnight Oil","Frozen Spike","Wagon Wheel","Breastplate"], avoid:[] },
+  "The Tiptoer": { role:"Glass-cannon infiltrator", summary:"Most enemies cannot see you, but only a few hits will end the run. Evasion, shields, and screen-wide control outrank extra Endurance.", balls:["Freeze","Light","Poison","Lightning","Ghost"], passives:["Ghostly Shield","Protective Charm","Breastplate","Radiant Feather","Magic Staff"], avoid:["Vampiric Sword","Wretched Onion"] },
+  "The False Messiah": { role:"Audience-powered wildcard", summary:"Twitch votes add uncertainty, so favor resilient recipes with several useful outcomes instead of one fragile, slot-heavy line.", balls:["Iron","Ghost","Charm","Vampire","Burn"], passives:["Breastplate","Everflowing Goblet","Magic Staff","Silver Bullet","Protective Charm"], avoid:[] },
+  "The Hoary Hoarder": { role:"Artifact collector", summary:"Two ball slots and eight passive slots invert the normal economy. Lock one realistic ball evolution, then chain passive artifacts to compress the hoard.", balls:["Iron","Ghost","Burn","Freeze","Earthquake"], passives:["Everflowing Goblet","Vampiric Sword","Baby Rattle","War Horn","Fleet Feet","Radiant Feather"], avoid:[] },
+  "The Ballbearer": { role:"Evolution architect", summary:"Ten ball slots and zero passive slots make this the safest home for Nosferatu, Satan, Nuclear Bomb, and other nested recipes.", balls:["Vampire","Brood Mother","Egg Sac","Charm","Dark","Burn","Iron","Poison"], passives:[], avoid:[] }
+};
+
+const STYLE_RULES = {
+  balanced:{ label:"Balanced" },
+  status:{ label:"Status", balls:["Burn","Poison","Freeze","Bleed","Charm","Wind"], passives:["Magic Staff","Midnight Oil","Frozen Spike","Voodoo Doll","Cursed Elixir"] },
+  swarm:{ label:"Swarm", balls:["Brood Mother","Egg Sac","Cell"], passives:["War Horn","Baby Rattle","Bandage Roll","Slingshot","Turret"] },
+  sustain:{ label:"Sustain", balls:["Vampire","Ghost","Bleed","Charm"], passives:["Everflowing Goblet","Vampiric Sword","Bandage Roll","Breastplate","Healer's Effigy"] },
+  crit:{ label:"Crit", balls:["Dark","Iron","Ghost","Stone"], passives:["Deadeye's Amulet","Diamond Hilted Dagger","Emerald Hilted Dagger","Ruby Hilted Dagger","Sapphire Hilted Dagger"] }
+};
+
+let runState = null;
+try { runState = JSON.parse(localStorage.getItem(RUN_KEY)); } catch(e) { runState = null; }
+let pickerMode = "ball";
+let pickerFilter = "all";
+
+function activeRunCharacter(){
+  return runState && GAME_DATA.characters.find(c=>c.name===runState.character);
+}
+function ballCapFor(c){
+  if(c.name==="The Ballbearer") return 10;
+  if(c.name==="The Hoary Hoarder") return 2;
+  return 3;
+}
+function ballCapLimit(c){ return c.name==="The Ballbearer"?10:(c.name==="The Hoary Hoarder"?2:5); }
+function passiveCapFor(c){ return c.name==="The Ballbearer"?0:(c.name==="The Hoary Hoarder"?8:4); }
+function saveRun(){
+  if(runState) localStorage.setItem(RUN_KEY, JSON.stringify(runState));
+  else localStorage.removeItem(RUN_KEY);
+  updateHeaderRunStatus();
+}
+function logRun(message){
+  if(!runState) return;
+  const elapsed = Math.max(0, Date.now()-runState.startedAt);
+  runState.log = runState.log || [];
+  runState.log.unshift({ at:elapsed, message });
+  runState.log = runState.log.slice(0,24);
+}
+function startRun(characterName){
+  const c = GAME_DATA.characters.find(x=>x.name===characterName);
+  if(!c) return;
+  runState = {
+    active:true, character:c.name, startedAt:Date.now(), biome:"The BONExYARD",
+    ballCap:ballCapFor(c), passiveCap:passiveCapFor(c), style:"balanced",
+    balls:c.ball!=="None"?[{name:c.ball,level:1}]:[], passives:[], log:[]
+  };
+  logRun(`Entered the pit as ${c.name}${c.ball!=="None"?` with ${c.ball}`:""}.`);
+  saveRun();
+  showRunDashboard();
+}
+function showRunLanding(){
+  document.getElementById("run-landing").classList.remove("hidden");
+  document.getElementById("character-setup").classList.add("hidden");
+  document.getElementById("run-dashboard").classList.add("hidden");
+  document.getElementById("resume-run-btn").classList.toggle("hidden", !(runState&&runState.active));
+}
+function showCharacterSetup(){
+  document.getElementById("run-landing").classList.add("hidden");
+  document.getElementById("character-setup").classList.remove("hidden");
+  document.getElementById("run-dashboard").classList.add("hidden");
+  renderRunCharacterGrid();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+function showRunDashboard(){
+  if(!runState || !runState.active){ showRunLanding(); return; }
+  document.getElementById("run-landing").classList.add("hidden");
+  document.getElementById("character-setup").classList.add("hidden");
+  document.getElementById("run-dashboard").classList.remove("hidden");
+  renderRun();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+function renderRunCharacterGrid(){
+  const grid = document.getElementById("run-character-grid");
+  grid.innerHTML = GAME_DATA.characters.map(c=>{
+    const guide = RUN_GUIDES[c.name];
+    const starter = c.ball==="None"
+      ? `<span class="starter-chip">No starting ball</span>`
+      : `<span class="starter-chip">${spriteHTML(c.ball,"balls")} ${esc(c.ball)}</span>`;
+    return `<button class="run-char-card" data-start-character="${esc(c.name)}">
+      ${avatarHTML(c)}<span><h3>${esc(c.name)}</h3>${starter}<p>${esc(guide?guide.role:c.ability)}</p></span>
+    </button>`;
+  }).join("");
+}
+function formatDuration(ms){
+  const total = Math.max(0,Math.floor(ms/1000));
+  const h = Math.floor(total/3600), m = Math.floor((total%3600)/60), s = total%60;
+  return (h?String(h).padStart(2,"0")+":":"")+String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");
+}
+function updateRunTimer(){
+  if(!runState || !runState.active) return;
+  const textValue = formatDuration(Date.now()-runState.startedAt);
+  const timer = document.getElementById("run-timer");
+  if(timer) timer.textContent = textValue;
+  updateHeaderRunStatus(textValue);
+}
+function updateHeaderRunStatus(timerValue){
+  const el = document.getElementById("header-run-status");
+  if(!el) return;
+  const active = runState&&runState.active;
+  el.classList.toggle("active",!!active);
+  el.innerHTML = active
+    ? `<span class="live-dot"></span><span>${esc(runState.character.replace(/^The /,""))} · ${timerValue||formatDuration(Date.now()-runState.startedAt)}</span>`
+    : `<span class="live-dot"></span><span>No active run</span>`;
+}
+
+function matchRecipe(slots, inventory, needsLevel){
+  const used = new Set(), chosen = [];
+  function visit(slotIndex){
+    if(slotIndex===slots.length) return true;
+    for(let i=0;i<inventory.length;i++){
+      if(used.has(i)) continue;
+      const item = inventory[i];
+      if(!slots[slotIndex].includes(item.name)) continue;
+      if(needsLevel && (item.level||1)<3) continue;
+      used.add(i); chosen.push(i);
+      if(visit(slotIndex+1)) return true;
+      chosen.pop(); used.delete(i);
+    }
+    return false;
+  }
+  return visit(0)?chosen.slice():null;
+}
+function evolutionProgress(evo){
+  const available = runState.balls;
+  const used = new Set();
+  const pieces = evo.slots.map(slot=>{
+    let best = -1;
+    for(let i=0;i<available.length;i++){
+      if(used.has(i)||!slot.includes(available[i].name)) continue;
+      if(best<0 || available[i].level>available[best].level) best=i;
+    }
+    if(best>=0){ used.add(best); return {name:available[best].name,level:available[best].level,held:true}; }
+    return {name:slot[0],level:0,held:false,alternatives:slot.slice(1)};
+  });
+  const score = pieces.reduce((n,p)=>n+(p.held?(p.level===3?2:1):0),0);
+  return { pieces, score };
+}
+function readyBallEvolutions(){ return GAME_DATA.evolvedBalls.filter(e=>matchRecipe(e.slots,runState.balls,true)); }
+function readyPassiveEvolutions(){ return GAME_DATA.evolvedPassives.filter(e=>matchRecipe(e.slots,runState.passives,false)); }
+function evolveBall(name){
+  const evo = EVO_BY_NAME[name], used = evo&&matchRecipe(evo.slots,runState.balls,true);
+  if(!evo||!used) return;
+  const ingredients = used.map(i=>runState.balls[i].name);
+  used.sort((a,b)=>b-a).forEach(i=>runState.balls.splice(i,1));
+  runState.balls.push({name:evo.name,level:1});
+  logRun(`Evolved ${ingredients.join(" + ")} into ${evo.name}.`);
+  setCheck(slug(evo.name),true); saveRun(); renderRun();
+}
+function evolvePassive(name){
+  const evo = GAME_DATA.evolvedPassives.find(e=>e.name===name), used = evo&&matchRecipe(evo.slots,runState.passives,false);
+  if(!evo||!used) return;
+  const ingredients = used.map(i=>runState.passives[i].name);
+  used.sort((a,b)=>b-a).forEach(i=>runState.passives.splice(i,1));
+  runState.passives.push({name:evo.name});
+  logRun(`Forged ${evo.name} from ${ingredients.join(" + ")}.`);
+  setCheck(slug(evo.name),true); saveRun(); renderRun();
+}
+function addBall(name){
+  if(!runState || runState.balls.length>=runState.ballCap || runState.balls.some(b=>b.name===name)) return false;
+  runState.balls.push({name,level:1}); logRun(`Added ${name} at level 1.`); saveRun(); renderRun(); return true;
+}
+function addPassive(name){
+  if(!runState || runState.passives.length>=runState.passiveCap || runState.passives.some(p=>p.name===name)) return false;
+  runState.passives.push({name}); logRun(`Equipped ${name}.`); saveRun(); renderRun(); return true;
+}
+function setBallLevel(index,delta){
+  const ball = runState.balls[index]; if(!ball) return;
+  ball.level = Math.max(1,Math.min(3,(ball.level||1)+delta));
+  logRun(`${ball.name} reached level ${ball.level}.`); saveRun(); renderRun();
+}
+function removeRunItem(kind,index){
+  const list = kind==="ball"?runState.balls:runState.passives;
+  const item = list[index]; if(!item) return;
+  list.splice(index,1); logRun(`Removed ${item.name} from the ${kind} loadout.`); saveRun(); renderRun();
+}
+
+function renderRun(){
+  const c = activeRunCharacter(); if(!c) return;
+  const guide = RUN_GUIDES[c.name] || {role:"Flexible runner",summary:c.ability,balls:[],passives:[],avoid:[]};
+  document.getElementById("run-runner-card").innerHTML = `${avatarHTML(c)}<div><div class="runner-name">${esc(c.name)}</div><div class="runner-detail">${esc(guide.role)}${c.ball!=="None"?` · starts with ${esc(c.ball)}`:""}</div></div>`;
+  document.getElementById("run-biome").value = runState.biome;
+  document.getElementById("run-ball-meter").textContent = `${runState.balls.length} / ${runState.ballCap}`;
+  document.getElementById("run-passive-meter").textContent = `${runState.passives.length} / ${runState.passiveCap}`;
+  document.getElementById("ball-slot-count").textContent = `${runState.balls.length} / ${runState.ballCap}`;
+  document.getElementById("passive-slot-count").textContent = `${runState.passives.length} / ${runState.passiveCap}`;
+  document.querySelectorAll("[data-cap-dir]").forEach(btn=>{
+    const dir = Number(btn.dataset.capDir), limit=ballCapLimit(c);
+    btn.disabled = (dir<0 && runState.ballCap<=ballCapFor(c)) || (dir>0 && runState.ballCap>=limit) || (dir<0 && runState.ballCap<=runState.balls.length);
+  });
+  renderRunBalls(); renderRunPassives(); renderRunEvolutions();
+  renderCharacterBrief(c,guide); renderRecommendations(c,guide); renderCoachCalls(c);
+  renderRunLog(); updateRunTimer(); updateHeaderRunStatus();
+}
+function renderRunBalls(){
+  const list = document.getElementById("run-ball-list");
+  const cards = runState.balls.map((b,i)=>{
+    const evolved = !!EVO_BY_NAME[b.name];
+    return `<article class="item-slot${evolved?" evolved":""}">
+      <button class="slot-remove" data-remove-kind="ball" data-index="${i}" aria-label="Remove ${esc(b.name)}">✕</button>
+      ${spriteHTML(b.name,"balls")}<div class="item-slot-name">${esc(b.name)}</div><div class="item-tier">${evolved?`Tier ${EVO_BY_NAME[b.name].tier} evolution`:"Base ball"}</div>
+      <div class="level-control"><button data-level-index="${i}" data-level-delta="-1" aria-label="Lower level">−</button><span class="level-pips">${[1,2,3].map(n=>`<i class="${n<=b.level?"on":""}"></i>`).join("")}</span><button data-level-index="${i}" data-level-delta="1" aria-label="Raise level">+</button></div>
+    </article>`;
+  });
+  for(let i=runState.balls.length;i<runState.ballCap;i++) cards.push(`<div class="empty-slot"><button data-open-picker="ball"><span class="empty-plus">+</span>Add ball</button></div>`);
+  list.innerHTML = cards.length?cards.join(""):`<div class="empty-copy">This character cannot hold balls.</div>`;
+}
+function renderRunPassives(){
+  const list = document.getElementById("run-passive-list");
+  const evolvedNames = new Set(GAME_DATA.evolvedPassives.map(p=>p.name));
+  const cards = runState.passives.map((p,i)=>`<article class="item-slot${evolvedNames.has(p.name)?" evolved":""}">
+    <button class="slot-remove" data-remove-kind="passive" data-index="${i}" aria-label="Remove ${esc(p.name)}">✕</button>
+    ${spriteHTML(p.name,"passives")}<div class="item-slot-name">${esc(p.name)}</div><div class="item-tier">${evolvedNames.has(p.name)?"Artifact":"Base passive"}</div>
+  </article>`);
+  for(let i=runState.passives.length;i<runState.passiveCap;i++) cards.push(`<div class="empty-slot"><button data-open-picker="passive"><span class="empty-plus">+</span>Add passive</button></div>`);
+  list.innerHTML = cards.length?cards.join(""):`<div class="empty-copy">The Ballbearer cannot equip passives. Put the extra space to work on multi-tier ball recipes.</div>`;
+}
+function recipePieceText(piece){
+  if(piece.held) return `${piece.name} Lv ${piece.level}`;
+  return piece.alternatives&&piece.alternatives.length?`${piece.name} / ${piece.alternatives.join(" / ")}`:piece.name;
+}
+function renderRunEvolutions(){
+  const target = document.getElementById("run-evolution-list");
+  const readyBalls = readyBallEvolutions(), readyPassives = readyPassiveEvolutions();
+  document.getElementById("ready-evo-count").textContent = `${readyBalls.length+readyPassives.length} ready`;
+  const rows=[];
+  readyBalls.forEach(e=>rows.push(`<article class="evo-ready">${spriteHTML(e.name,"balls")}<div><h4>${esc(e.name)}</h4><p>${e.slots.map(s=>s.join(" / ")).join(" + ")} · all level 3</p></div><button class="evolve-btn" data-evolve-ball="${slug(e.name)}">Evolve</button></article>`));
+  readyPassives.forEach(e=>rows.push(`<article class="evo-ready">${spriteHTML(e.name,"passives")}<div><h4>${esc(e.name)}</h4><p>${e.slots.map(s=>s.join(" / ")).join(" + ")} · passive artifact</p></div><button class="evolve-btn" data-evolve-passive="${slug(e.name)}">Forge</button></article>`));
+  const near = GAME_DATA.evolvedBalls
+    .filter(e=>!readyBalls.includes(e))
+    .map(e=>({e,progress:evolutionProgress(e)}))
+    .filter(x=>x.progress.score>0)
+    .sort((a,b)=>b.progress.score-a.progress.score || a.e.tier-b.e.tier || a.e.name.localeCompare(b.e.name)).slice(0,3);
+  if(near.length){
+    rows.push(`<div class="eyebrow" style="margin-top:.35rem">Closest paths</div>`);
+    near.forEach(({e,progress})=>rows.push(`<article class="evo-ready" style="border-color:#30382b">${spriteHTML(e.name,"balls")}<div><h4>${esc(e.name)}</h4><p>${progress.pieces.map(recipePieceText).join(" + ")}</p></div><span class="tier-badge tier-${e.tier}">T${e.tier}</span></article>`));
+  }
+  if(!rows.length) rows.push(`<div class="empty-copy">Add balls or passives to reveal evolution paths. Ball ingredients must reach level 3; passive ingredients only need to be held.</div>`);
+  target.innerHTML=rows.join("");
+}
+
+function currentBallHasStatus(status){
+  return runState.balls.some(b=>{
+    const item=BASE_BY_NAME[b.name]||EVO_BY_NAME[b.name];
+    return item&&item.statusEffects.includes(status);
+  });
+}
+function hasBabyBallEngine(){
+  return runState.balls.some(b=>{
+    const item=BASE_BY_NAME[b.name]||EVO_BY_NAME[b.name];
+    return item&&(item.statusEffects.some(s=>s.includes("Baby Ball")||s.includes("Spawn")) || ["Brood Mother","Egg Sac","Cell"].includes(b.name));
+  });
+}
+function hasAOE(){ return runState.balls.some(b=>{ const item=BASE_BY_NAME[b.name]||EVO_BY_NAME[b.name]; return item&&item.damageTypes.includes("AOE"); }); }
+function passiveAllowed(p){
+  if(p.name==="Midnight Oil" && !currentBallHasStatus("Burn") && !currentBallHasStatus("Frostburn")) return false;
+  if(p.name==="Frozen Spike" && !currentBallHasStatus("Freeze")) return false;
+  if(p.name==="Voodoo Doll" && !currentBallHasStatus("Curse")) return false;
+  if(p.name==="Silver Blindfold" && !currentBallHasStatus("Blind")) return false;
+  if(p.name==="Bandage Roll" && !runState.balls.some(b=>["Vampire","Soul Sucker","Heart Swallower","Vampire Lord","Mosquito King","Mosquito Swarm","Reaper"].includes(b.name)) && !runState.passives.some(x=>["Vampiric Sword","Healer's Effigy","Soul Reaver"].includes(x.name))) return false;
+  return true;
+}
+function ballRecommendations(c,guide){
+  const held = new Set(runState.balls.map(b=>b.name)), style=STYLE_RULES[runState.style]||STYLE_RULES.balanced;
+  return GAME_DATA.baseBalls.filter(b=>!held.has(b.name)).map(b=>{
+    let score=0,reason="Adds a new evolution branch.";
+    const gi=guide.balls.indexOf(b.name); if(gi>=0){score+=70-gi*6;reason=`Strong fit for ${guide.role.toLowerCase()}.`;}
+    if(style.balls&&style.balls.includes(b.name)){score+=24;reason=`Supports the ${style.label.toLowerCase()} plan.`;}
+    const direct=[];
+    runState.balls.forEach(heldBall=>findDirectEvos(b.name,heldBall.name).forEach(e=>direct.push({e,heldBall})));
+    if(direct.length){
+      const best=direct.sort((x,y)=>(y.heldBall.level||1)-(x.heldBall.level||1))[0];
+      score+=best.heldBall.level===3?95:65;
+      reason=`Pairs with ${best.heldBall.name} for ${best.e.name}.`;
+    }
+    if(c.name==="The Makeshift Sisyphus"){
+      const useful=GAME_DATA.evolvedBalls.some(e=>directBases(e).has(b.name)&&(e.damageTypes.includes("AOE")||e.statusEffects.length));
+      score+=b.damageTypes.includes("AOE")||b.statusEffects.length?35:-60;
+      if(useful) score+=18;
+    }
+    if(c.tags.includes("noBabyBalls") && ["Brood Mother","Egg Sac","Cell"].includes(b.name)) score-=80;
+    if(c.tags.includes("moreBalls") && b.statusEffects.length) score+=12;
+    return {item:b,score,reason};
+  }).sort((a,b)=>b.score-a.score||a.item.name.localeCompare(b.item.name)).slice(0,3);
+}
+function passiveRecommendations(c,guide){
+  const held=new Set(runState.passives.map(p=>p.name)), style=STYLE_RULES[runState.style]||STYLE_RULES.balanced;
+  if(runState.passiveCap===0) return [];
+  return GAME_DATA.basePassives.filter(p=>!held.has(p.name)&&passiveAllowed(p)&&!guide.avoid.includes(p.name)).map(p=>{
+    let score=0,reason="Flexible support for the current build.";
+    const gi=guide.passives.indexOf(p.name); if(gi>=0){score+=70-gi*6;reason=`Core ${guide.role.toLowerCase()} passive.`;}
+    if(style.passives&&style.passives.includes(p.name)){score+=24;reason=`Supports the ${style.label.toLowerCase()} plan.`;}
+    GAME_DATA.evolvedPassives.forEach(e=>{
+      const slotIndex=e.slots.findIndex(slot=>slot.includes(p.name));
+      if(slotIndex<0) return;
+      const otherReady=e.slots.every((slot,i)=>i===slotIndex||runState.passives.some(x=>slot.includes(x.name)));
+      if(otherReady){score+=100;reason=`Completes ${e.name}.`;}
+    });
+    if(hasBabyBallEngine()&&["War Horn","Baby Rattle","Bandage Roll"].includes(p.name)){score+=34;reason="Multiplies your baby-ball engine.";}
+    if(hasAOE()&&p.name==="Magic Staff"){score+=35;reason="Boosts your current area damage.";}
+    if(held.has("Vampiric Sword")&&["Everflowing Goblet","Bandage Roll"].includes(p.name)){score+=90;reason=p.name==="Everflowing Goblet"?"Completes Soul Reaver and stabilizes the health economy.":"Turns repeated healing into free baby balls.";}
+    if(held.has("Ethereal Cloak")&&p.name==="Ghostly Corset"){score+=105;reason="Completes Phantom Regalia for permanent pierce.";}
+    if(held.has("Ethereal Cloak")&&p.name==="Upturned Hatchet"){score+=55;reason="Covers the damage drop after the back-wall bounce.";}
+    if(c.name==="The Hoary Hoarder") score+=12;
+    return {item:p,score,reason};
+  }).sort((a,b)=>b.score-a.score||a.item.name.localeCompare(b.item.name)).slice(0,3);
+}
+function renderCharacterBrief(c,guide){
+  document.getElementById("character-brief").innerHTML=`<div class="character-brief-row">${avatarHTML(c)}<div><div class="brief-name">${esc(c.name)}</div><div class="brief-role">${esc(guide.role)}</div></div></div><p class="brief-copy">${esc(guide.summary)}</p>`;
+}
+function renderRecommendations(c,guide){
+  const balls=ballRecommendations(c,guide),passives=passiveRecommendations(c,guide);
+  const fullBalls=runState.balls.length>=runState.ballCap,fullPassives=runState.passives.length>=runState.passiveCap;
+  function recRows(items,kind){ return items.map(({item,reason})=>`<article class="rec-card">${spriteHTML(item.name,kind==="ball"?"balls":"passives")}<div><h5>${esc(item.name)}</h5><p>${esc(reason)}</p></div><button class="mini-add" data-rec-kind="${kind}" data-rec-name="${esc(item.name)}" ${(kind==="ball"?fullBalls:fullPassives)?"disabled":""}>Add</button></article>`).join(""); }
+  document.getElementById("run-recommendations").innerHTML=`
+    <div class="rec-group"><div class="rec-group-title"><h4>Next balls</h4><span>${esc(STYLE_RULES[runState.style].label)}</span></div>${recRows(balls,"ball")||'<div class="empty-copy">No open ball recommendations.</div>'}</div>
+    <div class="rec-group"><div class="rec-group-title"><h4>Next passives</h4><span>Conditional pool</span></div>${recRows(passives,"passive")||'<div class="empty-copy">No passive slots available.</div>'}</div>`;
+  document.querySelectorAll("#run-style-tabs button").forEach(b=>b.classList.toggle("active",b.dataset.style===runState.style));
+}
+function renderCoachCalls(c){
+  const calls=[];
+  if(c.name==="The Makeshift Sisyphus") calls.push({text:"Direct impact damage is disabled. AOE and status effects receive the 4× priority override."});
+  if(c.name==="The Tactician") calls.push({text:"Speed modifiers are hidden from recommendations because this run is turn-based."});
+  if(c.tags.includes("autoplay")) calls.push({text:"This character chooses upgrades automatically; use recommendations as path analysis, not a live decision prompt."});
+  if(runState.balls.length>=runState.ballCap&&!readyBallEvolutions().length) calls.push({text:"Slot-lock risk: every ball slot is occupied and no recipe is ready. Level a compatible pair before taking another branch."});
+  if(runState.balls.filter(b=>b.level===3).length>=2&&!hasAOE()) calls.push({text:"Fusion pacing: your wave clear is narrow. Stabilize with Fission or an AOE pickup before reducing projectile count."});
+  if(runState.passives.some(p=>p.name==="Vampiric Sword")) calls.push({text:"Health loop active: Everflowing Goblet → Soul Reaver, then Bandage Roll converts healing into free shots.",good:true});
+  if(runState.passives.some(p=>p.name==="Ethereal Cloak")&&!runState.passives.some(p=>p.name==="Phantom Regalia")) calls.push({text:"Pierce paradox: Ethereal Cloak ends at the back wall. Find Ghostly Corset for Phantom Regalia or take Upturned Hatchet."});
+  if(readyBallEvolutions().length||readyPassiveEvolutions().length) calls.unshift({text:`${readyBallEvolutions().length+readyPassiveEvolutions().length} evolution${readyBallEvolutions().length+readyPassiveEvolutions().length===1?" is":"s are"} ready on the bench.`,good:true});
+  if(!calls.length) calls.push({text:"Build is stable. Level your current recipe pieces before widening into another path.",good:true});
+  document.getElementById("coach-calls").innerHTML=calls.slice(0,3).map(c=>`<div class="callout${c.good?" good":""}"><span>${c.good?"◆":"!"}</span><span>${esc(c.text)}</span></div>`).join("");
+}
+function renderRunLog(){
+  const target=document.getElementById("run-log"), logs=runState.log||[];
+  target.innerHTML=logs.length?logs.map(row=>`<div class="log-row"><time>${formatDuration(row.at)}</time><b>${esc(row.message)}</b></div>`).join(""):`<div class="empty-copy">Your build changes will appear here.</div>`;
+}
+
+function openPicker(mode){ pickerMode=mode; pickerFilter="all"; document.getElementById("picker-search").value=""; document.getElementById("item-picker").classList.remove("hidden"); renderPicker(); setTimeout(()=>document.getElementById("picker-search").focus(),0); }
+function closePicker(){ document.getElementById("item-picker").classList.add("hidden"); }
+function renderPicker(){
+  const tabs=pickerMode==="ball"?[{id:"all",label:"All"},{id:"base",label:"Base balls"},{id:"evolved",label:"Evolutions"}]:[{id:"all",label:"All"},{id:"base",label:"Base passives"},{id:"evolved",label:"Artifacts"}];
+  document.getElementById("picker-title").textContent=pickerMode==="ball"?"Add a ball":"Add a passive";
+  document.getElementById("picker-tabs").innerHTML=tabs.map(t=>`<button data-picker-filter="${t.id}" class="${pickerFilter===t.id?"active":""}">${t.label}</button>`).join("");
+  const query=document.getElementById("picker-search").value.trim().toLowerCase();
+  let items;
+  if(pickerMode==="ball") items=[...GAME_DATA.baseBalls.map(x=>({...x,_evolved:false})),...GAME_DATA.evolvedBalls.map(x=>({...x,_evolved:true}))];
+  else items=[...GAME_DATA.basePassives.map(x=>({...x,_evolved:false})),...GAME_DATA.evolvedPassives.map(x=>({...x,_evolved:true}))];
+  const held=new Set((pickerMode==="ball"?runState.balls:runState.passives).map(x=>x.name));
+  items=items.filter(x=>(pickerFilter==="all"||(pickerFilter==="evolved")===x._evolved)&&(!query||(x.name+" "+x.description).toLowerCase().includes(query)));
+  document.getElementById("picker-grid").innerHTML=items.map(item=>`<button class="picker-item" data-picker-name="${esc(item.name)}" ${held.has(item.name)?"disabled":""}>${spriteHTML(item.name,pickerMode==="ball"?"balls":"passives")}<span><b>${esc(item.name)}</b><small>${item._evolved?(pickerMode==="ball"?`Tier ${item.tier} evolution`:"Artifact"):"Base item"}</small></span></button>`).join("")||`<div class="empty-copy">No matching items.</div>`;
+}
+
+document.getElementById("start-run-btn").addEventListener("click",showCharacterSetup);
+document.getElementById("resume-run-btn").addEventListener("click",showRunDashboard);
+document.getElementById("setup-back-btn").addEventListener("click",showRunLanding);
+document.getElementById("run-character-grid").addEventListener("click",ev=>{const btn=ev.target.closest("[data-start-character]");if(btn)startRun(btn.dataset.startCharacter);});
+document.getElementById("end-run-btn").addEventListener("click",()=>{
+  if(!confirm("End this run and clear its live tracker?")) return;
+  runState=null;saveRun();showRunLanding();
+});
+document.getElementById("run-biome").addEventListener("change",ev=>{runState.biome=ev.target.value;logRun(`Moved into ${runState.biome}.`);saveRun();renderRunLog();});
+document.getElementById("ball-cap-control").addEventListener("click",ev=>{
+  const btn=ev.target.closest("[data-cap-dir]");if(!btn||btn.disabled)return;
+  const c=activeRunCharacter(),min=ballCapFor(c),max=ballCapLimit(c);
+  runState.ballCap=Math.max(min,Math.min(max,runState.ballCap+Number(btn.dataset.capDir)));saveRun();renderRun();
+});
+document.getElementById("run-dashboard").addEventListener("click",ev=>{
+  const open=ev.target.closest("[data-open-picker]");if(open){openPicker(open.dataset.openPicker);return;}
+  const lvl=ev.target.closest("[data-level-index]");if(lvl){setBallLevel(Number(lvl.dataset.levelIndex),Number(lvl.dataset.levelDelta));return;}
+  const rm=ev.target.closest("[data-remove-kind]");if(rm){removeRunItem(rm.dataset.removeKind,Number(rm.dataset.index));return;}
+  const ballEvo=ev.target.closest("[data-evolve-ball]");if(ballEvo){const e=GAME_DATA.evolvedBalls.find(x=>slug(x.name)===ballEvo.dataset.evolveBall);if(e)evolveBall(e.name);return;}
+  const passiveEvo=ev.target.closest("[data-evolve-passive]");if(passiveEvo){const e=GAME_DATA.evolvedPassives.find(x=>slug(x.name)===passiveEvo.dataset.evolvePassive);if(e)evolvePassive(e.name);return;}
+  const rec=ev.target.closest("[data-rec-kind]");if(rec&&!rec.disabled){(rec.dataset.recKind==="ball"?addBall:addPassive)(rec.dataset.recName);}
+});
+document.getElementById("run-style-tabs").addEventListener("click",ev=>{const btn=ev.target.closest("[data-style]");if(!btn)return;runState.style=btn.dataset.style;saveRun();renderRun();});
+document.getElementById("picker-close").addEventListener("click",closePicker);
+document.getElementById("item-picker").addEventListener("click",ev=>{
+  if(ev.target.id==="item-picker"){closePicker();return;}
+  const filter=ev.target.closest("[data-picker-filter]");if(filter){pickerFilter=filter.dataset.pickerFilter;renderPicker();return;}
+  const item=ev.target.closest("[data-picker-name]");if(item&&!item.disabled){const added=(pickerMode==="ball"?addBall:addPassive)(item.dataset.pickerName);if(added)closePicker();}
+});
+document.getElementById("picker-search").addEventListener("input",renderPicker);
+document.addEventListener("keydown",ev=>{if(ev.key==="Escape")closePicker();});
+setInterval(updateRunTimer,1000);
+
 /* ============================ search / tabs / events ============================ */
-let activeView = "base";
+let activeView = "run";
 function applySearch(){
   const q = document.getElementById("search").value.trim().toLowerCase();
+  if(activeView==="run") return;
   if(activeView==="evo"){ applyEvoFilters(); return; }
   if(activeView==="team"){ applySearchToTeam(); return; }
   if(activeView==="bybase"){
@@ -1273,8 +1991,12 @@ document.getElementById("tabs").addEventListener("click",ev=>{
   const btn = ev.target.closest("button[data-view]");
   if(!btn) return;
   activeView = btn.dataset.view;
+  document.body.classList.toggle("run-mode",activeView==="run");
   document.querySelectorAll("#tabs button").forEach(b=>b.classList.toggle("active", b===btn));
   document.querySelectorAll("section.view").forEach(s=>s.classList.toggle("active", s.id==="view-"+activeView));
+  if(activeView==="run"){
+    if(runState&&runState.active) showRunDashboard(); else showRunLanding();
+  }
   applySearch();
 });
 
@@ -1346,6 +2068,8 @@ renderSlots();
 renderTeamOutput();
 setupSlotsDnD();
 updateProgress();
+updateHeaderRunStatus();
+if(runState&&runState.active) showRunDashboard(); else showRunLanding();
 
 // acceptance self-checks (console only)
 (function(){
