@@ -8,6 +8,7 @@
 <meta property="og:title" content="Pit Crew">
 <meta property="og:description" content="Pick a character, press play, and track every ball, passive, level, and evolution while your run is happening.">
 <meta property="og:type" content="website">
+<link rel="icon" href="img/pit-crew-logo.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&amp;display=swap" rel="stylesheet">
@@ -322,7 +323,8 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid 
 .site-header{padding:.65rem 1rem .55rem;background:rgba(9,11,9,.94);backdrop-filter:blur(14px);border-color:#39432e}
 .nav-shell{max-width:1240px;margin:0 auto}
 .hdr-top{flex-wrap:nowrap}
-.brand-lockup{display:flex;align-items:center;gap:.65rem;min-width:0;margin-right:auto}
+.brand-lockup{display:flex;align-items:center;gap:.65rem;min-width:0;margin-right:auto;border:0;background:transparent;color:inherit;padding:0;text-align:left}
+.brand-lockup:hover .brand-copy h1{color:var(--accent)}
 .brand-mark{
   width:34px;height:34px;display:grid;place-items:center;flex:0 0 auto;
   border:2px solid var(--accent);background:var(--accent);color:#10120d;
@@ -331,13 +333,6 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid 
 }
 .brand-copy{min-width:0}
 .brand-copy h1{font-size:.72rem;color:var(--text);white-space:nowrap}
-.live-pill{
-  display:flex;align-items:center;gap:.45rem;border:1px solid var(--border);border-radius:999px;
-  background:var(--panel);padding:.35rem .65rem;font-size:.68rem;color:var(--muted);white-space:nowrap;
-}
-.live-pill.active{border-color:var(--accent-dim);color:var(--text)}
-.live-dot{width:7px;height:7px;border-radius:50%;background:#5c6355}
-.live-pill.active .live-dot{background:var(--accent);box-shadow:0 0 0 4px rgba(217,255,82,.1)}
 nav.tabs{gap:.25rem;margin-top:.6rem;overflow-x:auto;flex-wrap:nowrap;scrollbar-width:none;padding-bottom:.05rem}
 nav.tabs::-webkit-scrollbar{display:none}
 nav.tabs button{
@@ -391,6 +386,7 @@ main{max-width:1240px;padding:0 1rem 5rem}
 .setup-wrap{max-width:1080px;margin:0 auto;padding:2.8rem 0}
 .setup-head{display:flex;align-items:flex-end;justify-content:space-between;gap:1rem;margin-bottom:1.35rem}
 .setup-head h2{font-size:clamp(1rem,2.5vw,1.5rem);line-height:1.4;margin:.35rem 0 0;color:var(--text)}
+.party-toggle{display:flex;gap:.35rem;margin:0 0 1rem}.party-toggle button{border:1px solid var(--border);background:var(--panel);color:var(--muted);padding:.55rem .75rem;font-family:"Press Start 2P",monospace;font-size:.52rem;line-height:1.5}.party-toggle button.active{background:var(--accent);border-color:var(--accent);color:#10120d}.duo-selection{display:flex;align-items:center;gap:.65rem;margin-bottom:1rem;padding:.7rem;border:1px solid var(--accent-dim);background:rgba(217,255,82,.05)}.duo-picked{display:flex;gap:.45rem;flex:1;min-width:0}.duo-pick{display:flex;align-items:center;gap:.4rem;color:var(--muted);font-size:.68rem}.duo-pick .avatar{width:34px;height:34px}.duo-start{border:1px solid var(--accent);background:var(--accent);color:#10120d;padding:.55rem .7rem;font-family:"Press Start 2P",monospace;font-size:.52rem;line-height:1.5}.duo-start:disabled{opacity:.35;cursor:default}
 .back-btn,.ghost-btn,.danger-btn{
   border:1px solid var(--border);background:var(--panel);color:var(--muted);padding:.5rem .75rem;font-size:.74rem;border-radius:2px;
 }
@@ -402,6 +398,7 @@ main{max-width:1240px;padding:0 1rem 5rem}
 }
 .run-char-card:after{content:"";position:absolute;inset:auto 0 0;height:3px;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .15s}
 .run-char-card:hover{background:var(--panel2);border-color:#536044}.run-char-card:hover:after{transform:scaleX(1)}
+.run-char-card.selected{border-color:var(--accent);background:rgba(217,255,82,.08)}.run-char-card.selected:after{transform:scaleX(1)}
 .run-char-card .avatar{width:56px;height:56px;border-radius:2px;border:1px solid #3d4734}
 .run-char-card h3{margin:.05rem 0 .38rem;color:var(--text);font-size:.58rem;line-height:1.5}
 .run-char-card p{margin:.35rem 0 0;color:var(--muted);font-size:.7rem;line-height:1.42}
@@ -411,10 +408,11 @@ main{max-width:1240px;padding:0 1rem 5rem}
 /* active run */
 .run-topbar{display:flex;align-items:center;gap:.7rem;padding:1rem 0;flex-wrap:wrap}
 .runner-card{border:1px solid var(--border);background:rgba(18,22,17,.88);padding:.7rem;flex:1}
-.runner-card{display:flex;align-items:center;gap:.7rem}.runner-card .avatar{width:48px;height:48px;border-radius:2px}
+.runner-card{display:flex;align-items:center;gap:.7rem}.runner-card .avatar{width:48px;height:48px;border-radius:2px}.runner-party{display:flex;align-items:center;gap:.75rem;flex-wrap:wrap}.runner-member{display:flex;align-items:center;gap:.55rem}.runner-member+.runner-member{padding-left:.75rem;border-left:1px solid var(--border)}
 .runner-name{font-family:"Press Start 2P",monospace;font-size:.62rem;line-height:1.5}.runner-detail{font-size:.68rem;color:var(--muted);margin-top:.18rem}
-.run-actions{display:flex;align-self:stretch;gap:.4rem;flex-wrap:wrap;justify-content:flex-end}.action-btn{border:1px solid var(--border);background:var(--panel);color:var(--text);padding:.48rem .62rem;font-size:.66rem;white-space:nowrap}.action-btn:hover{border-color:var(--accent-dim);color:var(--accent)}.action-btn:disabled{opacity:.35;cursor:default;color:var(--muted);border-color:var(--border)}
-.danger-btn{color:#f4aaa5;border-color:#673a37;white-space:nowrap}.danger-btn:hover{background:#34201f}
+.duo-warning{width:100%;color:#f0c58b;font-size:.65rem;padding-top:.45rem;border-top:1px solid var(--border)}
+.run-actions{display:flex;align-self:stretch;gap:.4rem;flex-wrap:wrap;justify-content:flex-end}.action-btn{border:1px solid var(--border);background:var(--panel);color:var(--text);padding:.48rem .62rem;font-family:"Press Start 2P",monospace;font-size:.5rem;line-height:1.55;white-space:nowrap}.action-btn:hover{border-color:var(--accent-dim);color:var(--accent)}.action-btn:disabled{opacity:.35;cursor:default;color:var(--muted);border-color:var(--border)}
+.danger-btn{color:#f4aaa5;border-color:#673a37;font-family:"Press Start 2P",monospace;font-size:.5rem;line-height:1.55;white-space:nowrap}.danger-btn:hover{background:#34201f}
 .target-strip{display:flex;align-items:center;gap:.45rem;width:100%;padding:.48rem .65rem;border:1px solid var(--accent-dim);background:rgba(217,255,82,.06);font-size:.68rem}.target-strip b{color:var(--accent)}.target-strip button{margin-left:auto;border:0;background:transparent;color:var(--muted);padding:.1rem .3rem}.target-strip button:hover{color:var(--danger)}
 .run-layout{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(300px,.7fr);gap:.9rem;align-items:start}
 .run-stack{display:grid;gap:.9rem}
@@ -461,15 +459,15 @@ body.compact-run .level-pips{gap:2px}body.compact-run .level-pips i{width:5px;he
 body.compact-run .rec-card p,body.compact-run .evo-ready p{display:none}
 body.compact-run .rec-card{padding:.35rem 0}
 
-footer{background:#0b0d0a;margin-top:1rem}.footer-brand{color:var(--text);font-family:"Press Start 2P",monospace;font-size:.58rem}
+footer{background:#0b0d0a;margin-top:1rem}.creator-link{font-size:.78rem}.footer-brand{color:var(--text);font-family:"Press Start 2P",monospace;font-size:.58rem}
 
 @media(max-width:900px){
   .run-hero{grid-template-columns:1fr;min-height:auto;padding-top:3.5rem}.hero-visual{min-height:400px}.run-layout{grid-template-columns:1fr}.coach-panel{position:static}
 }
 @media(max-width:640px){
-  .site-header{padding:.55rem .7rem}.live-pill span:not(.live-dot){display:none}.live-pill{padding:.45rem}.brand-copy h1{font-size:.61rem}.brand-mark{width:30px;height:30px}.hdr-top{gap:.45rem}nav.tabs{margin-left:-.1rem;margin-right:-.1rem}nav.tabs button{padding:.42rem .56rem;font-size:.63rem}
+  .site-header{padding:.55rem .7rem}.brand-copy h1{font-size:.61rem}.brand-mark{width:30px;height:30px}.hdr-top{gap:.45rem}nav.tabs{margin-left:-.1rem;margin-right:-.1rem}nav.tabs button{padding:.42rem .56rem;font-size:.63rem}
   main{padding-left:.7rem;padding-right:.7rem}.run-hero{padding:2.6rem 0 3rem;gap:1.5rem}.hero-title{font-size:clamp(2rem,14vw,3.8rem)}.hero-title span{text-shadow:3px 3px 0 #3e4b17}.hero-lede{font-size:.95rem}.hero-visual{min-height:310px}.pit-board{width:min(92%,330px)}.hero-orb{width:58px;height:58px}.hero-orb.o2{width:66px;height:66px}.hero-orb.o3{width:72px;height:72px}.board-caption{right:0;bottom:24px}
-  body.active-run main{padding-bottom:5.6rem}.setup-wrap{padding:1.5rem 0}.setup-head{align-items:flex-start}.run-char-grid{grid-template-columns:1fr}.run-topbar{padding:.7rem 0}.runner-card{min-width:0}.runner-card .avatar{width:42px;height:42px}.runner-detail{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.run-actions{width:100%;display:grid;grid-template-columns:repeat(5,1fr);gap:.3rem}.action-btn,.danger-btn{padding:.5rem .15rem;font-size:.55rem}.run-layout{gap:.65rem}.panel-head{padding:.7rem}.slot-list{grid-template-columns:repeat(2,minmax(0,1fr));padding:.55rem}.item-slot{min-height:145px}.coach-panel{position:fixed;left:.7rem;right:.7rem;bottom:.55rem;top:auto;z-index:75;max-height:72vh;overflow:auto;box-shadow:0 -8px 28px rgba(0,0,0,.55)}.recommendation-head{position:sticky;top:0;z-index:2;cursor:pointer;background:var(--panel)}.recommendation-head .rec-chevron,.rec-summary{display:block}.coach-panel:not(.open) .recommendations{display:none}.coach-panel.open .rec-chevron{transform:rotate(180deg)}.evo-ready{grid-template-columns:auto 1fr}.evo-ready .evolve-btn{grid-column:1/-1}.picker-backdrop{padding:0;place-items:end}.picker-drawer{max-height:88vh;border-left:0;border-right:0}.picker-head{flex-wrap:wrap}.picker-head input{order:3;width:100%}.picker-grid{grid-template-columns:repeat(2,minmax(0,1fr));padding:.5rem}.picker-item{grid-template-columns:32px 1fr;padding:.4rem}.picker-item .sprite{width:32px;height:32px}.offer-result{grid-template-columns:24px 34px 1fr}.offer-result .sprite{width:34px;height:34px}.offer-result .mini-add{grid-column:1/-1}.offer-selected{flex-wrap:wrap}.offer-submit{margin-left:0}
+  body.active-run main{padding-bottom:5.6rem}.setup-wrap{padding:1.5rem 0}.setup-head{align-items:flex-start}.duo-selection{align-items:stretch;flex-direction:column}.duo-picked{display:grid;grid-template-columns:1fr 1fr}.duo-start{width:100%}.run-char-grid{grid-template-columns:1fr}.run-topbar{padding:.7rem 0}.runner-card{min-width:0}.runner-card .avatar{width:42px;height:42px}.runner-party{display:grid;grid-template-columns:1fr 1fr;width:100%;gap:.45rem}.runner-member+.runner-member{padding-left:.45rem}.runner-detail{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.run-actions{width:100%;display:grid;grid-template-columns:repeat(5,1fr);gap:.3rem}.action-btn,.danger-btn{padding:.5rem .15rem;font-size:.48rem}.run-layout{gap:.65rem}.panel-head{padding:.7rem}.slot-list{grid-template-columns:repeat(2,minmax(0,1fr));padding:.55rem}.item-slot{min-height:145px}.coach-panel{position:fixed;left:.7rem;right:.7rem;bottom:.55rem;top:auto;z-index:75;max-height:72vh;overflow:auto;box-shadow:0 -8px 28px rgba(0,0,0,.55)}.recommendation-head{position:sticky;top:0;z-index:2;cursor:pointer;background:var(--panel)}.recommendation-head .rec-chevron,.rec-summary{display:block}.coach-panel:not(.open) .recommendations{display:none}.coach-panel.open .rec-chevron{transform:rotate(180deg)}.evo-ready{grid-template-columns:auto 1fr}.evo-ready .evolve-btn{grid-column:1/-1}.picker-backdrop{padding:0;place-items:end}.picker-drawer{max-height:88vh;border-left:0;border-right:0}.picker-head{flex-wrap:wrap}.picker-head input{order:3;width:100%}.picker-grid{grid-template-columns:repeat(2,minmax(0,1fr));padding:.5rem}.picker-item{grid-template-columns:32px 1fr;padding:.4rem}.picker-item .sprite{width:32px;height:32px}.offer-result{grid-template-columns:24px 34px 1fr}.offer-result .sprite{width:34px;height:34px}.offer-result .mini-add{grid-column:1/-1}.offer-selected{flex-wrap:wrap}.offer-submit{margin-left:0}
 }
 </style>
 </head>
@@ -478,13 +476,12 @@ footer{background:#0b0d0a;margin-top:1rem}.footer-brand{color:var(--text);font-f
 <header class="site-header">
   <div class="nav-shell">
     <div class="hdr-top">
-      <div class="brand-lockup">
+      <button class="brand-lockup" id="brand-home" type="button" aria-label="Go to Pit Crew home">
         <div class="brand-mark" aria-hidden="true">P×</div>
         <div class="brand-copy">
           <h1>PIT CREW</h1>
         </div>
-      </div>
-      <div class="live-pill" id="header-run-status"><span class="live-dot"></span><span>No active run</span></div>
+      </button>
     </div>
     <nav class="tabs" id="tabs" aria-label="Primary navigation">
       <button data-view="run" class="active">Run</button>
@@ -537,10 +534,18 @@ footer{background:#0b0d0a;margin-top:1rem}.footer-brand{color:var(--text);font-f
     <div id="character-setup" class="setup-wrap hidden">
       <div class="setup-head">
         <div>
-          <div class="eyebrow">Step 1 / Pick your runner</div>
-          <h2>Who is entering the pit?</h2>
+          <div class="eyebrow" id="setup-eyebrow">Step 1 / Pick your runner</div>
+          <h2 id="setup-title">Who is entering the pit?</h2>
         </div>
         <button class="back-btn" id="setup-back-btn">← Back</button>
+      </div>
+      <div class="party-toggle" id="party-toggle" aria-label="Run party size">
+        <button type="button" class="active" data-party-size="1">Single</button>
+        <button type="button" data-party-size="2">Duo</button>
+      </div>
+      <div class="duo-selection hidden" id="duo-selection">
+        <div class="duo-picked" id="duo-picked"></div>
+        <button class="duo-start" id="duo-start" type="button" disabled>Start duo</button>
       </div>
       <div class="run-char-grid" id="run-character-grid"></div>
     </div>
@@ -696,6 +701,7 @@ footer{background:#0b0d0a;margin-top:1rem}.footer-brand{color:var(--text);font-f
 </main>
 
 <footer>
+  <p class="creator-link">Created by <a href="https://yjay18.github.io/yuuvjauhari/">Yuv Jauhari</a>.</p>
   <p class="footer-brand">PIT CREW</p>
   <p>Built on the <a href="https://cryphixi.github.io/ballxpit-tracker/">BALL x PIT Evolution Tracker</a> by <b>Allena Oglivie / Cryphixi</b>. Its encyclopedia structure, recipes, Matchmaker logic, and sprite collection made this companion possible. Original MIT license preserved.</p>
   <p>Core encyclopedia data from <a href="https://ballxpit.wiki.gg/wiki/Balls">ballxpit.wiki.gg</a>, current through the Shadow Update (April 27, 2026), with supplied post-update character profiles. The broader Naturalist data set has not yet been fully audited. Curated team combos credit: <a href="https://www.dexerto.com">Dexerto</a>.</p>
@@ -1596,9 +1602,16 @@ let offerType = "ball";
 let offerSelections = [];
 let offerRanked = false;
 let targetType = "ball";
+let setupPartySize = 1;
+let setupCharacters = [];
 
 function activeRunCharacter(){
-  return runState && GAME_DATA.characters.find(c=>c.name===runState.character);
+  return activeRunCharacters()[0] || null;
+}
+function activeRunCharacters(){
+  if(!runState) return [];
+  const names=Array.isArray(runState.characters)&&runState.characters.length?runState.characters:[runState.character];
+  return names.map(name=>GAME_DATA.characters.find(c=>c.name===name)).filter(Boolean);
 }
 function ballCapFor(c){
   if(c.name==="The Ballbearer") return 10;
@@ -1606,10 +1619,19 @@ function ballCapFor(c){
   return 4;
 }
 function passiveCapFor(c){ return c.name==="The Ballbearer"?0:(c.name==="The Hoary Hoarder"?8:4); }
+function ballCapForParty(characters){
+  if(characters.some(c=>c.name==="The Ballbearer")) return 10;
+  if(characters.some(c=>c.name==="The Hoary Hoarder")) return 2;
+  return 4;
+}
+function passiveCapForParty(characters){
+  if(characters.some(c=>c.name==="The Ballbearer")) return 0;
+  if(characters.some(c=>c.name==="The Hoary Hoarder")) return 8;
+  return 4;
+}
 function saveRun(){
   if(runState) localStorage.setItem(RUN_KEY, JSON.stringify(runState));
   else localStorage.removeItem(RUN_KEY);
-  updateHeaderRunStatus();
 }
 function checkpointUndo(label){
   if(!runState) return;
@@ -1642,16 +1664,18 @@ function logRun(message){
   runState.log.unshift({ at:elapsed, message });
   runState.log = runState.log.slice(0,24);
 }
-function startRun(characterName){
-  const c = GAME_DATA.characters.find(x=>x.name===characterName);
-  if(!c) return;
+function startRun(characterNames){
+  const names=Array.isArray(characterNames)?characterNames:[characterNames];
+  const characters=names.map(name=>GAME_DATA.characters.find(x=>x.name===name)).filter(Boolean);
+  if(!characters.length || characters.length>2) return;
+  const starters=characters.filter(c=>c.ball!=="None").map(c=>({name:c.ball,level:1}));
   runState = {
-    active:true, character:c.name, startedAt:Date.now(),
-    ballCap:ballCapFor(c), passiveCap:passiveCapFor(c), compact:false, target:null,
-    balls:c.ball!=="None"?[{name:c.ball,level:1}]:[], passives:[], log:[]
+    active:true, character:characters[0].name, characters:characters.map(c=>c.name), startedAt:Date.now(),
+    ballCap:ballCapForParty(characters), passiveCap:passiveCapForParty(characters), compact:false, target:null,
+    balls:starters, passives:[], log:[]
   };
   runUndo=null;
-  logRun(`Entered the pit as ${c.name}${c.ball!=="None"?` with ${c.ball}`:""}.`);
+  logRun(`Entered the pit as ${characters.map(c=>c.name).join(" + ")}${starters.length?` with ${starters.map(b=>b.name).join(" + ")}`:""}.`);
   saveRun();
   showRunDashboard();
 }
@@ -1667,6 +1691,8 @@ function showCharacterSetup(){
   document.getElementById("run-landing").classList.add("hidden");
   document.getElementById("character-setup").classList.remove("hidden");
   document.getElementById("run-dashboard").classList.add("hidden");
+  setupPartySize=1;
+  setupCharacters=[];
   renderRunCharacterGrid();
   window.scrollTo({top:0,behavior:"smooth"});
 }
@@ -1681,26 +1707,26 @@ function showRunDashboard(){
 }
 function renderRunCharacterGrid(){
   const grid = document.getElementById("run-character-grid");
+  document.querySelectorAll("[data-party-size]").forEach(btn=>btn.classList.toggle("active",Number(btn.dataset.partySize)===setupPartySize));
+  document.getElementById("setup-eyebrow").textContent=setupPartySize===2?"Step 1 / Pick two runners":"Step 1 / Pick your runner";
+  document.getElementById("setup-title").textContent=setupPartySize===2?"Who is entering together?":"Who is entering the pit?";
+  const duoBox=document.getElementById("duo-selection");
+  duoBox.classList.toggle("hidden",setupPartySize!==2);
+  document.getElementById("duo-picked").innerHTML=[0,1].map(index=>{
+    const c=GAME_DATA.characters.find(x=>x.name===setupCharacters[index]);
+    return c?`<span class="duo-pick">${avatarHTML(c)}<span>${esc(c.name)}</span></span>`:`<span class="duo-pick"><span class="brand-mark">${index+1}</span><span>Choose runner ${index+1}</span></span>`;
+  }).join("");
+  document.getElementById("duo-start").disabled=setupCharacters.length!==2;
   grid.innerHTML = GAME_DATA.characters.map(c=>{
     const guide = RUN_GUIDES[c.name];
     const starter = c.ball==="None"
       ? `<span class="starter-chip">No starting ball</span>`
       : `<span class="starter-chip">${spriteHTML(c.ball,"balls")} ${esc(c.ball)}</span>`;
-    return `<button class="run-char-card" data-start-character="${esc(c.name)}">
+    return `<button class="run-char-card${setupCharacters.includes(c.name)?" selected":""}" data-start-character="${esc(c.name)}">
       ${avatarHTML(c)}<span><h3>${esc(c.name)}</h3>${starter}<p>${esc(guide?guide.role:c.ability)}</p></span>
     </button>`;
   }).join("");
 }
-function updateHeaderRunStatus(){
-  const el = document.getElementById("header-run-status");
-  if(!el) return;
-  const active = runState&&runState.active;
-  el.classList.toggle("active",!!active);
-  el.innerHTML = active
-    ? `<span class="live-dot"></span><span>${esc(runState.character.replace(/^The /,""))}</span>`
-    : `<span class="live-dot"></span><span>No active run</span>`;
-}
-
 function matchRecipe(slots, inventory, needsLevel){
   const used = new Set(), chosen = [];
   function visit(slotIndex){
@@ -1776,10 +1802,14 @@ function removeRunItem(kind,index){
 }
 
 function renderRun(){
-  const c = activeRunCharacter(); if(!c) return;
+  const characters = activeRunCharacters();
+  const c = characters[0]; if(!c) return;
+  if(!Array.isArray(runState.characters)){runState.characters=[c.name];saveRun();}
   const guide = RUN_GUIDES[c.name] || {role:"Flexible runner",summary:c.ability,balls:[],passives:[],avoid:[]};
-  if(runState.ballCap<ballCapFor(c)){
-    runState.ballCap=ballCapFor(c);
+  const partyBallCap=ballCapForParty(characters),partyPassiveCap=passiveCapForParty(characters);
+  if(runState.ballCap!==partyBallCap || runState.passiveCap!==partyPassiveCap){
+    runState.ballCap=partyBallCap;
+    runState.passiveCap=partyPassiveCap;
     saveRun();
   }
   if(typeof runState.compact!=="boolean") runState.compact=false;
@@ -1789,7 +1819,13 @@ function renderRun(){
     if(!passive.level){ passive.level=1; migratedPassives=true; }
   });
   if(migratedPassives) saveRun();
-  document.getElementById("run-runner-card").innerHTML = `${avatarHTML(c)}<div><div class="runner-name">${esc(c.name)}</div><div class="runner-detail">${esc(guide.role)}${c.ball!=="None"?` · starts with ${esc(c.ball)}`:""}</div></div>`;
+  let conflict="";
+  if(characters.length===2&&characters.some(x=>x.name==="The Physicist")&&characters.some(x=>x.name==="The Falconer")) conflict="Physicist + Falconer can create a trajectory dead zone; favor wide AOE and control.";
+  if(characters.length===2&&characters.some(x=>x.name==="The Ballbearer")&&characters.some(x=>x.name==="The Hoary Hoarder")) conflict="Ballbearer and Hoary Hoarder impose opposite inventory rules. Pit Crew applies Ballbearer's 10 ball / 0 passive restriction.";
+  document.getElementById("run-runner-card").innerHTML = `<div class="runner-party">${characters.map(character=>{
+    const characterGuide=RUN_GUIDES[character.name]||{role:"Flexible runner"};
+    return `<div class="runner-member">${avatarHTML(character)}<div><div class="runner-name">${esc(character.name)}</div><div class="runner-detail">${esc(characterGuide.role)}${character.ball!=="None"?` · ${esc(character.ball)}`:""}</div></div></div>`;
+  }).join("")}</div>${conflict?`<div class="duo-warning">${esc(conflict)}</div>`:""}`;
   document.getElementById("ball-slot-count").textContent = `${runState.balls.length} / ${runState.ballCap}`;
   document.getElementById("passive-slot-count").textContent = `${runState.passives.length} / ${runState.passiveCap}`;
   document.getElementById("add-ball-btn").disabled = runState.balls.length>=runState.ballCap;
@@ -1806,7 +1842,6 @@ function renderRun(){
   renderRunBalls();
   renderRunPassives();
   renderRecommendations(c,guide);
-  updateHeaderRunStatus();
 }
 function renderRunBalls(){
   const list = document.getElementById("run-ball-list");
@@ -1851,7 +1886,7 @@ function passiveAllowed(p){
   if(p.name==="Bandage Roll" && !runState.balls.some(b=>["Vampire","Soul Sucker","Heart Swallower","Vampire Lord","Mosquito King","Mosquito Swarm","Reaper"].includes(b.name)) && !runState.passives.some(x=>["Vampiric Sword","Healer's Effigy","Soul Reaver"].includes(x.name))) return false;
   return true;
 }
-function scoreBallCandidate(b,c,guide){
+function scoreBallCandidateForCharacter(b,c,guide){
   let score=0,reason="Adds a new evolution branch.";
   const gi=guide.balls.indexOf(b.name);
   if(gi>=0){score+=70-gi*6;reason=`Strong fit for ${guide.role.toLowerCase()}.`;}
@@ -1874,12 +1909,23 @@ function scoreBallCandidate(b,c,guide){
   if(c.tags.includes("moreBalls")&&b.statusEffects.length) score+=12;
   return {item:b,score,reason};
 }
+function scoreBallCandidate(b){
+  const scores=activeRunCharacters().map(c=>scoreBallCandidateForCharacter(b,c,RUN_GUIDES[c.name]||{role:"Flexible runner",balls:[],passives:[],avoid:[]}));
+  if(!scores.length) return {item:b,score:0,reason:"Adds a new evolution branch."};
+  const best=scores.sort((a,b)=>b.score-a.score)[0];
+  if(scores.length>1){
+    const positive=scores.filter(x=>x.score>0).length;
+    best.score+=Math.round(scores[1].score*.35)+(positive===2?18:0);
+    if(positive===2&&!best.reason.startsWith("Pairs with")&&!best.reason.startsWith("Needed for")) best.reason="Supports both runners' game plans.";
+  }
+  return best;
+}
 function ballRecommendations(c,guide){
   const held=new Set(runState.balls.map(b=>b.name));
-  return GAME_DATA.baseBalls.filter(b=>!held.has(b.name)).map(b=>scoreBallCandidate(b,c,guide))
+  return GAME_DATA.baseBalls.filter(b=>!held.has(b.name)).map(b=>scoreBallCandidate(b))
     .sort((a,b)=>b.score-a.score||a.item.name.localeCompare(b.item.name)).slice(0,2);
 }
-function scorePassiveCandidate(p,c,guide){
+function scorePassiveCandidateForCharacter(p,c,guide){
   const held=new Set(runState.passives.map(x=>x.name));
   let score=0,reason="Flexible support for the current build.";
   const gi=guide.passives.indexOf(p.name);
@@ -1903,12 +1949,23 @@ function scorePassiveCandidate(p,c,guide){
   if(c.name==="The Hoary Hoarder") score+=12;
   return {item:p,score,reason};
 }
+function scorePassiveCandidate(p){
+  const scores=activeRunCharacters().map(c=>scorePassiveCandidateForCharacter(p,c,RUN_GUIDES[c.name]||{role:"Flexible runner",balls:[],passives:[],avoid:[]}));
+  if(!scores.length) return {item:p,score:0,reason:"Flexible support for the current build."};
+  const best=scores.sort((a,b)=>b.score-a.score)[0];
+  if(scores.length>1){
+    const positive=scores.filter(x=>x.score>0).length;
+    best.score+=Math.round(scores[1].score*.35)+(positive===2?18:0);
+    if(positive===2&&!best.reason.startsWith("Completes")&&!best.reason.startsWith("Needed for")) best.reason="Supports both runners' game plans.";
+  }
+  return best;
+}
 function passiveRecommendations(c,guide){
   if(runState.passiveCap===0) return [];
   const held=new Set(runState.passives.map(p=>p.name));
   const targetBases=runState.target&&runState.target.kind==="passive"?passiveChainBases(runState.target.name):new Set();
   return GAME_DATA.basePassives.filter(p=>!held.has(p.name)&&((passiveAllowed(p)&&!guide.avoid.includes(p.name))||targetBases.has(p.name)))
-    .map(p=>scorePassiveCandidate(p,c,guide)).sort((a,b)=>b.score-a.score||a.item.name.localeCompare(b.item.name)).slice(0,2);
+    .map(p=>scorePassiveCandidate(p)).sort((a,b)=>b.score-a.score||a.item.name.localeCompare(b.item.name)).slice(0,2);
 }
 function renderRecommendations(c,guide){
   const balls=ballRecommendations(c,guide),passives=passiveRecommendations(c,guide);
@@ -1948,9 +2005,8 @@ function renderOffer(){
   const results=document.getElementById("offer-results");
   results.classList.toggle("hidden",!offerRanked);
   if(offerRanked){
-    const c=activeRunCharacter(),guide=RUN_GUIDES[c.name]||{role:"Flexible runner",balls:[],passives:[],avoid:[]};
     const lookup=Object.fromEntries(offerPool().map(item=>[item.name,item]));
-    const ranked=offerSelections.map(name=>offerType==="ball"?scoreBallCandidate(lookup[name],c,guide):scorePassiveCandidate(lookup[name],c,guide)).sort((a,b)=>b.score-a.score||a.item.name.localeCompare(b.item.name));
+    const ranked=offerSelections.map(name=>offerType==="ball"?scoreBallCandidate(lookup[name]):scorePassiveCandidate(lookup[name])).sort((a,b)=>b.score-a.score||a.item.name.localeCompare(b.item.name));
     const full=offerType==="ball"?runState.balls.length>=runState.ballCap:runState.passives.length>=runState.passiveCap;
     results.innerHTML=`<button class="back-btn" data-offer-edit>← Change choices</button>`+ranked.map(({item,reason},i)=>`<article class="offer-result${i===0?" best":""}"><span class="offer-rank">${i+1}</span>${spriteHTML(item.name,offerType==="ball"?"balls":"passives")}<div><h4>${esc(item.name)}${i===0?' <span class="eyebrow">Best</span>':""}</h4><p>${esc(reason)}</p></div><button class="mini-add" data-offer-take="${esc(item.name)}" ${full?"disabled":""}>Choose</button></article>`).join("");
   }
@@ -1999,7 +2055,28 @@ function renderPicker(){
 document.getElementById("start-run-btn").addEventListener("click",showCharacterSetup);
 document.getElementById("resume-run-btn").addEventListener("click",showRunDashboard);
 document.getElementById("setup-back-btn").addEventListener("click",showRunLanding);
-document.getElementById("run-character-grid").addEventListener("click",ev=>{const btn=ev.target.closest("[data-start-character]");if(btn)startRun(btn.dataset.startCharacter);});
+document.getElementById("brand-home").addEventListener("click",()=>{
+  activeView="run";
+  document.body.classList.add("run-mode");
+  document.querySelectorAll("#tabs button").forEach(btn=>btn.classList.toggle("active",btn.dataset.view==="run"));
+  document.querySelectorAll("section.view").forEach(section=>section.classList.toggle("active",section.id==="view-run"));
+  showRunLanding();
+  window.scrollTo({top:0,behavior:"smooth"});
+});
+document.getElementById("party-toggle").addEventListener("click",ev=>{
+  const btn=ev.target.closest("[data-party-size]");if(!btn)return;
+  setupPartySize=Number(btn.dataset.partySize);setupCharacters=[];renderRunCharacterGrid();
+});
+document.getElementById("run-character-grid").addEventListener("click",ev=>{
+  const btn=ev.target.closest("[data-start-character]");if(!btn)return;
+  if(setupPartySize===1){startRun(btn.dataset.startCharacter);return;}
+  const index=setupCharacters.indexOf(btn.dataset.startCharacter);
+  if(index>=0)setupCharacters.splice(index,1);
+  else if(setupCharacters.length<2)setupCharacters.push(btn.dataset.startCharacter);
+  else setupCharacters[1]=btn.dataset.startCharacter;
+  renderRunCharacterGrid();
+});
+document.getElementById("duo-start").addEventListener("click",()=>{if(setupCharacters.length===2)startRun(setupCharacters);});
 document.getElementById("end-run-btn").addEventListener("click",()=>{
   if(!confirm("End this run and clear its live tracker?")) return;
   runState=null;runUndo=null;saveRun();showRunLanding();
@@ -2172,7 +2249,6 @@ renderSlots();
 renderTeamOutput();
 setupSlotsDnD();
 updateProgress();
-updateHeaderRunStatus();
 if(runState&&runState.active) showRunDashboard(); else showRunLanding();
 
 // acceptance self-checks (console only)

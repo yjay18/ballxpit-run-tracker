@@ -1,17 +1,18 @@
 # Pit Crew
 
 Pit Crew is an unofficial, mobile-friendly companion for following a **BALL x
-PIT** run as it happens. Pick a character, add the balls and passives offered by
+PIT** run as it happens. Pick one or two characters, add the balls and passives offered by
 the game, match their levels, and let the build coach surface compatible
 evolutions and character-specific next picks.
 
-The app is a static site with no framework, account, analytics, or backend. Run
+The app is a static site with no framework, account, or backend. Run
 state and encyclopedia checkmarks stay in the browser's `localStorage`.
 
 ## What it does
 
-- Starts with a play-first character picker covering 23 character profiles.
-- Shows only the active character, 4 current ball slots, current passives, and
+- Starts with a play-first single or duo character picker covering 23 character profiles.
+- Duo runs include both starting balls and combine character-aware recommendation weights.
+- Shows only the active character party, 4 current ball slots, current passives, and
   the best next pickups so the screen stays readable during active play.
 - Tracks levels 1–3 for base balls, evolved balls, base passives, and evolved
   passive artifacts.
@@ -54,6 +55,7 @@ Then open `http://localhost:8000`.
 - `img/balls/` — base and evolved ball sprites.
 - `img/passives/` — base passive and artifact sprites.
 - `img/characters/` — character sprites.
+- `img/pit-crew-logo.svg` and `.png` — reusable Pit Crew logo and browser icon.
 - `sprite-manifest.txt` — expected image names and paths.
 - `GAME_INFO.txt` — plain-text game explanation, tracker model, and recipe
   quick reference.
@@ -72,24 +74,9 @@ then contribute to the ranking.
 
 ## Visit analytics
 
-Pit Crew does not ship with analytics. GitHub's repository
-[**Insights → Traffic**](https://docs.github.com/en/repositories/viewing-activity-and-data-for-your-repository/viewing-traffic-to-a-repository)
-page reports visits to the repository itself, not reliable page-view analytics
-for the deployed site.
-
-To track the live GitHub Pages site, create an account with an analytics
-provider and place its generated script in `index.html`:
-
-- [Cloudflare Web Analytics](https://developers.cloudflare.com/web-analytics/get-started/)
-  provides a lightweight site beacon. Use its manual setup and place the
-  generated script immediately before `</body>`.
-- [Google Analytics](https://support.google.com/analytics/answer/9304153)
-  provides realtime, acquisition, geography, and event reports. Create a GA4
-  web data stream and place its Google tag immediately after `<head>`.
-
-After adding either provider, commit and push the changed `index.html`. Review
-the provider's privacy and consent requirements for the locations where the
-site is offered.
+Pit Crew uses the privacy-first Cloudflare Web Analytics beacon installed
+manually in `index.html`. Analytics are reported in the owner's Cloudflare
+dashboard; no analytics credentials are stored in this repository.
 
 ## Original tracker credit
 
