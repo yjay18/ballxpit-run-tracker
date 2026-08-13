@@ -354,8 +354,6 @@ main{max-width:1240px;padding:0 1rem 5rem}
 /* landing */
 .run-hero{min-height:calc(100vh - 116px);display:grid;grid-template-columns:minmax(0,1.08fr) minmax(360px,.92fr);gap:clamp(2rem,6vw,6rem);align-items:center;padding:clamp(3rem,7vw,6.5rem) 0}
 .hero-copy{position:relative;z-index:2}
-.hero-kicker{display:flex;align-items:center;gap:.65rem;margin-bottom:1.25rem}
-.hero-kicker:before{content:"";width:34px;height:2px;background:var(--accent)}
 .hero-title{font-family:"Press Start 2P",monospace;font-size:clamp(2.25rem,6.2vw,5.6rem);line-height:1.04;letter-spacing:-.055em;margin:0;text-transform:uppercase;color:var(--text)}
 .hero-title span{display:block;color:var(--accent);text-shadow:5px 5px 0 #3e4b17}
 .hero-lede{max-width:610px;font-size:clamp(1rem,1.5vw,1.2rem);line-height:1.65;color:#c9cbbd;margin:1.55rem 0 1.75rem}
@@ -369,9 +367,6 @@ main{max-width:1240px;padding:0 1rem 5rem}
 .play-icon{width:0;height:0;border-top:7px solid transparent;border-bottom:7px solid transparent;border-left:11px solid #11140d}
 .resume-link{border:0;background:transparent;color:var(--muted);text-decoration:underline;text-underline-offset:4px;font-size:.78rem;padding:.6rem}
 .resume-link:hover{color:var(--text)}
-.trust-row{display:flex;gap:1.25rem;flex-wrap:wrap;margin-top:2.4rem}
-.trust-item{display:flex;align-items:center;gap:.45rem;color:var(--muted);font-size:.72rem;text-transform:uppercase;letter-spacing:.06em}
-.trust-item b{color:var(--text)}
 .hero-visual{position:relative;min-height:460px;display:grid;place-items:center}
 .pit-board{
   position:relative;width:min(100%,440px);aspect-ratio:.84;border:2px solid #3a432f;
@@ -461,7 +456,7 @@ footer{background:#0b0d0a;margin-top:1rem}.footer-brand{color:var(--text);font-f
 }
 @media(max-width:640px){
   .site-header{padding:.55rem .7rem}.brand-copy span,.live-pill span:not(.live-dot){display:none}.live-pill{padding:.45rem}.brand-copy h1{font-size:.61rem}.brand-mark{width:30px;height:30px}.hdr-top{gap:.45rem}nav.tabs{margin-left:-.1rem;margin-right:-.1rem}nav.tabs button{padding:.42rem .56rem;font-size:.63rem}
-  main{padding-left:.7rem;padding-right:.7rem}.run-hero{padding:2.6rem 0 3rem;gap:1.5rem}.hero-title{font-size:clamp(2rem,14vw,3.8rem)}.hero-title span{text-shadow:3px 3px 0 #3e4b17}.hero-lede{font-size:.95rem}.hero-visual{min-height:310px}.pit-board{width:min(92%,330px)}.hero-orb{width:58px;height:58px}.hero-orb.o2{width:66px;height:66px}.hero-orb.o3{width:72px;height:72px}.board-caption{right:0;bottom:24px}.trust-row{gap:.75rem;margin-top:1.6rem}
+  main{padding-left:.7rem;padding-right:.7rem}.run-hero{padding:2.6rem 0 3rem;gap:1.5rem}.hero-title{font-size:clamp(2rem,14vw,3.8rem)}.hero-title span{text-shadow:3px 3px 0 #3e4b17}.hero-lede{font-size:.95rem}.hero-visual{min-height:310px}.pit-board{width:min(92%,330px)}.hero-orb{width:58px;height:58px}.hero-orb.o2{width:66px;height:66px}.hero-orb.o3{width:72px;height:72px}.board-caption{right:0;bottom:24px}
   .setup-wrap{padding:1.5rem 0}.setup-head{align-items:flex-start}.run-char-grid{grid-template-columns:1fr}.run-topbar{grid-template-columns:1fr;padding:.7rem 0}.runner-card{grid-column:auto}.run-meter{justify-content:space-between;gap:.4rem}.run-controls{justify-content:stretch}.run-controls select{max-width:none;flex:1}.run-layout{gap:.65rem}.panel-head{padding:.7rem}.slot-list{grid-template-columns:repeat(2,minmax(0,1fr));padding:.55rem}.item-slot,.empty-slot{min-height:145px}.passive-list{grid-template-columns:repeat(2,minmax(0,1fr))}.evo-ready{grid-template-columns:auto 1fr}.evo-ready .evolve-btn{grid-column:1/-1}.picker-backdrop{padding:0;place-items:end}.picker-drawer{max-height:88vh;border-left:0;border-right:0}.picker-head{flex-wrap:wrap}.picker-head input{order:3;width:100%}.picker-grid{grid-template-columns:repeat(2,minmax(0,1fr));padding:.5rem}.picker-item{grid-template-columns:32px 1fr;padding:.4rem}.picker-item .sprite{width:32px;height:32px}
 }
 </style>
@@ -508,17 +503,11 @@ footer{background:#0b0d0a;margin-top:1rem}.footer-brand{color:var(--text);font-f
     <div id="run-landing">
       <div class="run-hero">
         <div class="hero-copy">
-          <div class="hero-kicker eyebrow">Your co-pilot in the pit</div>
           <h2 class="hero-title">Build.<span>Bounce.</span>Break.</h2>
           <p class="hero-lede">Track every ball, passive, level and evolution while you play. Pit Crew reads your current build and surfaces the next pickup that actually makes sense for your character.</p>
           <div class="hero-actions">
             <button class="play-btn" id="start-run-btn"><span class="play-icon" aria-hidden="true"></span>Start a run</button>
             <button class="resume-link hidden" id="resume-run-btn">Resume saved run</button>
-          </div>
-          <div class="trust-row" aria-label="Features">
-            <div class="trust-item"><b>79</b> balls mapped</div>
-            <div class="trust-item"><b>66</b> passives</div>
-            <div class="trust-item"><b>100%</b> local</div>
           </div>
         </div>
         <div class="hero-visual" aria-hidden="true">
