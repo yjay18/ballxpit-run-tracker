@@ -1,0 +1,179 @@
+BALL x PIT Evolution Tracker — sprite filename manifest
+Drop PNG files at these exact paths (relative to index.html).
+Any size works; they are rendered pixelated at ~26px (44px for characters).
+
+== Base balls (img/balls/) ==
+img/balls/bleed.png   <- Bleed
+img/balls/brood-mother.png   <- Brood Mother
+img/balls/burn.png   <- Burn
+img/balls/cell.png   <- Cell
+img/balls/charm.png   <- Charm
+img/balls/dark.png   <- Dark
+img/balls/earthquake.png   <- Earthquake
+img/balls/egg-sac.png   <- Egg Sac
+img/balls/freeze.png   <- Freeze
+img/balls/ghost.png   <- Ghost
+img/balls/iron.png   <- Iron
+img/balls/laser-horizontal.png   <- Laser (Horizontal)
+img/balls/laser-vertical.png   <- Laser (Vertical)
+img/balls/light.png   <- Light
+img/balls/lightning.png   <- Lightning
+img/balls/poison.png   <- Poison
+img/balls/stone.png   <- Stone
+img/balls/time.png   <- Time
+img/balls/vampire.png   <- Vampire
+img/balls/wind.png   <- Wind
+
+== Evolved balls (img/balls/) ==
+img/balls/assassin.png   <- Assassin
+img/balls/banished-flame.png   <- Banished Flame
+img/balls/banshee.png   <- Banshee
+img/balls/berserk.png   <- Berserk
+img/balls/black-hole.png   <- Black Hole
+img/balls/blizzard.png   <- Blizzard
+img/balls/bomb.png   <- Bomb
+img/balls/brimstone.png   <- Brimstone
+img/balls/catapult.png   <- Catapult
+img/balls/erosion.png   <- Erosion
+img/balls/fireworks.png   <- Fireworks
+img/balls/flash.png   <- Flash
+img/balls/flicker.png   <- Flicker
+img/balls/freeze-ray.png   <- Freeze Ray
+img/balls/frozen-flame.png   <- Frozen Flame
+img/balls/glacier.png   <- Glacier
+img/balls/heart-swallower.png   <- Heart Swallower
+img/balls/hemorrhage.png   <- Hemorrhage
+img/balls/holy-laser.png   <- Holy Laser
+img/balls/incubus.png   <- Incubus
+img/balls/inferno.png   <- Inferno
+img/balls/landslide.png   <- Landslide
+img/balls/laser-beam.png   <- Laser Beam
+img/balls/laser-cutter.png   <- Laser Cutter
+img/balls/leech.png   <- Leech
+img/balls/lightning-rod.png   <- Lightning Rod
+img/balls/lovestruck.png   <- Lovestruck
+img/balls/maggot.png   <- Maggot
+img/balls/magma.png   <- Magma
+img/balls/mosquito-king.png   <- Mosquito King
+img/balls/mosquito-swarm.png   <- Mosquito Swarm
+img/balls/nosferatu.png   <- Nosferatu
+img/balls/noxious.png   <- Noxious
+img/balls/nuclear-bomb.png   <- Nuclear Bomb
+img/balls/overgrowth.png   <- Overgrowth
+img/balls/phantom.png   <- Phantom
+img/balls/radiation-beam.png   <- Radiation Beam
+img/balls/reaper.png   <- Reaper
+img/balls/sacrifice.png   <- Sacrifice
+img/balls/sandstorm.png   <- Sandstorm
+img/balls/satan.png   <- Satan
+img/balls/shotgun.png   <- Shotgun
+img/balls/sniper.png   <- Sniper
+img/balls/soul-sucker.png   <- Soul Sucker
+img/balls/spider-queen.png   <- Spider Queen
+img/balls/steel.png   <- Steel
+img/balls/storm.png   <- Storm
+img/balls/succubus.png   <- Succubus
+img/balls/sun.png   <- Sun
+img/balls/swamp.png   <- Swamp
+img/balls/time-bomb.png   <- Time Bomb
+img/balls/timestop.png   <- Timestop
+img/balls/vampire-lord.png   <- Vampire Lord
+img/balls/venom.png   <- Venom
+img/balls/virus.png   <- Virus
+img/balls/voluptuous-egg-sac.png   <- Voluptuous Egg Sac
+img/balls/warp.png   <- Warp
+img/balls/wraith.png   <- Wraith
+img/balls/x-ray.png   <- X Ray
+
+== Base passives (img/passives/) ==
+img/passives/archers-effigy.png   <- Archer's Effigy
+img/passives/artificial-heart.png   <- Artificial Heart
+img/passives/baby-rattle.png   <- Baby Rattle
+img/passives/bandage-roll.png   <- Bandage Roll
+img/passives/bottled-tornado.png   <- Bottled Tornado
+img/passives/breastplate.png   <- Breastplate
+img/passives/crown-of-thorns.png   <- Crown of Thorns
+img/passives/cursed-elixir.png   <- Cursed Elixir
+img/passives/deadeyes-amulet.png   <- Deadeye's Amulet
+img/passives/diamond-hilted-dagger.png   <- Diamond Hilted Dagger
+img/passives/dynamite.png   <- Dynamite
+img/passives/emerald-hilted-dagger.png   <- Emerald Hilted Dagger
+img/passives/ethereal-cloak.png   <- Ethereal Cloak
+img/passives/everflowing-goblet.png   <- Everflowing Goblet
+img/passives/eye-of-the-beholder.png   <- Eye of the Beholder
+img/passives/fleet-feet.png   <- Fleet Feet
+img/passives/frozen-spike.png   <- Frozen Spike
+img/passives/gemspring.png   <- Gemspring
+img/passives/ghostly-corset.png   <- Ghostly Corset
+img/passives/ghostly-shield.png   <- Ghostly Shield
+img/passives/golden-bull.png   <- Golden Bull
+img/passives/hand-fan.png   <- Hand Fan
+img/passives/hand-mirror.png   <- Hand Mirror
+img/passives/healers-effigy.png   <- Healer's Effigy
+img/passives/hourglass.png   <- Hourglass
+img/passives/iron-onesie.png   <- Iron Onesie
+img/passives/kiss-of-death.png   <- Kiss of Death
+img/passives/lovers-quiver.png   <- Lover's Quiver
+img/passives/magic-staff.png   <- Magic Staff
+img/passives/magnet.png   <- Magnet
+img/passives/midnight-oil.png   <- Midnight Oil
+img/passives/pressure-valve.png   <- Pressure Valve
+img/passives/protective-charm.png   <- Protective Charm
+img/passives/radiant-feather.png   <- Radiant Feather
+img/passives/reachers-spear.png   <- Reacher's Spear
+img/passives/rubber-headband.png   <- Rubber Headband
+img/passives/ruby-hilted-dagger.png   <- Ruby Hilted Dagger
+img/passives/sapphire-hilted-dagger.png   <- Sapphire Hilted Dagger
+img/passives/shortbow.png   <- Shortbow
+img/passives/silver-blindfold.png   <- Silver Blindfold
+img/passives/silver-bullet.png   <- Silver Bullet
+img/passives/slingshot.png   <- Slingshot
+img/passives/spiked-collar.png   <- Spiked Collar
+img/passives/stone-effigy.png   <- Stone Effigy
+img/passives/sword-breaker.png   <- Sword Breaker
+img/passives/traitors-cowl.png   <- Traitor's Cowl
+img/passives/turret.png   <- Turret
+img/passives/upturned-hatchet.png   <- Upturned Hatchet
+img/passives/vampiric-sword.png   <- Vampiric Sword
+img/passives/voodoo-doll.png   <- Voodoo Doll
+img/passives/wagon-wheel.png   <- Wagon Wheel
+img/passives/war-horn.png   <- War Horn
+img/passives/wretched-onion.png   <- Wretched Onion
+
+== Evolved passives (img/passives/) ==
+img/passives/argent-stopwatch.png   <- Argent Stopwatch
+img/passives/arrow-of-fate.png   <- Arrow of Fate
+img/passives/cornucopia.png   <- Cornucopia
+img/passives/deadeyes-cross.png   <- Deadeye's Cross
+img/passives/deadeyes-impaler.png   <- Deadeye's Impaler
+img/passives/full-metal-rapier.png   <- Full Metal Rapier
+img/passives/gracious-impaler.png   <- Gracious Impaler
+img/passives/grotesque-artillery.png   <- Grotesque Artillery
+img/passives/odiferous-shell.png   <- Odiferous Shell
+img/passives/phantom-regalia.png   <- Phantom Regalia
+img/passives/soul-reaver.png   <- Soul Reaver
+img/passives/tormenters-mask.png   <- Tormenters Mask
+img/passives/wings-of-the-anointed.png   <- Wings of the Anointed
+
+== Characters (img/characters/) ==
+img/characters/the-warrior.png   <- The Warrior
+img/characters/the-itchy-finger.png   <- The Itchy Finger
+img/characters/the-repentant.png   <- The Repentant
+img/characters/the-cohabitants.png   <- The Cohabitants
+img/characters/the-cogitator.png   <- The Cogitator
+img/characters/the-embedded.png   <- The Embedded
+img/characters/the-shade.png   <- The Shade
+img/characters/the-shieldbearer.png   <- The Shieldbearer
+img/characters/the-spendthrift.png   <- The Spendthrift
+img/characters/the-juggler.png   <- The Juggler
+img/characters/the-empty-nester.png   <- The Empty Nester
+img/characters/the-flagellant.png   <- The Flagellant
+img/characters/the-makeshift-sisyphus.png   <- The Makeshift Sisyphus
+img/characters/the-physicist.png   <- The Physicist
+img/characters/the-tactician.png   <- The Tactician
+img/characters/the-radical.png   <- The Radical
+img/characters/the-falconer.png   <- The Falconer
+img/characters/the-carouser.png   <- The Carouser
+img/characters/the-tunneller.png   <- The Tunneller
+img/characters/the-tiptoer.png   <- The Tiptoer
+img/characters/the-false-messiah.png   <- The False Messiah

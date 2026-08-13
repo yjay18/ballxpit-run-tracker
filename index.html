@@ -1,0 +1,1369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BALL x PIT Evolution Tracker</title>
+<meta name="description" content="Fan-made BALL x PIT evolution tracker: every ball, passive, and evolution recipe with check-off progress tracking, plus a Matchmaker team builder with pairing recommendations.">
+<meta property="og:title" content="BALL x PIT Evolution Tracker">
+<meta property="og:description" content="Every ball, passive, and evolution recipe — checkable, searchable, with a Matchmaker team builder. Current through the Shadow Update.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0d0c0f;
+  --panel:#17151b;
+  --panel2:#1f1c24;
+  --border:#2c2833;
+  --text:#f2ead9;
+  --muted:#a99f8c;
+  --accent:#e6b04a;
+  --accent-dim:#8a6a2c;
+  --green:#57c979;
+  --green-tint:rgba(87,201,121,.10);
+  --pill-base:#2b3a4d;
+  --pill-evolved:#4d2b4a;
+  --radius:8px;
+  font-size:15px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:"Segoe UI",system-ui,-apple-system,sans-serif;
+  line-height:1.5;
+}
+h1,h2,h3,.pixel{font-family:"Press Start 2P","Segoe UI",monospace;}
+h1{font-size:.95rem;margin:0;color:var(--accent);letter-spacing:.5px}
+h2{font-size:.85rem;color:var(--accent);margin:1.8rem 0 .8rem}
+h3{font-size:.7rem;color:var(--accent);margin:1.2rem 0 .6rem}
+a{color:var(--accent)}
+button{font-family:inherit;cursor:pointer}
+
+/* ---------- header ---------- */
+header{
+  position:sticky;top:0;z-index:50;
+  background:linear-gradient(180deg,#151318 0%,#121016 100%);
+  border-bottom:2px solid var(--accent-dim);
+  padding:.6rem 1rem .55rem;
+}
+.hdr-top{display:flex;flex-wrap:wrap;align-items:center;gap:.6rem 1rem}
+.badge{
+  font-size:.68rem;background:var(--panel2);border:1px solid var(--accent-dim);
+  color:var(--accent);border-radius:999px;padding:.15rem .6rem;white-space:nowrap;
+}
+.hdr-controls{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem 1rem;margin-top:.45rem}
+.progress-group{display:flex;flex-direction:column;gap:2px;min-width:170px}
+.progress-label{font-size:.68rem;color:var(--muted)}
+.progress-label b{color:var(--text)}
+.pbar{height:5px;background:#2a2630;border-radius:3px;overflow:hidden}
+.pbar>span{display:block;height:100%;background:var(--accent);border-radius:3px;width:0%;transition:width .25s}
+#search{
+  flex:1;min-width:160px;max-width:340px;
+  background:var(--panel2);border:1px solid var(--border);color:var(--text);
+  border-radius:var(--radius);padding:.4rem .7rem;font-size:.85rem;
+}
+#search:focus{outline:1px solid var(--accent-dim)}
+#reset-btn{
+  background:#3a1f22;border:1px solid #6b3038;color:#f0b8bd;
+  border-radius:var(--radius);padding:.35rem .7rem;font-size:.75rem;
+}
+#reset-btn:hover{background:#4a262b}
+nav.tabs{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.55rem}
+nav.tabs button{
+  background:var(--panel);border:1px solid var(--border);color:var(--muted);
+  padding:.35rem .75rem;border-radius:var(--radius);font-size:.78rem;
+}
+nav.tabs button.active{background:var(--panel2);color:var(--accent);border-color:var(--accent-dim)}
+
+main{max-width:1180px;margin:0 auto;padding:0 1rem 4rem}
+section.view{display:none}
+section.view.active{display:block}
+.section-note{color:var(--muted);font-size:.82rem;margin:.2rem 0 .8rem}
+
+/* ---------- tables ---------- */
+.tbl-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:var(--radius);background:var(--panel)}
+table{border-collapse:collapse;width:100%;font-size:.85rem}
+th,td{padding:.5rem .6rem;text-align:left;vertical-align:top;border-bottom:1px solid var(--border)}
+th{
+  background:var(--panel2);color:var(--accent);font-weight:600;font-size:.75rem;
+  text-transform:uppercase;letter-spacing:.04em;white-space:nowrap;
+}
+th.sortable{cursor:pointer;user-select:none}
+th.sortable:hover{color:#ffd47f}
+td.desc{min-width:260px;line-height:1.55}
+tbody.item-row>tr.main-row:hover{background:rgba(255,255,255,.025)}
+tbody.item-row.collected>tr.main-row{background:var(--green-tint)}
+tbody.item-row.collected>tr.main-row .name-btn{color:var(--green)}
+tr.detail-row{display:none}
+tbody.item-row.open>tr.detail-row{display:table-row}
+tr.detail-row>td{background:#131118;padding:.8rem 1rem}
+td.chk,th.chk{width:2.1rem;text-align:center}
+input[type=checkbox]{width:16px;height:16px;accent-color:var(--green);cursor:pointer}
+.name-btn{
+  background:none;border:none;color:var(--text);font-size:.88rem;font-weight:600;
+  padding:0;text-align:left;display:inline-flex;align-items:center;gap:.35rem;
+}
+.name-btn .chev{color:var(--muted);font-size:.65rem;transition:transform .15s;display:inline-block}
+tbody.item-row.open .chev{transform:rotate(90deg)}
+.sticky-tbl td.chk,.sticky-tbl th.chk{position:sticky;left:0;background:var(--panel);z-index:2}
+.sticky-tbl th.chk{background:var(--panel2)}
+.sticky-tbl td.name-cell,.sticky-tbl th.name-col{position:sticky;left:2.1rem;background:var(--panel);z-index:2;min-width:120px}
+.sticky-tbl th.name-col{background:var(--panel2)}
+.sticky-tbl tbody.item-row.collected td.chk,.sticky-tbl tbody.item-row.collected td.name-cell{background:#16211a}
+.no-results td{text-align:center;color:var(--muted);padding:1.2rem}
+
+/* ---------- pills / tags ---------- */
+.pill{
+  display:inline-block;background:var(--pill-base);border:1px solid #3d5270;
+  border-radius:999px;padding:.05rem .55rem;font-size:.74rem;white-space:nowrap;
+  margin:.1rem 0;color:#cfe0f5;
+}
+.pill.evolved{background:var(--pill-evolved);border-color:#7a4675;color:#f0d5ee}
+.recipe{display:flex;flex-wrap:wrap;align-items:center;gap:.2rem .3rem}
+.recipe .op{color:var(--muted);font-size:.72rem}
+.tag{
+  display:inline-block;border-radius:4px;padding:.02rem .4rem;font-size:.7rem;
+  margin:.08rem .12rem .08rem 0;border:1px solid rgba(255,255,255,.15);white-space:nowrap;
+}
+.tier-badge{
+  display:inline-block;border-radius:4px;padding:0 .45rem;font-size:.72rem;font-weight:700;
+}
+.tier-1{background:#2b3a4d;color:#9ec3ef}
+.tier-2{background:#4d2b4a;color:#eaa6e4}
+
+/* ---------- filter chips ---------- */
+.filters{display:flex;flex-wrap:wrap;align-items:center;gap:.4rem;margin:.6rem 0 .7rem}
+.chip{
+  background:var(--panel);border:1px solid var(--border);color:var(--muted);
+  border-radius:999px;padding:.22rem .75rem;font-size:.76rem;
+}
+.chip.active{background:var(--panel2);color:var(--accent);border-color:var(--accent-dim)}
+.filters select{
+  background:var(--panel2);border:1px solid var(--border);color:var(--text);
+  border-radius:var(--radius);padding:.28rem .5rem;font-size:.78rem;
+}
+
+/* ---------- detail panel ---------- */
+.detail-grid{display:flex;flex-direction:column;gap:.55rem;font-size:.84rem}
+.detail-grid .lbl{color:var(--accent);font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:.15rem}
+.lvl-tbl{width:auto;font-size:.8rem;border:1px solid var(--border)}
+.lvl-tbl th,.lvl-tbl td{padding:.3rem .6rem}
+.undoc{color:var(--muted);font-style:italic}
+
+/* ---------- info box ---------- */
+.infobox{
+  background:var(--panel);border:1px solid var(--accent-dim);border-radius:var(--radius);
+  padding:.8rem 1rem;margin:.8rem 0;font-size:.83rem;
+}
+.infobox h3{margin:.1rem 0 .5rem}
+.infobox ul{margin:.2rem 0;padding-left:1.2rem}
+.infobox li{margin:.25rem 0}
+
+/* ---------- by-base cards ---------- */
+.base-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:.6rem}
+.base-card{grid-column:1/-1;border:1px solid var(--border);border-radius:var(--radius);background:var(--panel);overflow:hidden}
+.base-grid>.base-card{grid-column:auto}
+.base-card.open{grid-column:1/-1}
+.base-card>button.card-head{
+  width:100%;background:none;border:none;color:var(--text);text-align:left;
+  padding:.6rem .8rem;display:flex;justify-content:space-between;align-items:center;gap:.5rem;
+}
+.base-card>button.card-head:hover{background:rgba(255,255,255,.03)}
+.base-card .card-title{font-weight:700;font-size:.9rem}
+.base-card .count{color:var(--muted);font-size:.74rem;white-space:nowrap}
+.base-card .card-body{display:none;padding:.2rem .8rem .9rem;border-top:1px solid var(--border)}
+.base-card.open .card-body{display:block}
+.base-card .card-body p{font-size:.83rem;margin:.6rem 0}
+.mini-note{color:var(--muted);font-size:.75rem;margin:.6rem 0 .3rem}
+
+/* ---------- team builder ---------- */
+.slots{display:grid;grid-template-columns:1fr auto 1fr;gap:.7rem;align-items:stretch;margin:.8rem 0}
+.slot{
+  border:2px dashed var(--accent-dim);border-radius:var(--radius);background:var(--panel);
+  min-height:96px;padding:.6rem .8rem;position:relative;
+}
+.slot.filled{border-style:solid}
+.slot.dragover{background:var(--panel2);border-color:var(--accent)}
+.slot .slot-label{font-size:.66rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.slot .slot-empty{color:var(--muted);font-size:.8rem;margin-top:.7rem}
+.slot .rm{
+  position:absolute;top:.35rem;right:.45rem;background:none;border:none;color:var(--muted);
+  font-size:1rem;line-height:1;padding:.1rem .3rem;
+}
+.slot .rm:hover{color:#f0b8bd}
+.slot-char{display:flex;gap:.6rem;align-items:center;margin-top:.4rem}
+.slot-mid{display:flex;flex-direction:column;gap:.4rem;justify-content:center}
+.slot-mid button{
+  background:var(--panel2);border:1px solid var(--border);color:var(--text);
+  border-radius:var(--radius);padding:.3rem .6rem;font-size:.74rem;
+}
+.avatar{
+  width:44px;height:44px;border-radius:6px;flex-shrink:0;position:relative;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+  font-family:"Press Start 2P",monospace;font-size:.7rem;color:rgba(255,255,255,.92);
+  image-rendering:pixelated;text-shadow:1px 1px 0 rgba(0,0,0,.5);
+}
+.avatar img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;image-rendering:auto}
+.avatar.loaded{background:var(--panel2) !important;color:transparent;text-shadow:none}
+.sprite{
+  width:26px;height:26px;flex-shrink:0;position:relative;display:inline-flex;
+  align-items:center;justify-content:center;
+}
+.sprite img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;image-rendering:auto}
+.sprite.loaded .ph{visibility:hidden}
+.detail-head{display:flex;align-items:center;gap:.6rem;font-size:1rem;font-weight:700}
+.detail-head .sprite{width:48px;height:48px}
+.sprite .ph{
+  width:100%;height:100%;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  box-shadow:inset -2px -3px 4px rgba(0,0,0,.45);
+}
+.sprite.passive .ph{
+  border-radius:5px;font-family:"Press Start 2P",monospace;font-size:.5rem;
+  color:rgba(255,255,255,.85);text-shadow:1px 1px 0 rgba(0,0,0,.6);
+  box-shadow:inset -2px -2px 3px rgba(0,0,0,.4);
+}
+.name-flex{display:flex;align-items:center;gap:.45rem}
+.char-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:.55rem;margin-top:.7rem}
+.char-card{
+  border:1px solid var(--border);border-radius:var(--radius);background:var(--panel);
+  padding:.55rem .65rem;display:flex;gap:.6rem;cursor:grab;text-align:left;color:var(--text);
+}
+.char-card:hover{background:var(--panel2)}
+.char-card.in-slot{outline:2px solid var(--green);opacity:.85}
+.char-card.recommended{outline:2px solid var(--accent)}
+.char-card.disabled{opacity:.4;cursor:default}
+.char-card .cc-info{min-width:0}
+.char-card .cc-name{font-weight:700;font-size:.85rem}
+.char-card .cc-ability{color:var(--muted);font-size:.74rem;line-height:1.35;margin-top:.15rem}
+.char-card .cc-hint{color:var(--accent);font-size:.72rem;margin-top:.25rem}
+.reco-panel,.report{
+  border:1px solid var(--accent-dim);border-radius:var(--radius);background:var(--panel);
+  padding:.8rem 1rem;margin:.8rem 0;
+}
+.reco-panel ol{margin:.4rem 0 0;padding-left:1.3rem}
+.reco-panel li{margin:.3rem 0;font-size:.85rem}
+.report .cols,.reco-panel .cols{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin:.5rem 0}
+.report .colbox,.reco-panel .colbox{background:var(--panel2);border-radius:var(--radius);padding:.55rem .7rem;font-size:.82rem}
+.reco-panel .colbox ol{margin:.3rem 0 0;padding-left:1.2rem}
+.reco-panel .colbox li{margin:.25rem 0;font-size:.8rem}
+.report .warn{
+  background:#3a2b1f;border:1px solid #7a5a30;color:#f0cf9a;border-radius:var(--radius);
+  padding:.5rem .8rem;margin:.6rem 0;font-size:.83rem;
+}
+.report .community{
+  background:#1f2a1f;border:1px solid #3f6b45;border-radius:var(--radius);
+  padding:.6rem .9rem;margin:.7rem 0;font-size:.84rem;
+}
+.report .community h4{margin:.1rem 0 .4rem;color:var(--green);font-size:.85rem}
+.report ul{margin:.3rem 0;padding-left:1.2rem}
+.report li{margin:.2rem 0;font-size:.84rem}
+.evo-callout{
+  background:var(--panel2);border-left:3px solid var(--accent);border-radius:0 var(--radius) var(--radius) 0;
+  padding:.5rem .8rem;margin:.5rem 0;font-size:.85rem;
+}
+
+footer{
+  max-width:1180px;margin:0 auto;padding:1.2rem 1rem 2.5rem;color:var(--muted);
+  font-size:.76rem;border-top:1px solid var(--border);
+}
+
+@media (max-width:640px){
+  :root{font-size:14px}
+  .report .cols,.reco-panel .cols{grid-template-columns:1fr}
+  .slots{grid-template-columns:1fr;}
+  .slot-mid{flex-direction:row}
+  h1{font-size:.8rem}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hdr-top">
+    <h1>BALL x PIT Evolution Tracker</h1>
+    <span class="badge">Current through Shadow Update (Apr 27, 2026)</span>
+  </div>
+  <div class="hdr-controls">
+    <div class="progress-group">
+      <span class="progress-label">Evolutions: <b id="evo-count">0</b> / 59</span>
+      <div class="pbar"><span id="evo-bar"></span></div>
+    </div>
+    <div class="progress-group">
+      <span class="progress-label">Evolved Passives: <b id="pas-count">0</b> / 13</span>
+      <div class="pbar"><span id="pas-bar"></span></div>
+    </div>
+    <input id="search" type="search" placeholder="Search name, recipe, description…" aria-label="Search">
+    <button id="reset-btn">Reset all checks</button>
+  </div>
+  <nav class="tabs" id="tabs">
+    <button data-view="base" class="active">Base Balls</button>
+    <button data-view="evo">Evolutions</button>
+    <button data-view="bybase">By Base Ball</button>
+    <button data-view="passives">Passives</button>
+    <button data-view="team">Team Builder</button>
+  </nav>
+</header>
+
+<main>
+  <section class="view active" id="view-base">
+    <h2>Base Balls</h2>
+    <p class="section-note">The 20 base balls. Click a name for details, starting characters, and every evolution it feeds into.</p>
+    <div class="tbl-wrap"><table id="base-table" class="sticky-tbl">
+      <thead><tr><th class="chk"></th><th class="name-col">Name</th><th>Description</th><th>Damage Type</th><th>Status Effects</th><th>Starting Character(s)</th><th>Unlock</th></tr></thead>
+    </table></div>
+  </section>
+
+  <section class="view" id="view-evo">
+    <h2>Evolutions</h2>
+    <div class="infobox">
+      <h3>How evolutions work</h3>
+      <ul>
+        <li>Both ingredient balls must be <b>level 3</b>, then combine them in the <b>Fusion Reactor</b> building.</li>
+        <li>Ingredient order never matters for evolutions.</li>
+        <li>If two balls CAN evolve together, the Fusion Reactor forces the evolution; you cannot arbitrary-fuse that pair (exception: the three Nosferatu components can also fuse pairwise).</li>
+        <li>Evolved balls can themselves be leveled to 3 and evolved again (Tier 2) or fused freely with any non-matching ball.</li>
+        <li>Passives evolve the same way but cannot be arbitrarily fused, only evolved via exact recipes.</li>
+      </ul>
+    </div>
+    <div class="filters" id="evo-filters">
+      <button class="chip active" data-filter="all">All</button>
+      <button class="chip" data-filter="uncollected">Uncollected only</button>
+      <button class="chip" data-filter="tier1">Tier 1</button>
+      <button class="chip" data-filter="tier2">Tier 2</button>
+      <select id="uses-select" aria-label="Uses base ball"><option value="">Uses base ball…</option></select>
+    </div>
+    <div class="tbl-wrap"><table id="evo-table" class="sticky-tbl">
+      <thead><tr>
+        <th class="chk">✓</th>
+        <th class="name-col sortable" data-sort="name">Name ▲</th>
+        <th>Recipe</th><th>Description</th><th>Damage Type</th><th>Status Effects</th><th>Evolves Further Into</th>
+        <th class="sortable" data-sort="tier">Tier</th>
+      </tr></thead>
+    </table></div>
+  </section>
+
+  <section class="view" id="view-bybase">
+    <h2>By Base Ball</h2>
+    <p class="section-note">Pick a base ball to see everything it makes. Checkboxes here are the same ones as in the Evolutions table.</p>
+    <div class="base-grid" id="base-grid"></div>
+  </section>
+
+  <section class="view" id="view-passives">
+    <h2>Base Passives</h2>
+    <div class="tbl-wrap"><table id="bpas-table">
+      <thead><tr><th>Name</th><th>Description</th><th>Unlock Condition</th><th>Appearance Requirement</th></tr></thead>
+    </table></div>
+    <h2>Evolved Passives</h2>
+    <div class="tbl-wrap"><table id="epas-table" class="sticky-tbl">
+      <thead><tr><th class="chk">✓</th><th class="name-col">Name</th><th>Recipe</th><th>Description</th></tr></thead>
+    </table></div>
+  </section>
+
+  <section class="view" id="view-team">
+    <h2>Team Builder</h2>
+    <p class="section-note">The <b>Matchmaker</b> building lets you bring 2 characters into one run: both abilities are active and you start with both starting balls (the Jeweler levels your first starter, the Matchmaker levels the second). Pick two whose starters evolve together for a free early evolution. Drag a card into a slot, or just click/tap it.</p>
+    <div class="slots">
+      <div class="slot" id="slot-0" data-slot="0"><span class="slot-label">Character 1</span><div class="slot-content"><div class="slot-empty">Drop or click a character</div></div></div>
+      <div class="slot-mid">
+        <button id="swap-btn" title="Swap slots">⇄ Swap</button>
+        <button id="clear-btn" title="Clear both slots">✕ Clear</button>
+      </div>
+      <div class="slot" id="slot-1" data-slot="1"><span class="slot-label">Character 2</span><div class="slot-content"><div class="slot-empty">Drop or click a character</div></div></div>
+    </div>
+    <div id="team-output"></div>
+    <div class="char-grid" id="char-grid"></div>
+  </section>
+</main>
+
+<footer>
+  <p>Data from <a href="https://ballxpit.wiki.gg/wiki/Balls">ballxpit.wiki.gg</a>, current through the Shadow Update (April 27, 2026). Naturalist Update (July 2026) not yet included.</p>
+  <p>Sources: <a href="https://ballxpit.wiki.gg/wiki/Balls">Balls</a> · <a href="https://ballxpit.wiki.gg/wiki/Passives">Passives</a> · <a href="https://ballxpit.wiki.gg/wiki/Characters">Characters</a>. Curated team combos credit: <a href="https://www.dexerto.com">dexerto.com</a>.</p>
+  <p>BALL x PIT and all game art are the property of Kenny Sun and Devolver Digital. This is an unofficial fan project, not affiliated with or endorsed by the developer or publisher. Sprite assets will be removed on request.</p>
+</footer>
+
+<script>
+/* =====================================================================
+   GAME DATA — current through the Shadow Update (April 27, 2026)
+   Pulled from ballxpit.wiki.gg on 2026-07-14.
+   Recipes use a "slots" format: array of slots, each slot an array of
+   acceptable balls (length > 1 means "or").
+   ===================================================================== */
+const GAME_DATA = {
+  baseBalls: [
+    { name:"Bleed", description:"Inflicts 2 stacks of bleed. Bleeding enemies receive 1 damage per stack when hit by a ball (max 8 stacks).", characters:["The Warrior","The False Messiah"], unlock:"Unlocked by default", damageTypes:["Base"], statusEffects:["Bleed"],
+      levels:[{mult:"3.5-6.5",effect:"Inflicts 2 stacks of bleed (max 8 stacks)."},{mult:"4.7-8.7",effect:"Inflicts 4 stacks of bleed (max 11 stacks)."},null] },
+    { name:"Brood Mother", description:"Has a 25% chance of birthing a baby ball each time it hits an enemy.", characters:["The Cohabitants"], unlock:"Unlocked by default", damageTypes:["Base"], statusEffects:["Baby Ball Spawn"] },
+    { name:"Burn", description:"Add 1 stack of burn on hit for 3 seconds (max 3 stacks). Burnt units are dealt 4-8 damage per stack per second.", characters:["The Itchy Finger"], unlock:"Unlocked by default", damageTypes:["Base"], statusEffects:["Burn"] },
+    { name:"Cell", description:"Splits into a clone on hit 2 times.", characters:[], unlock:"Clear The FUNGALxFOREST", damageTypes:["Base"], statusEffects:["Clone"] },
+    { name:"Charm", description:"Each hit has a 4% chance of charming the enemy for 5 seconds. Charmed units walk up the board and attack enemies.", characters:["The Carouser"], unlock:"Clear The HEAVENLYxGATES", damageTypes:["Base"], statusEffects:["Charm"] },
+    { name:"Dark", description:"Deals 3.0x damage but destroys itself after hitting an enemy. Has a 3 second cooldown before it can be shot again.", characters:["The Shade"], unlock:"Clear The BONExYARD", damageTypes:["Base"], statusEffects:[] },
+    { name:"Earthquake", description:"Deals 5-13 damage to nearby units in a 3x3 tile square.", characters:["The Makeshift Sisyphus","The Tunneller"], unlock:"Unlocked by default", damageTypes:["Base","AOE"], statusEffects:[] },
+    { name:"Egg Sac", description:"Explodes into 2-4 baby balls on hitting an enemy. Has a 3 second cooldown before it can be shot again.", characters:["The Flagellant"], unlock:"Unlocked by default", damageTypes:["Base"], statusEffects:["Baby Ball Spawn"] },
+    { name:"Freeze", description:"Has a 4% chance to freeze enemies for 5.0 seconds. Frozen enemies receive 25% more damage.", characters:["The Repentant"], unlock:"Unlocked by default", damageTypes:["Base"], statusEffects:["Freeze"] },
+    { name:"Ghost", description:"Passes through enemies.", characters:["The Empty Nester"], unlock:"Unlocked by default", damageTypes:["Base"], statusEffects:[] },
+    { name:"Iron", description:"Deals double damage but moves 40% slower.", characters:["The Shieldbearer","The Tactician"], unlock:"Unlocked by default", damageTypes:["Base"], statusEffects:[] },
+    { name:"Laser (Horizontal)", description:"Deals 9-18 damage to all enemies in the same row.", characters:["The Tiptoer"], unlock:"Unlocked by default", damageTypes:["AOE"], statusEffects:[] },
+    { name:"Laser (Vertical)", description:"Deals 9-18 damage to all enemies in the same column.", characters:["The Cogitator"], unlock:"Unlocked by default", damageTypes:["AOE"], statusEffects:[] },
+    { name:"Light", description:"Blinds enemies on hit for 3 seconds. Blinded units have a hard time detecting you and have a 50% chance of missing when they attack.", characters:["The Physicist"], unlock:"Clear The LIMINALxDESERT", damageTypes:["Base"], statusEffects:["Blind"] },
+    { name:"Lightning", description:"Deals 1-20 damage to up to 3 nearby enemies.", characters:["The Juggler","The Falconer"], unlock:"Unlocked by default", damageTypes:["AOE"], statusEffects:[] },
+    { name:"Poison", description:"Applies 1 stack of poison on hit (max 5 stacks). Poison lasts for 6 seconds and each stack deals 1-4 damage per second.", characters:["The Embedded"], unlock:"Unlocked by default", damageTypes:["Base"], statusEffects:["Poison"] },
+    { name:"Stone", description:"Initially deals 300% damage. Damage erodes by 40% each time hitting an enemy (minimum 50%).", characters:[], unlock:"Clear The SNOWYxSHORES", damageTypes:["Base"], statusEffects:[] },
+    { name:"Time", description:"Explodes into a time snare upon hitting an enemy, which stays on the field for 20 seconds and freezes enemies inside it.", characters:[], unlock:"Clear The SMOLDERINGxDEPTHS", damageTypes:["Base"], statusEffects:["Time Snare"] },
+    { name:"Vampire", description:"Each hit has a 4.5% chance of healing 1 health.", characters:["The Spendthrift"], unlock:"Unlocked by default", damageTypes:["Base"], statusEffects:["Heal"] },
+    { name:"Wind", description:"Passes through enemies and slows them down by 30% for 5 seconds, but deals 25% less damage.", characters:["The Radical"], unlock:"Unlocked by default", damageTypes:["Base"], statusEffects:["Slow"] }
+  ],
+
+  evolvedBalls: [
+    { name:"Assassin", slots:[["Iron"],["Ghost","Dark"]], description:"Passes through the front of enemies, but not the back. Backstabs deal 30% bonus damage.", evolvesInto:[{name:"Sniper",with:["Shotgun"]}], tier:1, damageTypes:["Base"], statusEffects:[] },
+    { name:"Banished Flame", slots:[["Dark"],["Burn"]], description:"Add 1 stack of darkflame on hit for 2 seconds (max 6 stacks). Darkflame deals 1-30 damage per stack per second. When the darkflame goes out, it deals 1-100 to the enemy.", evolvesInto:[], tier:1, damageTypes:["Base"], statusEffects:["Darkflame"] },
+    { name:"Banshee", slots:[["Phantom"],["Wraith"]], description:"Curses all enemies while on the field when launched. Cursed enemies are dealt 150-300 after being hit 6 times.", evolvesInto:[], tier:2, damageTypes:["Base"], statusEffects:["Curse"] },
+    { name:"Berserk", slots:[["Charm"],["Bleed","Burn"]], description:"Each hit has a 30% chance of causing enemies to go berserk for 6 seconds. Berserk enemies deal 15-24 damage to adjacent enemies every second.", evolvesInto:[], tier:1, damageTypes:["Base"], statusEffects:["Berserk"] },
+    { name:"Black Hole", slots:[["Sun"],["Dark","Time"]], description:"Instantly kills the first non-boss enemy that it hits, but destroys itself afterwards. Has a 7 second cooldown before it can be shot again.", evolvesInto:[], tier:2, damageTypes:["Base"], statusEffects:["Instant Kill"] },
+    { name:"Blizzard", slots:[["Freeze"],["Wind","Lightning"]], description:"Freezes all enemies within a 2 tile radius for 0.8 seconds, dealing 1-50 damage.", evolvesInto:[], tier:1, damageTypes:["Base","AOE"], statusEffects:["Freeze"] },
+    { name:"Bomb", slots:[["Burn"],["Iron"]], description:"Explodes when hitting an enemy, dealing 150-300 damage to nearby enemies. Has a 3 second cooldown before it can be shot again.", evolvesInto:[{name:"Nuclear Bomb",with:["Poison"]},{name:"Time Bomb",with:["Time"]}], tier:1, damageTypes:["AOE"], statusEffects:[] },
+    { name:"Brimstone", slots:[["Stone","Poison"],["Burn"]], description:"Applies 1 stack of burn and poison every second to all enemies within a 2 tile radius (max 4 stacks). Burn deals 1-4 damage per stack per second and poison deals 2-3 damage per stack per second.", evolvesInto:[], tier:1, damageTypes:["Base"], statusEffects:["Burn","Poison"] },
+    { name:"Catapult", slots:[["Stone"],["Egg Sac"]], description:"Launches 3-5 stone baby balls every 1.5 seconds, which are destroyed after hitting anything.", evolvesInto:[], tier:1, damageTypes:["Base"], statusEffects:["Baby Ball Spawn"] },
+    { name:"Erosion", slots:[["Time"],["Wind"]], description:"Passes through enemies. Deals 3% of enemy's current health as bonus damage on hit.", evolvesInto:[], tier:1, damageTypes:["Base"], statusEffects:[] },
+    { name:"Fireworks", slots:[["Burn"],["Egg Sac"]], description:"Explodes into 3-6 fireworks. Fireworks target random enemies, dealing 20-30 damage and applying 1 stack of burn. Burnt units are dealt 7-11 damage per stack per second.", evolvesInto:[], tier:1, damageTypes:["Base"], statusEffects:["Firework Spawn","Burn"] },
+    { name:"Flash", slots:[["Lightning"],["Light"]], description:"Damage all enemies on screen for 1-3 damage after hitting an enemy and blind them for 2 seconds.", evolvesInto:[], tier:1, damageTypes:["Base","AOE"], statusEffects:["Blind"] },
+    { name:"Flicker", slots:[["Light"],["Dark"]], description:"Deals 1-7 damage to every enemy on screen every 1.4 seconds.", evolvesInto:[], tier:1, damageTypes:["Base","AOE"], statusEffects:[] },
+    { name:"Freeze Ray", slots:[["Freeze"],["Laser (Horizontal)","Laser (Vertical)"]], description:"Emits a freeze ray when hitting an enemy, dealing 20-50 to all enemies in its path, with a 10% chance of freezing them for 10.0 seconds.", evolvesInto:[], tier:1, damageTypes:["Base","AOE"], statusEffects:["Freeze"] },
+    { name:"Frozen Flame", slots:[["Burn"],["Freeze"]], description:"Add 1 stack of frostburn on hit for 20 seconds (max 4 stacks). Frostburnt units are dealt 8-12 damage per stack per second and receive 25% more damage from other sources.", evolvesInto:[], tier:1, damageTypes:["Base"], statusEffects:["Frostburn"] },
+    { name:"Glacier", slots:[["Freeze"],["Earthquake","Stone"]], description:"Releases glacial spikes over time that deal 15-30 to enemies that touch them and freeze them for 2.0 seconds. This ball and its glacial spikes also deal 6-12 damage to nearby units.", evolvesInto:[], tier:1, damageTypes:["Base"], statusEffects:["Freeze"] },
+    { name:"Heart Swallower", slots:[["Bleed"],["Ghost"]], description:"Saps enemies on hit, with a 40% chance of stealing 1 health and reducing their attack damage by 20%. Lifesteal chance only applies once per enemy.", evolvesInto:[{name:"Reaper",with:["Soul Sucker"]}], tier:1, damageTypes:["Base"], statusEffects:["Lifesteal","Attack Down"] },
+    { name:"Hemorrhage", slots:[["Bleed"],["Iron"]], description:"Inflicts 3 stacks of bleed. When hitting an enemy with 12 stacks of bleed or more, consumes all stacks of bleed to deal 20% of their current health.", evolvesInto:[], tier:1, damageTypes:["Base"], statusEffects:["Bleed"] },
+    { name:"Holy Laser", slots:[["Laser (Horizontal)"],["Laser (Vertical)"]], description:"Deals 24-36 damage to all enemies in the same row and column.", evolvesInto:[{name:"X Ray",with:["Laser Beam"]}], tier:1, damageTypes:["AOE"], statusEffects:[] },
+    { name:"Incubus", slots:[["Charm"],["Dark"]], description:"Each hit has a 4% chance of charming the enemy for 9 seconds. Charmed enemies curse nearby enemies. Cursed enemies are dealt 100-200 after being hit 5 times.", evolvesInto:[{name:"Satan",with:["Succubus"]}], tier:1, damageTypes:["Base"], statusEffects:["Charm","Curse"] },
+    { name:"Inferno", slots:[["Burn"],["Wind","Time"]], description:"Applies 1 stack of burn every second to all enemies within a 2 tile radius. Burn lasts for 6 seconds, dealing 3-7 damage per stack per second.", evolvesInto:[], tier:1, damageTypes:["AOE"], statusEffects:["Burn"] },
+    { name:"Landslide", slots:[["Stone"],["Earthquake"]], description:"Creates a landslide and destroys self upon hitting an enemy. The landslide lasts for 5 seconds and deals 20-30 damage per second to enemies within a 2 tile radius.", evolvesInto:[], tier:1, damageTypes:["Base","AOE"], statusEffects:["Landslide"] },
+    { name:"Laser Beam", slots:[["Light"],["Laser (Horizontal)","Laser (Vertical)"]], description:"Emit a laser beam on hit that deals 30-42 damage and blinds enemies for 8 seconds.", evolvesInto:[{name:"X Ray",with:["Holy Laser"]}], tier:1, damageTypes:["Base","AOE"], statusEffects:["Blind"] },
+    { name:"Laser Cutter", slots:[["Laser (Horizontal)","Laser (Vertical)"],["Steel"]], description:"Constantly emits a laser in front of it, which deals 100-150 damage per second.", evolvesInto:[], tier:2, damageTypes:["Base","AOE"], statusEffects:[] },
+    { name:"Leech", slots:[["Brood Mother"],["Bleed"]], description:"Attaches up to 1 leech onto enemies it hits, which add 2 stacks of bleed per second (max 24 stacks).", evolvesInto:[], tier:1, damageTypes:["Base"], statusEffects:["Leech","Bleed"] },
+    { name:"Lightning Rod", slots:[["Lightning"],["Iron"]], description:"Plants a lightning rod into enemies it hits. These enemies are struck by lightning every 3.0 seconds, dealing 1-30 damage to up to 8 nearby enemies.", evolvesInto:[], tier:1, damageTypes:["Base","AOE"], statusEffects:["Lightning Rod"] },
+    { name:"Lovestruck", slots:[["Charm"],["Light","Lightning","Time"]], description:"Inflicts lovestruck on hit enemies for 20 seconds. Lovestruck units have a 50% chance of healing you for 5 health when they attack.", evolvesInto:[], tier:1, damageTypes:["Base"], statusEffects:["Lovestruck"] },
+    { name:"Maggot", slots:[["Brood Mother"],["Cell"]], description:"Infest enemies on hit with maggots. When they die, they explode into 1-2 baby balls.", evolvesInto:[], tier:1, damageTypes:["Base"], statusEffects:["Infest","Baby Ball Spawn"] },
+    { name:"Magma", slots:[["Burn"],["Earthquake"]], description:"Emits lava blobs over time. Enemies who walk into lava blobs are dealt 15-30 damage and gain 1 stack of burn (max 3 stacks). Burn lasts for 3 seconds, dealing 3-8 damage per stack per second. This ball and its lava blobs also deal 6-12 damage to nearby units.", evolvesInto:[], tier:1, damageTypes:["Base","AOE"], statusEffects:["Burn"] },
+    { name:"Mosquito King", slots:[["Vampire"],["Brood Mother"]], description:"Spawns a mosquito each time it hits an enemy. Mosquitos attack a random enemy, dealing 80-120 damage each. If a mosquito kills an enemy, they steal 1 health.", evolvesInto:[{name:"Nosferatu",with:["Vampire Lord","Spider Queen"]}], tier:1, damageTypes:["Base"], statusEffects:["Mosquito Spawn","Lifesteal"] },
+    { name:"Mosquito Swarm", slots:[["Vampire"],["Egg Sac"]], description:"Explodes into 3-6 mosquitos. Mosquitos attack random enemies, dealing 80-120 damage each. If a mosquito kills an enemy, they steal 1 health.", evolvesInto:[], tier:1, damageTypes:["Base"], statusEffects:["Mosquito Spawn","Lifesteal"] },
+    { name:"Nosferatu", slots:[["Vampire Lord"],["Spider Queen"],["Mosquito King"]], description:"Spawns a vampire bat each bounce. Vampire bats fly towards a random enemy, dealing 132-176 damage on hit, turning into a Vampire Lord.", evolvesInto:[], tier:2, damageTypes:["Base"], statusEffects:["Vampire Bat Spawn"] },
+    { name:"Noxious", slots:[["Wind"],["Poison","Dark"]], description:"Passes through enemies and applies 3 stacks of poison to nearby enemies within a 2 tile radius. Poison lasts for 4 seconds and each stack deals 1-3 damage per second.", evolvesInto:[], tier:1, damageTypes:["Base"], statusEffects:["Poison"] },
+    { name:"Nuclear Bomb", slots:[["Bomb"],["Poison"]], description:"Explodes when hitting an enemy, dealing 300-500 damage to nearby enemies and applying 1 stack of radiation to everyone present indefinitely (max 5 stacks). Each stack of radiation increases damage received by 10%. Has a 3 second cooldown.", evolvesInto:[], tier:2, damageTypes:["AOE"], statusEffects:["Radiation"] },
+    { name:"Overgrowth", slots:[["Earthquake"],["Cell"]], description:"Applies 1 stack of overgrowth. Upon reaching 3, consume all stacks and deal 150-200 damage to all enemies in a 3x3 tile square.", evolvesInto:[], tier:1, damageTypes:["Base","AOE"], statusEffects:["Overgrowth"] },
+    { name:"Phantom", slots:[["Dark"],["Ghost"]], description:"Curse enemies on hit. Cursed enemies are dealt 100-200 damage after being hit 5 times.", evolvesInto:[{name:"Banshee",with:["Wraith"]}], tier:1, damageTypes:["Base"], statusEffects:["Curse"] },
+    { name:"Radiation Beam", slots:[["Laser (Horizontal)","Laser (Vertical)"],["Poison","Cell"]], description:"Emit a radiation beam on hit that deals 24-48 damage and applies 1 stack of radiation (max 5 stacks). Radiation lasts for 15 seconds and causes enemies to receive 10% more damage from all sources per stack.", evolvesInto:[], tier:1, damageTypes:["Base","AOE"], statusEffects:["Radiation"] },
+    { name:"Reaper", slots:[["Soul Sucker"],["Heart Swallower"]], description:"Has a 10% chance to kill enemies on impact, healing you for 5 health.", evolvesInto:[], tier:2, damageTypes:["Base"], statusEffects:["Instant Kill"] },
+    { name:"Sacrifice", slots:[["Bleed"],["Dark"]], description:"Inflicts 4 stacks of bleed (max 15 stacks) and applies curse to hit enemies. Cursed enemies are dealt 50-100 after being hit 5 times.", evolvesInto:[], tier:1, damageTypes:["Base"], statusEffects:["Bleed","Curse"] },
+    { name:"Sandstorm", slots:[["Earthquake","Stone"],["Wind"]], description:"Goes through enemies and is surrounded by a raging storm dealing 10-20 damage per second and blinding nearby enemies for 3 seconds.", evolvesInto:[], tier:1, damageTypes:["Base","AOE"], statusEffects:["Blind"] },
+    { name:"Satan", slots:[["Incubus"],["Succubus"]], description:"While active, add 1 stack of burn to all active enemies per second (max 5 stacks), dealing 10-20 damage per stack per second and make them go berserk, dealing 15-24 damage to adjacent enemies every second.", evolvesInto:[], tier:2, damageTypes:["Base"], statusEffects:["Burn","Berserk"] },
+    { name:"Shotgun", slots:[["Iron"],["Egg Sac"]], description:"Shoots 3-7 iron baby balls after hitting a wall. Iron baby balls move at 200% speed but are destroyed upon hitting anything.", evolvesInto:[{name:"Sniper",with:["Assassin"]}], tier:1, damageTypes:["Base"], statusEffects:["Baby Ball Spawn"] },
+    { name:"Sniper", slots:[["Shotgun"],["Assassin"]], description:"Pierces enemies and shoots 3-7 sniper baby balls after hitting a wall. Sniper baby balls pierce enemies but are destroyed upon hitting a wall.", evolvesInto:[], tier:2, damageTypes:["Base"], statusEffects:["Sniper Baby Ball Spawn"] },
+    { name:"Soul Sucker", slots:[["Vampire"],["Ghost"]], description:"Passes through enemies and saps them, with a 30% chance of stealing 1 health and reducing their attack damage by 20%. Lifesteal chance only applies once per enemy.", evolvesInto:[{name:"Reaper",with:["Heart Swallower"]}], tier:1, damageTypes:["Base"], statusEffects:["Lifesteal","Attack Down"] },
+    { name:"Spider Queen", slots:[["Brood Mother"],["Egg Sac"]], description:"Has a 25% chance of birthing an Egg Sac each time it hits an enemy.", evolvesInto:[{name:"Nosferatu",with:["Vampire Lord","Mosquito King"]}], tier:1, damageTypes:["Base"], statusEffects:["Baby Ball Spawn"] },
+    { name:"Steel", slots:[["Iron"],["Stone"]], description:"Initially deals double damage but moves 50% slower. Damage increases by 10% each time it hits an enemy (max 300%).", evolvesInto:[{name:"Laser Cutter",with:["Laser (Horizontal) or Laser (Vertical)"]}], tier:1, damageTypes:["Base"], statusEffects:[] },
+    { name:"Storm", slots:[["Lightning"],["Wind"]], description:"Emits lightning to strike nearby enemies every second, dealing 1-40 damage.", evolvesInto:[], tier:1, damageTypes:["AOE"], statusEffects:[] },
+    { name:"Succubus", slots:[["Charm"],["Vampire"]], description:"Each hit has a 4% chance of charming the enemy for 9 seconds. Heals 1 when hitting a charmed enemy.", evolvesInto:[{name:"Satan",with:["Incubus"]}], tier:1, damageTypes:["Base"], statusEffects:["Charm"] },
+    { name:"Sun", slots:[["Burn"],["Light"]], description:"Blind all enemies in view and add 1 stack of burn every second (max 5 stacks). Burn lasts for 6 seconds and deals 6-12 damage per stack per second.", evolvesInto:[{name:"Black Hole",with:["Dark or Time"]}], tier:1, damageTypes:["Base"], statusEffects:["Blind","Burn"] },
+    { name:"Swamp", slots:[["Poison"],["Earthquake"]], description:"Leaves behind tar blobs over time. Enemies who walk into tar blobs are dealt 15-30, are slowed by 50% for 7 seconds and gain 1 stack of poison (max 8 stacks). Each stack of poison deals 1-3 damage per second. This ball and its tar blobs also deal 6-12 damage to nearby units.", evolvesInto:[], tier:1, damageTypes:["Base","AOE"], statusEffects:["Slow","Poison"] },
+    { name:"Time Bomb", slots:[["Time"],["Bomb"]], description:"Throws a time bomb every few seconds, which explodes after a delay, dealing 80-120 damage to nearby enemies.", evolvesInto:[], tier:2, damageTypes:["Base","AOE"], statusEffects:["Time Bomb Spawn","Time Snare"] },
+    { name:"Timestop", slots:[["Time"],["Freeze"]], description:"Freezes everything on the field for 5.0 seconds but destroys itself after hitting an enemy. Has a 30 second cooldown before it can be shot again.", evolvesInto:[], tier:1, damageTypes:["Base"], statusEffects:["Timestop"] },
+    { name:"Vampire Lord", slots:[["Vampire"],["Bleed","Dark"]], description:"Each hit inflicts 3 stacks of bleed. Heals 1 health and consumes all stacks when hitting an enemy with at least 10 stacks of bleed.", evolvesInto:[{name:"Nosferatu",with:["Spider Queen","Mosquito King"]}], tier:1, damageTypes:["Base"], statusEffects:["Bleed","Heal"] },
+    { name:"Venom", slots:[["Poison"],["Freeze"]], description:"Applies 1 stack of venom on hit (max 8 stacks). Each stack deals 3-6 damage per second and slows down enemies.", evolvesInto:[], tier:1, damageTypes:["Base"], statusEffects:["Venom","Slow"] },
+    { name:"Virus", slots:[["Poison"],["Ghost","Cell"]], description:"Applies 1 stack of disease to units it hits (max 8 stacks). Disease lasts for 6 seconds. Each stack of disease deals 3-6 damage per second and diseased units have a 15% chance of passing a stack to undiseased nearby enemies each second.", evolvesInto:[], tier:1, damageTypes:["Base"], statusEffects:["Disease"] },
+    { name:"Voluptuous Egg Sac", slots:[["Egg Sac"],["Cell"]], description:"Explodes into 2-3 egg sacs on hitting an enemy. Has a 3 second cooldown before it can be shot again.", evolvesInto:[], tier:1, damageTypes:["Base"], statusEffects:["Baby Ball Spawn"] },
+    { name:"Warp", slots:[["Time"],["Light"]], description:"After each hit, warps to a random spot on the field and speeds up by 5%.", evolvesInto:[], tier:1, damageTypes:["Base"], statusEffects:[] },
+    { name:"Wraith", slots:[["Freeze"],["Ghost"]], description:"Freezes any enemy it passes through for 0.8 seconds.", evolvesInto:[{name:"Banshee",with:["Phantom"]}], tier:1, damageTypes:["Base"], statusEffects:["Freeze"] },
+    { name:"X Ray", slots:[["Holy Laser"],["Laser Beam"]], description:"Emits an X-shaped laser on hit, which deals 50-75 damage to enemies and applies 1 stack of radiation (max 5 stacks). Radiation causes enemies to receive 10% more damage from all sources per stack.", evolvesInto:[], tier:2, damageTypes:["Base"], statusEffects:["Radiation"] }
+  ],
+
+  basePassives: [
+    { name:"Archer's Effigy", description:"Every 7-12 rows, spawn a stone archer with 160 health on your side. Stone archers are immune to ball damage and shoot arrows at enemies, dealing 10-20 each.", appearance:"None", unlock:"Clear The SNOWYxSHORES" },
+    { name:"Artificial Heart", description:"Friendly pieces gain 100% more health.", appearance:"Requires a passive that gives friendly pieces (e.g. Archer's Effigy)", unlock:"Unlocked by default" },
+    { name:"Baby Rattle", description:"Gain 1.5x baby balls, but your aim becomes scattered.", appearance:"None", unlock:"Unlocked by default" },
+    { name:"Bandage Roll", description:"Shoot 1-2 baby balls each time you're healed.", appearance:"None", unlock:"Unlocked by default" },
+    { name:"Bottled Tornado", description:"When you catch a special ball, automatically shoot 1-3 new baby balls in random directions.", appearance:"None", unlock:"Unlocked by default" },
+    { name:"Breastplate", description:"Decrease damage taken by 10%.", appearance:"None", unlock:"Unlocked by default" },
+    { name:"Crown of Thorns", description:"Destroy the 2 nearest enemies when you are hit from close range.", appearance:"None", unlock:"Unlocked by default" },
+    { name:"Cursed Elixir", description:"When a poisoned enemy dies, 10% chance for them to come back as a zombie with 240 health that moves up the board and fights enemies.", appearance:"Requires a ball that applies Poison", unlock:"Clear The BONExYARD" },
+    { name:"Deadeye's Amulet", description:"Critical hits deal 10-15 bonus damage.", appearance:"None", unlock:"Clear The LIMINALxDESERT" },
+    { name:"Diamond Hilted Dagger", description:"Increase crit chance to 20% when hitting enemies in the front.", appearance:"None", unlock:"Unlocked by default" },
+    { name:"Dynamite", description:"Every 5-10 rows, spawn an enemy with dynamite attached to them. Destroying them will deal 200-500 damage to nearby enemies.", appearance:"None", unlock:"Clear The SMOLDERINGxDEPTHS" },
+    { name:"Emerald Hilted Dagger", description:"Increase crit chance to 20% when hitting enemies on their right side.", appearance:"None", unlock:"Unlocked by default" },
+    { name:"Ethereal Cloak", description:"Balls go through enemies and deal 25% bonus damage until they hit the back of the field.", appearance:"None", unlock:"Unlocked by default" },
+    { name:"Everflowing Goblet", description:"You can heal past your max health at 20% efficiency.", appearance:"None", unlock:"Unlocked by default" },
+    { name:"Eye of the Beholder", description:"10% chance to dodge incoming attacks.", appearance:"None", unlock:"Unlocked by default" },
+    { name:"Fleet Feet", description:"Increase movement speed by 10% and move at full speed while shooting.", appearance:"None", unlock:"Unlocked by default" },
+    { name:"Frozen Spike", description:"When an enemy is frozen, they emit a chill to nearby enemies that deals 10-20 damage.", appearance:"Requires a ball that applies Freeze", unlock:"Unlocked by default" },
+    { name:"Gemspring", description:"Every 7-11 rows, spawn a Gemspring. Dealing damage to them causes them to drop an increasing amount of XP gems.", appearance:"None", unlock:"Clear The SMOLDERINGxDEPTHS" },
+    { name:"Ghostly Corset", description:"Balls go through enemies and deal 20% bonus damage when hitting them from the side.", appearance:"None", unlock:"Clear The HEAVENLYxGATES" },
+    { name:"Ghostly Shield", description:"Balls go through allies and heal them for 2 health.", appearance:"Requires a passive that gives allies (e.g. Archer's Effigy)", unlock:"Clear The HEAVENLYxGATES" },
+    { name:"Golden Bull", description:"Every 7-11 rows, spawn a golden bull with 400 health on your side. Golden bulls accrue 10 gold per minute. They also move up the field, blocking and attacking enemies in the way.", appearance:"None", unlock:"Clear The SNOWYxSHORES" },
+    { name:"Hand Fan", description:"Slow down enemies in the same column as you by 50%.", appearance:"None", unlock:"Clear The GORYxGRASSLANDS" },
+    { name:"Hand Mirror", description:"Projectiles have a 50% chance to reflect upon hitting you, dealing 20-40 damage if they hit an enemy.", appearance:"None", unlock:"Clear The GORYxGRASSLANDS" },
+    { name:"Healer's Effigy", description:"Every 7-12 rows, spawn a stone healer with 100 health on your side, which heals you 10 health per minute while it's on the field. Healers are immune to ball damage and move up the field, blocking and attacking enemies in the way.", appearance:"None", unlock:"Clear The SNOWYxSHORES" },
+    { name:"Hourglass", description:"Balls deal 150% damage, but damage decays by 30% each time they bounce (minimum 50%).", appearance:"None", unlock:"Unlocked by default" },
+    { name:"Iron Onesie", description:"Balls deal 0.5% more damage for each baby ball on the field.", appearance:"None", unlock:"Unlocked by default" },
+    { name:"Kiss of Death", description:"Charmed enemies have a 10% chance of dying after recovering.", appearance:"Requires a ball that applies Charm", unlock:"Unlocked by default" },
+    { name:"Lover's Quiver", description:"Projectiles have a 40% chance to heal you for 1 health instead of hurting you.", appearance:"None", unlock:"Clear The GORYxGRASSLANDS" },
+    { name:"Magic Staff", description:"Increase area-of-effect damage (such as earthquake, laser, and lightning) by 20%.", appearance:"None", unlock:"Unlocked by default" },
+    { name:"Magnet", description:"Increase range at which you pick up items and catch balls by 1.0 tiles.", appearance:"None", unlock:"Unlocked by default" },
+    { name:"Midnight Oil", description:"Balls that hit flaming enemies light on fire and deal 10-20 bonus fire damage on the next hit.", appearance:"Requires a ball that applies Burn", unlock:"Unlocked by default" },
+    { name:"Pressure Valve", description:"Enemies explode on death, dealing 20-30 damage to adjacent enemies.", appearance:"None", unlock:"Clear The BONExYARD" },
+    { name:"Protective Charm", description:"Gain a shield that blocks the next damage you would receive. Recharges after 60 seconds.", appearance:"None", unlock:"Clear The FUNGALxFOREST" },
+    { name:"Radiant Feather", description:"Increases ball launch speed by 20%, but get knocked back a little each time you shoot a ball.", appearance:"None", unlock:"Unlocked by default" },
+    { name:"Reacher's Spear", description:"Increase crit chance to 20% when hitting enemies in the same column as you.", appearance:"None", unlock:"Unlocked by default" },
+    { name:"Rubber Headband", description:"Balls start off at 70% speed but increase by 20% each bounce (max 200%).", appearance:"None", unlock:"Unlocked by default" },
+    { name:"Ruby Hilted Dagger", description:"Increase crit chance to 15% when hitting enemies in the back.", appearance:"None", unlock:"Unlocked by default" },
+    { name:"Sapphire Hilted Dagger", description:"Increase crit chance to 30% when hitting enemies on their left side.", appearance:"None", unlock:"Unlocked by default" },
+    { name:"Shortbow", description:"Increase fire rate by 15%.", appearance:"None", unlock:"Unlocked by default" },
+    { name:"Silver Blindfold", description:"Increase crit chance to 20% when hitting blinded enemies.", appearance:"None", unlock:"Clear The LIMINALxDESERT" },
+    { name:"Silver Bullet", description:"Balls deal 20% bonus damage until they hit a wall.", appearance:"None", unlock:"Unlocked by default" },
+    { name:"Slingshot", description:"25% chance to launch a baby ball when you pick up a gem.", appearance:"None", unlock:"Unlocked by default" },
+    { name:"Spiked Collar", description:"Deal 30-50 to enemies the first time you get into their melee attack range.", appearance:"None", unlock:"Clear The FUNGALxFOREST" },
+    { name:"Stone Effigy", description:"Every 7-12 rows, spawn a stone soldier with 200 health on your side. Stone soldiers are immune to ball damage and move up the field, blocking and attacking enemies in the way.", appearance:"None", unlock:"Unlocked by default" },
+    { name:"Sword Breaker", description:"Balls deal 40% less damage, but gain 1% damage for each enemy on the field.", appearance:"None", unlock:"Unknown (wiki lists \"?\")" },
+    { name:"Traitor's Cowl", description:"Stone allies can now be damaged by your balls, but you heal 2 health when a ball hits one.", appearance:"Requires a passive that gives stone allies (e.g. Archer's Effigy)", unlock:"Clear The HEAVENLYxGATES" },
+    { name:"Turret", description:"Floats around your character and shoots a baby ball at enemies every 2.0 seconds.", appearance:"None", unlock:"Unlocked by default" },
+    { name:"Upturned Hatchet", description:"Balls deal 80% more damage after hitting the back of the field, otherwise damage is reduced by 20%.", appearance:"None", unlock:"Unlocked by default" },
+    { name:"Vampiric Sword", description:"Each kill heals you by 5, but each shot you take deals 2 damage to you.", appearance:"None", unlock:"Clear The LIMINALxDESERT" },
+    { name:"Voodoo Doll", description:"Curse has a 10% chance of killing enemies.", appearance:"Requires a ball that applies Curse", unlock:"Clear The BONExYARD" },
+    { name:"Wagon Wheel", description:"Each time a ball hits a wall, it deals 30% extra damage on the next hit.", appearance:"None", unlock:"Clear The SMOLDERINGxDEPTHS" },
+    { name:"War Horn", description:"All baby balls deal 20% more damage.", appearance:"None", unlock:"Unlocked by default" },
+    { name:"Wretched Onion", description:"Deal 6-12 per second to enemies within 2 tiles.", appearance:"None", unlock:"Clear The FUNGALxFOREST" }
+  ],
+
+  evolvedPassives: [
+    { name:"Argent Stopwatch", slots:[["Hourglass"],["Silver Bullet"]], description:"Balls deal 200% damage, but damage decays by 20% each time they bounce (minimum 100%).", tier:1 },
+    { name:"Arrow of Fate", slots:[["Lover's Quiver"],["Hand Mirror"]], description:"Projectiles no longer hurt you. Shoot 1-2 baby balls when hit by a projectile.", tier:1 },
+    { name:"Cornucopia", slots:[["Baby Rattle"],["War Horn"]], description:"Each time baby balls are created, spawn 0-1 additional baby balls.", tier:1 },
+    { name:"Deadeye's Cross", slots:[["Diamond Hilted Dagger"],["Sapphire Hilted Dagger"],["Ruby Hilted Dagger"],["Emerald Hilted Dagger"]], description:"Increase critical hit chance to 60%.", tier:1 },
+    { name:"Deadeye's Impaler", slots:[["Deadeye's Cross"],["Gracious Impaler"]], description:"Increase critical hit chance to 5%. Critical hits instantly kill non-boss enemies.", tier:2 },
+    { name:"Full Metal Rapier", slots:[["Iron Onesie"],["Sword Breaker"]], description:"Balls deal 1% more damage for each baby ball and enemy on the field.", tier:1 },
+    { name:"Gracious Impaler", slots:[["Reacher's Spear"],["Deadeye's Amulet"]], description:"Critical hits have a 5% chance to instantly kill enemies.", tier:1 },
+    { name:"Grotesque Artillery", slots:[["Turret"],["Hand Fan"]], description:"Floats around your character and shoots a random level 1 unevolved special ball at enemies every 8.0 seconds.", tier:1 },
+    { name:"Odiferous Shell", slots:[["Wretched Onion"],["Breastplate"]], description:"When you touch enemies, they have a 50% chance of instantly dying.", tier:1 },
+    { name:"Phantom Regalia", slots:[["Ghostly Corset"],["Ethereal Cloak"]], description:"Balls go through enemies until they hit the back wall. Balls deal 50% more damage when going through enemies.", tier:1 },
+    { name:"Soul Reaver", slots:[["Vampiric Sword"],["Everflowing Goblet"]], description:"Each kill heals you by 1 and you can heal past your max health at 30% efficiency.", tier:1 },
+    { name:"Tormenters Mask", slots:[["Spiked Collar"],["Crown of Thorns"]], description:"Enemies have a 10% chance of dying immediately the first time they detect you.", tier:1 },
+    { name:"Wings of the Anointed", slots:[["Radiant Feather"],["Fleet Feet"]], description:"Balls move 40% faster and you move 20% faster. You no longer are affected by environmental hazards on the ground.", tier:2 }
+  ],
+
+  characters: [
+    { name:"The Warrior", ball:"Bleed", ability:"The default character, no special gameplay quirks.", unlock:"Available at the start of the game", flavor:"A wandering warrior.", tags:[] },
+    { name:"The Itchy Finger", ball:"Burn", ability:"Scattered aim, but shoots twice as fast and constantly launches balls if any are available. Can move at full speed while shooting.", unlock:"Build the Sheriff's Office (blueprint: The BONExYARD)", flavor:"A disgraced deputy.", tags:["moreBalls"] },
+    { name:"The Repentant", ball:"Freeze", ability:"Balls deal 5% more damage each time they bounce. When they hit the back wall, they return to the player, damaging each enemy they pass through.", unlock:"Build the Haunted House (blueprint: The BONExYARD)", flavor:"A sorrowful specimen, filled with regret.", tags:["bounceDamage"] },
+    { name:"The Cohabitants", ball:"Brood Mother", ability:"For each ball launched, a copy is launched in the mirrored direction. Balls deal half damage.", unlock:"Build the Cozy Home (blueprint: The BONExYARD)", flavor:"A couple with many many children.", tags:["moreBalls"] },
+    { name:"The Cogitator", ball:"Laser (Vertical)", ability:"Automatically chooses upgrades.", unlock:"Build the Villa (blueprint: The SNOWYxSHORES)", flavor:"A brilliant philosopher, lost in thought.", tags:["autoplay"] },
+    { name:"The Embedded", ball:"Poison", ability:"Balls always pierce enemies until they hit a wall.", unlock:"Build the Veteran's Hut (blueprint: The SNOWYxSHORES)", flavor:"Marked by countless battles.", tags:["pierce"] },
+    { name:"The Shade", ball:"Dark", ability:"Balls shoot from the back and have a base critical hit chance of 10%.", unlock:"Build the Mausoleum (blueprint: The LIMINALxDESERT)", flavor:"A killer for hire.", tags:["backline"] },
+    { name:"The Shieldbearer", ball:"Iron", ability:"Holds a large shield that bounces back balls that hit it.", unlock:"Build the Iron Fortress (blueprint: The FUNGALxFOREST)", flavor:"The front line's first defense.", tags:["shield"] },
+    { name:"The Spendthrift", ball:"Vampire", ability:"Shoots all balls at the same time in a wide arc.", unlock:"Build the Mansion (blueprint: The FUNGALxFOREST)", flavor:"A wealthy merchant.", tags:["moreBalls"] },
+    { name:"The Juggler", ball:"Lightning", ability:"Lobs balls into the air at a target position on the field. Balls don't start bouncing until they reach the ground.", unlock:"Build the Theater (blueprint: The GORYxGRASSLANDS)", flavor:"A street performer.", tags:["airborne"] },
+    { name:"The Empty Nester", ball:"Ghost", ability:"No baby balls. Each shot shoots multiple instances of one equipped special ball.", unlock:"Build the Single Family Home (blueprint: The SNOWYxSHORES)", flavor:"Finally, some peace and quiet.", tags:["noBabyBalls"] },
+    { name:"The Flagellant", ball:"Egg Sac", ability:"Balls bounce normally off the bottom of the screen.", unlock:"Build the Monastery (blueprint: The GORYxGRASSLANDS)", flavor:"Just your average flagellant.", tags:[] },
+    { name:"The Makeshift Sisyphus", ball:"Earthquake", ability:"Balls no longer deal direct hit damage, but AOE and status effect damage is increased by 4x. No baby balls.", unlock:"Build the Rocky Hill (blueprint: The LIMINALxDESERT)", flavor:"A former king, tormented by time.", tags:["aoeAmp","noBabyBalls"] },
+    { name:"The Physicist", ball:"Light", ability:"Balls are affected by gravity pulling towards the back of the screen.", unlock:"Build the Laboratory (blueprint: The FUNGALxFOREST)", flavor:"A pioneer of the field.", tags:["backline"] },
+    { name:"The Tactician", ball:"Iron", ability:"Battles become turn-based.", unlock:"Build the Captain's Quarters (blueprint: The SMOLDERINGxDEPTHS)", flavor:"A retired general.", tags:["turnBased"] },
+    { name:"The Radical", ball:"Wind", ability:"Plays the game and chooses upgrades automatically.", unlock:"Build the Campground (blueprint: The HEAVENLYxGATES)", flavor:"Radicalized by years of solitude.", tags:["autoplay"] },
+    { name:"The Falconer", ball:"Lightning", ability:"Balls are shot from two falcons flying on the sides of the screen.", unlock:"Build the Falconry Hut (blueprint: The HEAVENLYxGATES)", flavor:"Raised by the birds.", tags:["airborne"] },
+    { name:"The Carouser", ball:"Charm", ability:"Balls can briefly orbit around the player when on a return trajectory.", unlock:"Build the Party House (blueprint: The VASTxVOID)", flavor:"The life of the party.", tags:["orbit"] },
+    { name:"The Tunneller", ball:"Earthquake", ability:"Balls wrap around the top and bottom of the screen.", unlock:"Build the Stone Domain (blueprint: The SMOLDERINGxDEPTHS)", flavor:"Always digging deeper.", tags:["wrap"] },
+    { name:"The Tiptoer", ball:"Laser (Horizontal)", ability:"Can't be detected by enemies (except bosses and minibosses), but has drastically less health.", unlock:"Build the Hidden Temple (blueprint: The SMOLDERINGxDEPTHS)", flavor:"One who tiptoes.", tags:["stealth"] },
+    { name:"The False Messiah", ball:"Bleed", ability:"If streaming on Twitch, the audience can vote on certain choices and random events.", unlock:"Activate the Twitch Extension (PC exclusive)", flavor:"A controversial leader with boundless charisma.", tags:[] }
+  ],
+
+  curatedCombos: [
+    { chars:["The Tunneller","The Makeshift Sisyphus"], balls:["Magma","Swamp","Glacier","Brimstone"], passives:["Crown of Thorns","Wretched Onion","Everflowing Goblet","Fleet Feet"],
+      why:"All four balls deal AOE on every hit so the Sisyphus 4x multiplier always applies, and the Tunneller's screen wrap keeps them bouncing long enough to stack burn, poison, and freeze." },
+    { chars:["The Cohabitants","The Flagellant"], balls:["Brood Mother","Egg Sac","Cell","Laser","Vampire"], passives:["Baby Rattle","Bandage Roll","Bottled Tornado","War Horn","Cornucopia"],
+      why:"Floods the screen with balls; both starters evolve into Spider Queen, and Bandage Roll plus Vampire spawns extra balls on heal." },
+    { chars:["The Shade","The Physicist"], balls:["Assassin","Dark","Laser (Vertical)","Vampire","Ghost"], passives:["Rubber Headband","Spiked Collar","Upturned Hatchet","Wagon Wheel","Ruby Hilted Dagger"],
+      why:"Both fire from or toward the back of the screen, maximizing backstabs and bounce-count passives." },
+    { chars:["The Carouser","The Repentant"], balls:["Berserk","Lovestruck","Incubus","Succubus"], passives:["Crown of Thorns","Wretched Onion","Everflowing Goblet","Fleet Feet"],
+      why:"Orbiting balls plus return-trip damage keep charm and on-hit effects rolling nonstop." },
+    { chars:["The Itchy Finger","The Shieldbearer"], balls:["Laser (either)","Hemorrhage","Brood Mother","Cell","Burn"], passives:["Deadeye's Cross","Magnet","Diamond Hilted Dagger","Hand Mirror","Pressure Valve"],
+      why:"Double fire rate feeding a shield that bounces everything back; their starters (Burn + Iron) also evolve into Bomb." },
+    { chars:["The Makeshift Sisyphus","The Embedded"], balls:["Swamp","Freeze","Laser","Wind","Lightning"], passives:["Magic Staff","Hand Mirror","Dynamite","Cursed Elixir","Shortbow"],
+      why:"Pure AOE build; piercing makes every AOE ball sweep the whole column, and their starters (Earthquake + Poison) evolve into Swamp." },
+    { chars:["The Repentant","The Physicist"], balls:["Assassin","Frozen Flame","Radiation Beam","Noxious","Ghost"], passives:["Phantom Regalia","Wings of the Anointed","Magnet","Magic Staff","Radiant Feather"],
+      why:"Rebound-focused; gravity pulls balls to the back wall and the Repentant's return trip damages everything on the way home." }
+  ]
+};
+
+/* ============================ sanity assertions ============================ */
+(function(){
+  const t2 = GAME_DATA.evolvedBalls.filter(e=>e.tier===2).map(e=>e.name).sort();
+  console.assert(GAME_DATA.baseBalls.length===20, "Expected 20 base balls, got "+GAME_DATA.baseBalls.length);
+  console.assert(GAME_DATA.evolvedBalls.length===59, "Expected 59 evolved balls, got "+GAME_DATA.evolvedBalls.length);
+  console.assert(t2.length===10, "Expected 10 Tier 2 evolutions, got "+t2.length+": "+t2.join(", "));
+  console.assert(JSON.stringify(t2)===JSON.stringify(["Banshee","Black Hole","Laser Cutter","Nosferatu","Nuclear Bomb","Reaper","Satan","Sniper","Time Bomb","X Ray"]), "Tier 2 list mismatch: "+t2.join(", "));
+  console.assert(GAME_DATA.basePassives.length===53, "Expected 53 base passives, got "+GAME_DATA.basePassives.length);
+  console.assert(GAME_DATA.evolvedPassives.length===13, "Expected 13 evolved passives, got "+GAME_DATA.evolvedPassives.length);
+  console.assert(GAME_DATA.characters.length===21, "Expected 21 characters, got "+GAME_DATA.characters.length);
+  const baseNames = new Set(GAME_DATA.baseBalls.map(b=>b.name));
+  GAME_DATA.characters.forEach(c=>console.assert(baseNames.has(c.ball), "Character "+c.name+" has unknown starting ball "+c.ball));
+})();
+
+/* ============================ helpers / derived ============================ */
+const slug = n => n.toLowerCase().replace(/'/g,"").replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"");
+const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+
+const BASE_NAMES = new Set(GAME_DATA.baseBalls.map(b=>b.name));
+const EVO_BY_NAME = Object.fromEntries(GAME_DATA.evolvedBalls.map(e=>[e.name,e]));
+const BASE_BY_NAME = Object.fromEntries(GAME_DATA.baseBalls.map(b=>[b.name,b]));
+const EVOPAS_NAMES = new Set(GAME_DATA.evolvedPassives.map(p=>p.name));
+
+// direct base-ball ingredients of an evolved ball
+function directBases(evo){
+  const s = new Set();
+  evo.slots.forEach(slot=>slot.forEach(o=>{ if(BASE_NAMES.has(o)) s.add(o); }));
+  return s;
+}
+// all base balls in the full recipe chain
+function chainBases(name, seen){
+  seen = seen || new Set();
+  const out = new Set();
+  if(BASE_NAMES.has(name)){ out.add(name); return out; }
+  const evo = EVO_BY_NAME[name];
+  if(!evo || seen.has(name)) return out;
+  seen.add(name);
+  evo.slots.forEach(slot=>slot.forEach(o=>{ chainBases(o, seen).forEach(b=>out.add(b)); }));
+  return out;
+}
+// evolutions that a given ball (base or evolved) is a direct ingredient of
+function usedIn(name){
+  return GAME_DATA.evolvedBalls.filter(e=>e.slots.some(slot=>slot.includes(name)));
+}
+// direct evolutions from an unordered pair of (distinct) base balls
+function findDirectEvos(a,b){
+  if(a===b) return [];
+  return GAME_DATA.evolvedBalls.filter(e=>e.slots.length===2 && (
+    (e.slots[0].includes(a)&&e.slots[1].includes(b)) ||
+    (e.slots[0].includes(b)&&e.slots[1].includes(a))
+  ));
+}
+// evolutions reachable with {a,b} plus exactly one extra base ball -> Map(third -> [evo,...])
+function sharedTargets(a,b){
+  const starters = new Set([a,b]);
+  const map = new Map();
+  GAME_DATA.evolvedBalls.forEach(e=>{
+    if(e.slots.length!==2) return;
+    if(!e.slots.every(slot=>slot.some(o=>BASE_NAMES.has(o)))) return;
+    for(const p of e.slots[0]) for(const q of e.slots[1]){
+      if(p===q || !BASE_NAMES.has(p) || !BASE_NAMES.has(q)) continue;
+      let third = null;
+      if(starters.has(p) && !starters.has(q)) third = q;
+      else if(starters.has(q) && !starters.has(p)) third = p;
+      if(third){
+        if(!map.has(third)) map.set(third, new Set());
+        map.get(third).add(e.name);
+      }
+    }
+  });
+  return map;
+}
+
+const STATUS_COLORS = {
+  "Burn":"#e25822","Frostburn":"#d97b4f","Darkflame":"#8c3fb0","Firework Spawn":"#ef8354",
+  "Freeze":"#7fd4f5","Timestop":"#9fd8e8","Time Snare":"#8fc9d8","Time Bomb Spawn":"#8fc9d8",
+  "Poison":"#5cb85c","Venom":"#3f9e5f","Disease":"#7a9e3f","Radiation":"#b6e34a",
+  "Bleed":"#a91e2c","Leech":"#8c2f3a","Curse":"#9b59b6","Blind":"#d9c94d","Charm":"#ff7eb6",
+  "Lovestruck":"#f06292","Berserk":"#e0603a","Slow":"#7f9bb3","Heal":"#6fdc8c","Lifesteal":"#c0577f",
+  "Attack Down":"#8a8fa3","Instant Kill":"#e8e8e8","Baby Ball Spawn":"#6aa7d8","Sniper Baby Ball Spawn":"#6aa7d8",
+  "Clone":"#6ad8c8","Mosquito Spawn":"#b08c5a","Vampire Bat Spawn":"#7a4a6e","Infest":"#a3b03f",
+  "Overgrowth":"#4fae60","Landslide":"#b08968","Lightning Rod":"#e8d44d"
+};
+function statusTag(s){
+  const c = STATUS_COLORS[s] || "#8a8fa3";
+  const dark = ["#d9c94d","#e8d44d","#b6e34a","#e8e8e8","#7fd4f5","#9fd8e8","#6fdc8c"].includes(c);
+  return `<span class="tag" style="background:${c}22;border-color:${c}66;color:${dark?c:c}">${esc(s)}</span>`;
+}
+function dtTag(t){
+  return t==="AOE"
+    ? `<span class="tag" style="background:#e6b04a22;border-color:#e6b04a66;color:#e6b04a">AOE</span>`
+    : `<span class="tag" style="background:#8a8fa322;border-color:#8a8fa366;color:#b8bcc9">Base</span>`;
+}
+function hueFor(name){
+  let h = 0;
+  for(const ch of name) h = (h*31 + ch.charCodeAt(0))>>>0;
+  return h%360;
+}
+// Icon slot: loads img/{kind}/{slug}.png if present, else a generated placeholder.
+// kind is "balls" or "passives". Ball placeholders are colored by their first
+// status effect so e.g. all Burn balls read as red until real sprites are added.
+function spriteHTML(name, kind){
+  const s = slug(name);
+  let inner;
+  if(kind==="balls"){
+    const item = BASE_BY_NAME[name] || EVO_BY_NAME[name];
+    const c = item && item.statusEffects.length ? STATUS_COLORS[item.statusEffects[0]] : null;
+    const bg = c
+      ? `radial-gradient(circle at 35% 30%, ${c}, #14121a 78%)`
+      : `radial-gradient(circle at 35% 30%, hsl(${hueFor(name)},45%,58%), hsl(${hueFor(name)},50%,16%) 78%)`;
+    inner = `<span class="ph" style="background:${bg}"></span>`;
+  } else {
+    const hue = hueFor(name);
+    inner = `<span class="ph" style="background:linear-gradient(135deg,hsl(${hue},40%,36%) 0 50%,hsl(${(hue+45)%360},45%,24%) 50% 100%)">${esc(name[0])}</span>`;
+  }
+  return `<span class="sprite${kind==="passives"?" passive":""}">${inner}<img src="img/${kind}/${s}.png" alt="" loading="lazy" onload="this.parentElement.classList.add('loaded')" onerror="this.remove()"></span>`;
+}
+function pill(name){
+  const evolved = !BASE_NAMES.has(name) && !GAME_DATA.basePassives.some(p=>p.name===name);
+  const isEvoBall = EVO_BY_NAME[name] || EVOPAS_NAMES.has(name);
+  return `<span class="pill${isEvoBall?" evolved":""}">${esc(name)}</span>`;
+}
+function recipeHTML(slots){
+  return `<span class="recipe">` + slots.map(slot =>
+    slot.map(pill).join(`<span class="op">or</span>`)
+  ).join(`<span class="op">+</span>`) + `</span>`;
+}
+function recipeSearchText(slots){ return slots.flat().join(" "); }
+
+/* ============================ persistence ============================ */
+const LS_KEY = "bxp-tracker-v1";
+const LS_TEAM = "bxp-tracker-team-v1";
+let checks = {};
+try { checks = JSON.parse(localStorage.getItem(LS_KEY)) || {}; } catch(e){ checks = {}; }
+function saveChecks(){ localStorage.setItem(LS_KEY, JSON.stringify(checks)); }
+
+const EVO_IDS = GAME_DATA.evolvedBalls.map(e=>slug(e.name));
+const EPAS_IDS = GAME_DATA.evolvedPassives.map(p=>slug(p.name));
+
+function setCheck(id, val){
+  if(val) checks[id] = true; else delete checks[id];
+  saveChecks();
+  document.querySelectorAll(`input[data-check="${id}"]`).forEach(cb=>{
+    cb.checked = !!val;
+    const row = cb.closest("tbody.item-row");
+    if(row) row.classList.toggle("collected", !!val);
+  });
+  updateProgress();
+}
+function updateProgress(){
+  const e = EVO_IDS.filter(id=>checks[id]).length;
+  const p = EPAS_IDS.filter(id=>checks[id]).length;
+  document.getElementById("evo-count").textContent = e;
+  document.getElementById("pas-count").textContent = p;
+  document.getElementById("evo-bar").style.width = (e/59*100)+"%";
+  document.getElementById("pas-bar").style.width = (p/13*100)+"%";
+}
+
+/* ============================ table rendering ============================ */
+function checkboxHTML(id){
+  return `<input type="checkbox" data-check="${id}" ${checks[id]?"checked":""} aria-label="Collected">`;
+}
+function nameBtn(name){
+  return `<button class="name-btn" data-expand><span class="chev">▶</span>${esc(name)}</button>`;
+}
+function levelsHTML(item){
+  if(item.levels && item.levels.some(l=>l)){
+    let rows = item.levels.map((l,i)=>{
+      if(!l) return `<tr><td>Level ${i+1}</td><td colspan="2" class="undoc">Not yet documented on the wiki</td></tr>`;
+      return `<tr><td>Level ${i+1}</td><td>x${esc(l.mult)}</td><td>${esc(l.effect)}</td></tr>`;
+    }).join("");
+    return `<table class="lvl-tbl"><tr><th>Level</th><th>Damage</th><th>Effect</th></tr>${rows}</table>`;
+  }
+  return `<span class="undoc">Level data not yet documented on the wiki.</span>`;
+}
+function ballDetailHTML(item, isBase){
+  const parts = [];
+  parts.push(`<div class="detail-head">${spriteHTML(item.name,"balls")}<span>${esc(item.name)}</span></div>`);
+  parts.push(`<div><span class="lbl">Description</span>${esc(item.description)}</div>`);
+  parts.push(`<div><span class="lbl">Damage Type</span>${item.damageTypes.map(dtTag).join("")}</div>`);
+  parts.push(`<div><span class="lbl">Status Effects</span>${item.statusEffects.length?item.statusEffects.map(statusTag).join(""):'<span class="undoc">None</span>'}</div>`);
+  if(isBase){
+    parts.push(`<div><span class="lbl">Starting Character(s)</span>${item.characters.length?item.characters.map(esc).join(", "):'<span class="undoc">No character starts with this ball</span>'}</div>`);
+    parts.push(`<div><span class="lbl">Unlock</span>${esc(item.unlock)}</div>`);
+  } else {
+    parts.push(`<div><span class="lbl">Recipe</span>${recipeHTML(item.slots)}</div>`);
+    if(item.evolvesInto.length){
+      parts.push(`<div><span class="lbl">Evolves Further Into</span>${item.evolvesInto.map(e=>`${pill(e.name)} <span class="op" style="color:var(--muted);font-size:.76rem">(with ${e.with.map(esc).join(" + ")})</span>`).join(" &nbsp; ")}</div>`);
+    }
+  }
+  const uses = usedIn(item.name);
+  if(uses.length){
+    parts.push(`<div><span class="lbl">Used in evolutions</span>${uses.map(u=>pill(u.name)).join(" ")}</div>`);
+  }
+  parts.push(`<div><span class="lbl">Per-level stats</span>${levelsHTML(item)}</div>`);
+  return `<div class="detail-grid">${parts.join("")}</div>`;
+}
+
+function renderBaseTable(){
+  const tbl = document.getElementById("base-table");
+  GAME_DATA.baseBalls.forEach(b=>{
+    const tb = document.createElement("tbody");
+    tb.className = "item-row";
+    tb.dataset.search = (b.name+" "+b.description+" "+b.characters.join(" ")+" "+b.unlock).toLowerCase();
+    tb.innerHTML = `<tr class="main-row">
+      <td class="chk"></td>
+      <td class="name-cell"><div class="name-flex">${spriteHTML(b.name,"balls")}${nameBtn(b.name)}</div></td>
+      <td class="desc">${esc(b.description)}</td>
+      <td>${b.damageTypes.map(dtTag).join("")}</td>
+      <td>${b.statusEffects.length?b.statusEffects.map(statusTag).join(""):'<span class="undoc">—</span>'}</td>
+      <td>${b.characters.length?b.characters.map(esc).join(", "):'<span class="undoc">—</span>'}</td>
+      <td>${esc(b.unlock)}</td>
+    </tr>
+    <tr class="detail-row"><td colspan="7">${ballDetailHTML(b,true)}</td></tr>`;
+    tbl.appendChild(tb);
+  });
+}
+
+let evoSort = { key:"name", dir:1 };
+function renderEvoTable(){
+  const tbl = document.getElementById("evo-table");
+  tbl.querySelectorAll("tbody").forEach(tb=>tb.remove());
+  const rows = [...GAME_DATA.evolvedBalls].sort((a,b)=>{
+    if(evoSort.key==="tier"){
+      const d = (a.tier-b.tier)*evoSort.dir;
+      if(d) return d;
+      return a.name.localeCompare(b.name);
+    }
+    return a.name.localeCompare(b.name)*evoSort.dir;
+  });
+  rows.forEach(e=>{
+    const id = slug(e.name);
+    const tb = document.createElement("tbody");
+    tb.className = "item-row"+(checks[id]?" collected":"");
+    tb.dataset.id = id;
+    tb.dataset.tier = e.tier;
+    tb.dataset.bases = [...directBases(e)].join("|");
+    tb.dataset.search = (e.name+" "+e.description+" "+recipeSearchText(e.slots)).toLowerCase();
+    tb.innerHTML = `<tr class="main-row">
+      <td class="chk">${checkboxHTML(id)}</td>
+      <td class="name-cell"><div class="name-flex">${spriteHTML(e.name,"balls")}${nameBtn(e.name)}</div></td>
+      <td>${recipeHTML(e.slots)}</td>
+      <td class="desc">${esc(e.description)}</td>
+      <td>${e.damageTypes.map(dtTag).join("")}</td>
+      <td>${e.statusEffects.length?e.statusEffects.map(statusTag).join(""):'<span class="undoc">—</span>'}</td>
+      <td>${e.evolvesInto.length?e.evolvesInto.map(x=>`${esc(x.name)} <span style="color:var(--muted);font-size:.76rem">(with ${x.with.map(esc).join(" + ")})</span>`).join("<br>"):'<span class="undoc">—</span>'}</td>
+      <td><span class="tier-badge tier-${e.tier}">${e.tier}</span></td>
+    </tr>
+    <tr class="detail-row"><td colspan="8">${ballDetailHTML(e,false)}</td></tr>`;
+    tbl.appendChild(tb);
+  });
+  applyEvoFilters();
+}
+
+let evoFilter = "all", evoUses = "";
+function applyEvoFilters(){
+  const q = document.getElementById("search").value.trim().toLowerCase();
+  const tbl = document.getElementById("evo-table");
+  let visible = 0;
+  tbl.querySelectorAll("tbody.item-row").forEach(tb=>{
+    let show = true;
+    if(evoFilter==="uncollected" && checks[tb.dataset.id]) show = false;
+    if(evoFilter==="tier1" && tb.dataset.tier!=="1") show = false;
+    if(evoFilter==="tier2" && tb.dataset.tier!=="2") show = false;
+    if(evoUses && !tb.dataset.bases.split("|").includes(evoUses)) show = false;
+    if(q && !tb.dataset.search.includes(q)) show = false;
+    tb.style.display = show ? "" : "none";
+    if(show) visible++;
+  });
+  let nr = tbl.querySelector("tbody.no-results");
+  if(!visible){
+    if(!nr){
+      nr = document.createElement("tbody");
+      nr.className = "no-results";
+      nr.innerHTML = `<tr class="no-results"><td colspan="8">No results.</td></tr>`;
+      tbl.appendChild(nr);
+    }
+  } else if(nr) nr.remove();
+}
+
+function renderPassives(){
+  const bt = document.getElementById("bpas-table");
+  GAME_DATA.basePassives.forEach(p=>{
+    const tb = document.createElement("tbody");
+    tb.className = "item-row";
+    tb.dataset.search = (p.name+" "+p.description+" "+p.unlock+" "+p.appearance).toLowerCase();
+    tb.innerHTML = `<tr class="main-row">
+      <td style="font-weight:600;min-width:150px"><div class="name-flex">${spriteHTML(p.name,"passives")}<span>${esc(p.name)}</span></div></td>
+      <td class="desc">${esc(p.description)}</td>
+      <td>${esc(p.unlock)}</td>
+      <td>${p.appearance==="None"?'<span class="undoc">—</span>':esc(p.appearance)}</td>
+    </tr>`;
+    bt.appendChild(tb);
+  });
+  const et = document.getElementById("epas-table");
+  GAME_DATA.evolvedPassives.forEach(p=>{
+    const id = slug(p.name);
+    const tb = document.createElement("tbody");
+    tb.className = "item-row"+(checks[id]?" collected":"");
+    tb.dataset.id = id;
+    tb.dataset.search = (p.name+" "+p.description+" "+recipeSearchText(p.slots)).toLowerCase();
+    tb.innerHTML = `<tr class="main-row">
+      <td class="chk">${checkboxHTML(id)}</td>
+      <td class="name-cell" style="font-weight:600"><div class="name-flex">${spriteHTML(p.name,"passives")}<span>${esc(p.name)}</span></div></td>
+      <td>${recipeHTML(p.slots)}</td>
+      <td class="desc">${esc(p.description)}</td>
+    </tr>`;
+    et.appendChild(tb);
+  });
+}
+
+/* ============================ by-base view ============================ */
+function renderByBase(){
+  const grid = document.getElementById("base-grid");
+  GAME_DATA.baseBalls.forEach(b=>{
+    const direct = GAME_DATA.evolvedBalls.filter(e=>directBases(e).has(b.name));
+    const indirect = GAME_DATA.evolvedBalls.filter(e=>!directBases(e).has(b.name) && chainBases(e.name).has(b.name));
+    const card = document.createElement("div");
+    card.className = "base-card";
+    card.dataset.search = b.name.toLowerCase();
+    const directRows = direct.map(e=>{
+      const id = slug(e.name);
+      return `<tbody class="item-row${checks[id]?" collected":""}" data-id="${id}"><tr class="main-row">
+        <td class="chk">${checkboxHTML(id)}</td>
+        <td style="font-weight:600;min-width:130px"><div class="name-flex">${spriteHTML(e.name,"balls")}<span>${esc(e.name)}</span></div></td>
+        <td>${recipeHTML(e.slots)}</td>
+        <td class="desc">${esc(e.description)}</td>
+        <td><span class="tier-badge tier-${e.tier}">${e.tier}</span></td>
+      </tr></tbody>`;
+    }).join("");
+    card.innerHTML = `
+      <button class="card-head" aria-expanded="false">
+        <span class="name-flex">${spriteHTML(b.name,"balls")}<span class="card-title">${esc(b.name)}</span></span>
+        <span class="count">${direct.length} direct${indirect.length?` · ${indirect.length} indirect`:""}</span>
+      </button>
+      <div class="card-body">
+        <p>${esc(b.description)}</p>
+        <p style="color:var(--muted);font-size:.78rem">Unlock: ${esc(b.unlock)}</p>
+        ${direct.length?`<div class="tbl-wrap"><table>
+          <thead><tr><th class="chk">✓</th><th>Name</th><th>Recipe</th><th>Description</th><th>Tier</th></tr></thead>
+          ${directRows}</table></div>`:`<p class="undoc">No evolution uses this ball directly.</p>`}
+        ${indirect.length?`<p class="mini-note">Indirect — needs ${esc(b.name)} somewhere in the recipe chain:</p>
+          <div>${indirect.map(e=>pill(e.name)).join(" ")}</div>`:""}
+      </div>`;
+    card.querySelector(".card-head").addEventListener("click",()=>{
+      const open = card.classList.toggle("open");
+      card.querySelector(".card-head").setAttribute("aria-expanded", open);
+    });
+    grid.appendChild(card);
+  });
+}
+
+/* ============================ team builder ============================ */
+const CHAR_BY_SLUG = Object.fromEntries(GAME_DATA.characters.map(c=>[slug(c.name),c]));
+let teamSlots = [null,null];
+try {
+  const saved = JSON.parse(localStorage.getItem(LS_TEAM));
+  if(Array.isArray(saved)) teamSlots = saved.map(s=>CHAR_BY_SLUG[s]?s:null);
+} catch(e){}
+
+// Ability-tag pair synergies (+15 each). Order-independent.
+const SYNERGY_PAIRS = [
+  ["moreBalls","bounceDamage","More balls × bounce damage","More balls on the field multiplies the value of per-bounce damage scaling."],
+  ["moreBalls","aoeAmp","More balls × AOE amp","A flood of balls means the amplified AOE hits land constantly."],
+  ["aoeAmp","wrap","AOE amp × screen wrap","Screen-wrapping keeps AOE balls alive longer, so the 4x AOE multiplier applies again and again."],
+  ["aoeAmp","pierce","AOE amp × pierce","Piercing lets amplified AOE balls sweep entire columns in one pass."],
+  ["backline","backline","Backline × backline","Both operate from the back of the field, maximizing backstabs and back-wall effects."],
+  ["orbit","bounceDamage","Orbit × bounce damage","Orbiting balls rack up extra bounces, feeding return-trip and per-bounce damage."],
+  ["pierce","bounceDamage","Pierce × bounce damage","Piercing balls reach the back wall reliably, triggering the damaging return trip every shot."],
+  ["moreBalls","shield","More balls × shield","More balls in the air means more shield rebounds keeping them in play."],
+  ["moreBalls","backline","Ball flood × back-of-field","A wide spray of extra balls gets carried deep into enemy territory, right where back-of-field abilities concentrate their damage."],
+  ["moreBalls","moreBalls","Double ball flood","Both abilities multiply projectile count, drowning the board in balls."],
+  ["shield","bounceDamage","Shield × bounce damage","Every shield rebound is another bounce, feeding per-bounce damage scaling."],
+  ["wrap","bounceDamage","Screen wrap × bounce damage","Wrapped balls stack up bounce after bounce before they finally come home."],
+  ["pierce","backline","Pierce × backline","Piercing balls cross the whole field to the back rows, exactly where backline abilities pay off."],
+  ["airborne","aoeAmp","Air delivery × AOE amp","Balls delivered from the air land on dense packs, letting the amplified AOE detonate where it hurts most."]
+];
+// Ability × partner's-starting-ball cross synergies (+8 each), checked both directions.
+const PASS_THROUGH_BALLS = new Set(["Ghost","Wind"]);
+const DAMAGE_STATUSES = new Set(["Bleed","Burn","Poison"]);
+function crossSynergies(a,b){
+  const out = [];
+  [[a,b],[b,a]].forEach(([chr,other])=>{
+    const ball = BASE_BY_NAME[other.ball];
+    if(!ball) return;
+    if(chr.tags.includes("aoeAmp")){
+      if(ball.damageTypes.includes("AOE"))
+        out.push({pts:8, label:`4x amp × ${ball.name} (AOE)`,
+          sentence:`${ball.name} is pure AOE, so ${chr.name}'s 4x area multiplier applies to every hit of ${other.name}'s starter.`});
+      const dmgStatuses = ball.statusEffects.filter(s=>DAMAGE_STATUSES.has(s));
+      if(dmgStatuses.length)
+        out.push({pts:8, label:`4x amp × ${dmgStatuses.join("/")}`,
+          sentence:`${chr.name} quadruples status damage, supercharging the ${dmgStatuses.join(" and ")} from ${other.name}'s ${ball.name}.`});
+    }
+    if(chr.tags.includes("bounceDamage") && PASS_THROUGH_BALLS.has(ball.name))
+      out.push({pts:8, label:`Return trip × ${ball.name}`,
+        sentence:`${ball.name} passes through enemies straight to the back wall, triggering ${chr.name}'s damaging return trip every shot.`});
+    if(chr.tags.includes("backline") && PASS_THROUGH_BALLS.has(ball.name))
+      out.push({pts:8, label:`Backline × ${ball.name}`,
+        sentence:`${ball.name} passes through everything on the way down, complementing ${chr.name}'s back-of-field game.`});
+    if(chr.tags.includes("moreBalls") && ball.statusEffects.includes("Baby Ball Spawn"))
+      out.push({pts:8, label:`Ball flood × ${ball.name}`,
+        sentence:`${ball.name} spawns baby balls, stacking with ${chr.name}'s extra projectiles into a true flood.`});
+  });
+  return out;
+}
+function abilitySynergies(a,b){
+  const out = [];
+  SYNERGY_PAIRS.forEach(([t1,t2,label,sentence])=>{
+    if(t1===t2){
+      if(a.tags.includes(t1)&&b.tags.includes(t1)) out.push({pts:15,label,sentence});
+    } else if((a.tags.includes(t1)&&b.tags.includes(t2))||(a.tags.includes(t2)&&b.tags.includes(t1))){
+      out.push({pts:15,label,sentence});
+    }
+  });
+  return out.concat(crossSynergies(a,b));
+}
+function curatedFor(a,b){
+  return GAME_DATA.curatedCombos.find(c=>
+    (c.chars[0]===a.name&&c.chars[1]===b.name)||(c.chars[0]===b.name&&c.chars[1]===a.name));
+}
+// Two-axis scoring: ballScore (fusion potential of the two starters) and
+// abilityScore (how the two abilities play together, incl. ability × ball rules).
+function scorePartner(sel, cand){
+  const ballReasons = [], abilityReasons = [];
+  let ballScore = 0, abilityScore = 0;
+  const evos = findDirectEvos(sel.ball, cand.ball);
+  if(evos.length){ ballScore += 50; ballReasons.push("Starters evolve into "+evos.map(e=>e.name).join(" / ")); }
+  const st = sharedTargets(sel.ball, cand.ball);
+  let stCount = 0; st.forEach(v=>stCount+=v.size);
+  ballScore += 2*stCount;
+  if(stCount) ballReasons.push(stCount+" evolutions one ball away");
+  if(sel.ball===cand.ball){ ballScore -= 15; ballReasons.unshift("Duplicate starter ("+sel.ball+") — wasted"); }
+  const syn = abilitySynergies(sel, cand);
+  syn.forEach(s=>{ abilityScore += s.pts; abilityReasons.push(s.label); });
+  const community = !!curatedFor(sel, cand);
+  const score = ballScore + abilityScore + (community?10:0);
+  const reasons = [];
+  if(sel.ball===cand.ball) reasons.push("Duplicate starter ("+sel.ball+") — wasted");
+  if(evos.length) reasons.push("Starters evolve into "+evos.map(e=>e.name).join(" / "));
+  if(abilityReasons.length) reasons.push("Ability: "+abilityReasons[0]);
+  if(community) reasons.push("Community pick");
+  if(!reasons.length && stCount) reasons.push(stCount+" evolutions reachable with one extra ball");
+  return { score, ballScore, abilityScore, community, reasons, ballReasons, abilityReasons, syn, evos };
+}
+
+function avatarHTML(c){
+  const s = slug(c.name);
+  let hash = 0;
+  for(const ch of c.name) hash = (hash*31 + ch.charCodeAt(0))>>>0;
+  const hue = hash%360;
+  const initials = c.name.replace(/^The /,"").split(/\s+/).map(w=>w[0]).join("").slice(0,2).toUpperCase();
+  return `<div class="avatar" style="background:
+      linear-gradient(135deg,hsl(${hue},45%,32%) 0 50%,hsl(${(hue+40)%360},50%,22%) 50% 100%)">
+    ${esc(initials)}<img src="img/characters/${s}.png" alt="" onload="this.parentElement.classList.add('loaded')" onerror="this.remove()">
+  </div>`;
+}
+
+function renderCharGrid(){
+  const grid = document.getElementById("char-grid");
+  grid.innerHTML = "";
+  const sel = teamSlots[0] ? CHAR_BY_SLUG[teamSlots[0]] : null;
+  const bothFilled = teamSlots[0] && teamSlots[1];
+  let cards = GAME_DATA.characters.map(c=>{
+    const s = slug(c.name);
+    let scoreInfo = null;
+    if(sel && !bothFilled && s!==teamSlots[0]) scoreInfo = scorePartner(sel, c);
+    return { c, s, scoreInfo };
+  });
+  if(sel && !bothFilled){
+    cards.sort((x,y)=>{
+      const xs = x.scoreInfo?x.scoreInfo.score:-999, ys = y.scoreInfo?y.scoreInfo.score:-999;
+      return ys-xs || x.c.name.localeCompare(y.c.name);
+    });
+  }
+  const topSlugs = sel && !bothFilled
+    ? cards.filter(x=>x.scoreInfo).slice(0,5).map(x=>x.s) : [];
+  cards.forEach(({c,s,scoreInfo})=>{
+    const inSlot = teamSlots.includes(s);
+    const el = document.createElement("button");
+    el.className = "char-card"+(inSlot?" in-slot":"")+(topSlugs.includes(s)?" recommended":"");
+    el.dataset.slug = s;
+    el.dataset.search = (c.name+" "+c.ball+" "+c.ability).toLowerCase();
+    el.draggable = !inSlot;
+    let hint = "";
+    if(scoreInfo && scoreInfo.reasons.length) hint = `<div class="cc-hint">${esc(scoreInfo.reasons[0])}</div>`;
+    if(sel && !bothFilled && s!==teamSlots[0]){
+      const evos = findDirectEvos(sel.ball, c.ball);
+      if(evos.length) hint = `<div class="cc-hint">${esc(sel.ball)} + ${esc(c.ball)} evolves into ${esc(evos.map(e=>e.name).join(" / "))}</div>`;
+    }
+    el.innerHTML = `${avatarHTML(c)}
+      <div class="cc-info">
+        <div class="cc-name">${esc(c.name)}</div>
+        <div>${pill(c.ball)}</div>
+        <div class="cc-ability">${esc(c.ability)}</div>
+        ${hint}
+      </div>`;
+    el.addEventListener("click",()=>{
+      if(teamSlots.includes(s)) return;
+      if(!teamSlots[0]) teamSlots[0] = s;
+      else if(!teamSlots[1]) teamSlots[1] = s;
+      else teamSlots[1] = s;
+      saveTeam(); renderTeam();
+    });
+    el.addEventListener("dragstart",ev=>{
+      ev.dataTransfer.setData("text/plain", s);
+      ev.dataTransfer.effectAllowed = "copy";
+    });
+    grid.appendChild(el);
+  });
+}
+
+function renderSlots(){
+  [0,1].forEach(i=>{
+    const el = document.getElementById("slot-"+i);
+    const content = el.querySelector(".slot-content");
+    const c = teamSlots[i] ? CHAR_BY_SLUG[teamSlots[i]] : null;
+    el.classList.toggle("filled", !!c);
+    el.querySelectorAll(".rm").forEach(b=>b.remove());
+    if(c){
+      content.innerHTML = `<div class="slot-char">${avatarHTML(c)}
+        <div><div style="font-weight:700">${esc(c.name)}</div><div>${pill(c.ball)}</div></div></div>`;
+      const rm = document.createElement("button");
+      rm.className = "rm"; rm.textContent = "✕"; rm.title = "Remove";
+      rm.addEventListener("click",()=>{ teamSlots[i] = null; saveTeam(); renderTeam(); });
+      el.appendChild(rm);
+    } else {
+      content.innerHTML = `<div class="slot-empty">Drop or click a character</div>`;
+    }
+  });
+}
+
+function renderTeamOutput(){
+  const out = document.getElementById("team-output");
+  const a = teamSlots[0]?CHAR_BY_SLUG[teamSlots[0]]:null;
+  const b = teamSlots[1]?CHAR_BY_SLUG[teamSlots[1]]:null;
+  if(a && !b){
+    const byName = (x,y)=>x.c.name.localeCompare(y.c.name);
+    const all = GAME_DATA.characters
+      .filter(c=>slug(c.name)!==teamSlots[0])
+      .map(c=>({c, ...scorePartner(a,c)}));
+    const overall = [...all].sort((x,y)=>y.score-x.score || byName(x,y)).slice(0,5);
+    const byBall = all.filter(x=>x.ballScore>0).sort((x,y)=>y.ballScore-x.ballScore || byName(x,y)).slice(0,5);
+    const byAbility = all.filter(x=>x.abilityScore>0).sort((x,y)=>y.abilityScore-x.abilityScore || byName(x,y)).slice(0,5);
+    out.innerHTML = `<div class="reco-panel">
+      <b>Recommended partners for ${esc(a.name)}</b> <span style="color:var(--muted)">(starting ball: ${esc(a.ball)})</span>
+      <ol>${overall.map(r=>`<li><b>${esc(r.c.name)}</b> — ${esc(r.reasons[0]||"General flexibility")} <span style="color:var(--muted);font-size:.76rem">(ball ${r.ballScore} · ability ${r.abilityScore}${r.community?" · ★ community":""} → ${r.score})</span></li>`).join("")}</ol>
+      <div class="cols">
+        <div class="colbox"><b>Best ball fusions</b>
+          ${byBall.length?`<ol>${byBall.map(r=>`<li><b>${esc(r.c.name)}</b> — ${esc(r.ballReasons[0])} <span style="color:var(--muted);font-size:.74rem">(${r.ballScore})</span></li>`).join("")}</ol>`:`<p class="undoc">No fusion potential found.</p>`}
+        </div>
+        <div class="colbox"><b>Best ability synergies</b>
+          ${byAbility.length?`<ol>${byAbility.map(r=>`<li><b>${esc(r.c.name)}</b> — ${esc(r.abilityReasons.join(" · "))} <span style="color:var(--muted);font-size:.74rem">(${r.abilityScore})</span></li>`).join("")}</ol>`:`<p class="undoc">No tagged ability synergy for ${esc(a.name)}.</p>`}
+        </div>
+      </div>
+    </div>`;
+    return;
+  }
+  if(!a || !b){ out.innerHTML = ""; return; }
+
+  const sp = scorePartner(a,b);
+  const evos = sp.evos;
+  const combo = curatedFor(a,b);
+  const st = sharedTargets(a.ball, b.ball);
+  const dup = a.ball===b.ball;
+
+  const interactHTML = sp.syn.length
+    ? `<ul>${sp.syn.map(s=>`<li><b>${esc(s.label)}.</b> ${esc(s.sentence)}</li>`).join("")}</ul>`
+    : `<p style="font-size:.85rem;color:var(--muted)">No tagged ability synergy — their abilities operate independently, so judge this pair on ball recipes.</p>`;
+  const ratingHTML = `<p style="font-size:.8rem;color:var(--muted);margin:.3rem 0 0">Pair rating: <b style="color:var(--text)">${sp.score}</b> — ball fusion ${sp.ballScore} · ability synergy ${sp.abilityScore}${sp.community?" · community pick +10":""}</p>`;
+
+  let starterHTML;
+  if(dup){
+    starterHTML = `<div class="warn">⚠ Duplicate starter: both characters start with <b>${esc(a.ball)}</b>. A ball cannot combine with itself, so the second copy of ${esc(a.ball)} is wasted — no free starter evolution here.</div>`;
+  } else if(evos.length){
+    starterHTML = evos.map(e=>`<div class="evo-callout"><b>${esc(a.ball)} + ${esc(b.ball)} → ${esc(e.name)}</b><br>${esc(e.description)}</div>`).join("");
+  } else {
+    starterHTML = `<p style="font-size:.85rem;color:var(--muted)">${esc(a.ball)} and ${esc(b.ball)} do not evolve together directly — no free starter evolution, but see the shared targets below.</p>`;
+  }
+
+  const thirds = [...st.entries()].sort((x,y)=>x[0].localeCompare(y[0]));
+  const stHTML = thirds.length
+    ? `<ul>${thirds.map(([third,evosSet])=>`<li>${pill(third)} <span class="op" style="color:var(--muted)">unlocks</span> ${[...evosSet].sort().map(pill).join(" ")}</li>`).join("")}</ul>`
+    : `<p class="undoc">No evolutions reachable with one extra ball.</p>`;
+
+  let comboHTML = "";
+  if(combo){
+    comboHTML = `<div class="community"><h4>★ Community pick (Dexerto)</h4>
+      <div><b>Recommended balls:</b> ${combo.balls.map(pill).join(" ")}</div>
+      <div style="margin-top:.3rem"><b>Recommended passives:</b> ${combo.passives.map(pill).join(" ")}</div>
+      <p style="margin:.45rem 0 0">${esc(combo.why)}</p></div>`;
+  }
+
+  out.innerHTML = `<div class="report">
+    <b style="font-size:.95rem">${esc(a.name)} × ${esc(b.name)}</b>
+    <div class="cols">
+      <div class="colbox"><b>${esc(a.name)}</b> — ${pill(a.ball)}<br>${esc(a.ability)}</div>
+      <div class="colbox"><b>${esc(b.name)}</b> — ${pill(b.ball)}<br>${esc(b.ability)}</div>
+    </div>
+    ${ratingHTML}
+    <h3 style="margin:.8rem 0 .3rem">How their abilities interact</h3>
+    ${interactHTML}
+    <h3 style="margin:.8rem 0 .3rem">Starter evolution</h3>
+    ${starterHTML}
+    <h3 style="margin:.9rem 0 .3rem">Shared evolution targets</h3>
+    <p style="font-size:.8rem;color:var(--muted);margin:.2rem 0">Evolutions reachable using both starters plus any one more base ball:</p>
+    ${stHTML}
+    ${comboHTML}
+  </div>`;
+}
+
+function saveTeam(){ localStorage.setItem(LS_TEAM, JSON.stringify(teamSlots)); }
+function renderTeam(){ renderSlots(); renderTeamOutput(); renderCharGrid(); applySearchToTeam(); }
+
+function setupSlotsDnD(){
+  [0,1].forEach(i=>{
+    const el = document.getElementById("slot-"+i);
+    el.addEventListener("dragover",ev=>{ ev.preventDefault(); el.classList.add("dragover"); });
+    el.addEventListener("dragleave",()=>el.classList.remove("dragover"));
+    el.addEventListener("drop",ev=>{
+      ev.preventDefault(); el.classList.remove("dragover");
+      const s = ev.dataTransfer.getData("text/plain");
+      if(!CHAR_BY_SLUG[s]) return;
+      if(teamSlots[1-i]===s) teamSlots[1-i] = null;
+      teamSlots[i] = s;
+      saveTeam(); renderTeam();
+    });
+  });
+  document.getElementById("swap-btn").addEventListener("click",()=>{
+    teamSlots = [teamSlots[1], teamSlots[0]]; saveTeam(); renderTeam();
+  });
+  document.getElementById("clear-btn").addEventListener("click",()=>{
+    teamSlots = [null,null]; saveTeam(); renderTeam();
+  });
+}
+
+/* ============================ search / tabs / events ============================ */
+let activeView = "base";
+function applySearch(){
+  const q = document.getElementById("search").value.trim().toLowerCase();
+  if(activeView==="evo"){ applyEvoFilters(); return; }
+  if(activeView==="team"){ applySearchToTeam(); return; }
+  if(activeView==="bybase"){
+    document.querySelectorAll("#base-grid .base-card").forEach(card=>{
+      card.style.display = (!q || card.dataset.search.includes(q)) ? "" : "none";
+    });
+    return;
+  }
+  const tables = activeView==="base" ? ["base-table"] : ["bpas-table","epas-table"];
+  tables.forEach(tid=>{
+    const tbl = document.getElementById(tid);
+    let visible = 0;
+    tbl.querySelectorAll("tbody.item-row").forEach(tb=>{
+      const show = !q || tb.dataset.search.includes(q);
+      tb.style.display = show?"":"none";
+      if(show) visible++;
+    });
+    let nr = tbl.querySelector("tbody.no-results");
+    const cols = tbl.querySelectorAll("thead th").length;
+    if(!visible){
+      if(!nr){
+        nr = document.createElement("tbody");
+        nr.className = "no-results";
+        nr.innerHTML = `<tr class="no-results"><td colspan="${cols}">No results.</td></tr>`;
+        tbl.appendChild(nr);
+      }
+    } else if(nr) nr.remove();
+  });
+}
+function applySearchToTeam(){
+  const q = document.getElementById("search").value.trim().toLowerCase();
+  document.querySelectorAll("#char-grid .char-card").forEach(card=>{
+    card.style.display = (!q || card.dataset.search.includes(q)) ? "" : "none";
+  });
+}
+
+document.getElementById("tabs").addEventListener("click",ev=>{
+  const btn = ev.target.closest("button[data-view]");
+  if(!btn) return;
+  activeView = btn.dataset.view;
+  document.querySelectorAll("#tabs button").forEach(b=>b.classList.toggle("active", b===btn));
+  document.querySelectorAll("section.view").forEach(s=>s.classList.toggle("active", s.id==="view-"+activeView));
+  applySearch();
+});
+
+document.getElementById("search").addEventListener("input", applySearch);
+
+document.getElementById("reset-btn").addEventListener("click",()=>{
+  if(!confirm("Reset ALL collected checkmarks? This cannot be undone.")) return;
+  checks = {};
+  localStorage.removeItem(LS_KEY);
+  document.querySelectorAll("input[data-check]").forEach(cb=>{
+    cb.checked = false;
+    const row = cb.closest("tbody.item-row");
+    if(row) row.classList.remove("collected");
+  });
+  updateProgress();
+  if(evoFilter==="uncollected") applyEvoFilters();
+});
+
+document.addEventListener("change",ev=>{
+  const cb = ev.target.closest("input[data-check]");
+  if(cb){
+    setCheck(cb.dataset.check, cb.checked);
+    if(evoFilter==="uncollected") applyEvoFilters();
+  }
+});
+document.addEventListener("click",ev=>{
+  const btn = ev.target.closest("[data-expand]");
+  if(btn){
+    const tb = btn.closest("tbody.item-row");
+    if(tb) tb.classList.toggle("open");
+  }
+});
+
+document.getElementById("evo-filters").addEventListener("click",ev=>{
+  const chip = ev.target.closest(".chip");
+  if(!chip) return;
+  evoFilter = chip.dataset.filter;
+  document.querySelectorAll("#evo-filters .chip").forEach(c=>c.classList.toggle("active", c===chip));
+  applyEvoFilters();
+});
+const usesSelect = document.getElementById("uses-select");
+GAME_DATA.baseBalls.forEach(b=>{
+  const o = document.createElement("option");
+  o.value = b.name; o.textContent = b.name;
+  usesSelect.appendChild(o);
+});
+usesSelect.addEventListener("change",()=>{ evoUses = usesSelect.value; applyEvoFilters(); });
+
+document.querySelectorAll("#evo-table th.sortable").forEach(th=>{
+  th.addEventListener("click",()=>{
+    const key = th.dataset.sort;
+    if(evoSort.key===key) evoSort.dir *= -1;
+    else evoSort = { key, dir:1 };
+    document.querySelectorAll("#evo-table th.sortable").forEach(t=>{
+      t.textContent = t.dataset.sort==="name"?"Name":"Tier";
+      if(t.dataset.sort===evoSort.key) t.textContent += evoSort.dir===1?" ▲":" ▼";
+    });
+    renderEvoTable();
+  });
+});
+
+/* ============================ init ============================ */
+renderBaseTable();
+renderEvoTable();
+renderPassives();
+renderByBase();
+renderCharGrid();
+renderSlots();
+renderTeamOutput();
+setupSlotsDnD();
+updateProgress();
+
+// acceptance self-checks (console only)
+(function(){
+  const freezeDirect = GAME_DATA.evolvedBalls.filter(e=>directBases(e).has("Freeze")).map(e=>e.name).sort();
+  console.assert(JSON.stringify(freezeDirect)===JSON.stringify(["Blizzard","Freeze Ray","Frozen Flame","Glacier","Timestop","Venom","Wraith"]),
+    "Freeze direct-uses mismatch: "+freezeDirect.join(", "));
+  const vampDirect = GAME_DATA.evolvedBalls.filter(e=>directBases(e).has("Vampire")).map(e=>e.name).sort();
+  console.assert(JSON.stringify(vampDirect)===JSON.stringify(["Mosquito King","Mosquito Swarm","Soul Sucker","Succubus","Vampire Lord"]),
+    "Vampire direct-uses mismatch: "+vampDirect.join(", "));
+  const vampIndirect = GAME_DATA.evolvedBalls.filter(e=>!directBases(e).has("Vampire") && chainBases(e.name).has("Vampire")).map(e=>e.name).sort();
+  console.assert(JSON.stringify(vampIndirect)===JSON.stringify(["Nosferatu","Reaper","Satan"]),
+    "Vampire indirect-uses mismatch: "+vampIndirect.join(", "));
+  console.assert(findDirectEvos("Bleed","Iron").some(e=>e.name==="Hemorrhage"), "Bleed+Iron should give Hemorrhage");
+  console.assert(findDirectEvos("Bleed","Charm").some(e=>e.name==="Berserk"), "Bleed+Charm should give Berserk");
+  console.assert(findDirectEvos("Brood Mother","Egg Sac").some(e=>e.name==="Spider Queen"), "Brood Mother+Egg Sac should give Spider Queen");
+  console.assert(findDirectEvos("Laser (Vertical)","Laser (Horizontal)").some(e=>e.name==="Holy Laser"), "Lasers should give Holy Laser");
+  console.assert(findDirectEvos("Bleed","Bleed").length===0, "Duplicate ball must not evolve with itself");
+})();
+</script>
+</body>
+</html>
