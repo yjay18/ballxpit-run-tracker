@@ -460,6 +460,11 @@ body.compact-run .level-pips{gap:2px}body.compact-run .level-pips i{width:5px;he
 body.compact-run .rec-card p,body.compact-run .evo-ready p{display:none}
 body.compact-run .rec-card{padding:.35rem 0}
 
+body.no-levels .level-control{display:none!important}
+body.no-levels .item-slot{min-height:114px}
+body.compact-run.no-levels .item-slot{min-height:68px}
+.action-btn.active{border-color:var(--accent);color:var(--accent)}
+
 footer{background:#0b0d0a;margin-top:1rem}.creator-link{font-size:.78rem}.footer-brand{color:var(--text);font-family:"Press Start 2P",monospace;font-size:.58rem}
 
 @media(max-width:900px){
@@ -468,7 +473,7 @@ footer{background:#0b0d0a;margin-top:1rem}.creator-link{font-size:.78rem}.footer
 @media(max-width:640px){
   .site-header{padding:.55rem .7rem}.brand-copy h1{font-size:.61rem}.brand-mark{width:30px;height:30px}.hdr-top{gap:.45rem}nav.tabs{margin-left:-.1rem;margin-right:-.1rem}nav.tabs button{padding:.42rem .56rem;font-size:.63rem}
   main{padding-left:.7rem;padding-right:.7rem}.run-hero{padding:2.6rem 0 3rem;gap:1.5rem}.hero-title{font-size:clamp(2rem,14vw,3.8rem)}.hero-title span{text-shadow:3px 3px 0 #3e4b17}.hero-lede{font-size:.95rem}.hero-visual{min-height:310px}.pit-board{width:min(92%,330px)}.hero-orb{width:58px;height:58px}.hero-orb.o2{width:66px;height:66px}.hero-orb.o3{width:72px;height:72px}.board-caption{right:0;bottom:24px}
-  body.active-run main{padding-bottom:5.6rem}.setup-wrap{padding:1.5rem 0}.setup-head{align-items:flex-start}.duo-selection{align-items:stretch;flex-direction:column}.duo-picked{display:grid;grid-template-columns:1fr 1fr}.duo-start{width:100%}.run-char-grid{grid-template-columns:1fr}.run-topbar{padding:.7rem 0}.runner-card{min-width:0}.runner-card .avatar{width:42px;height:42px}.runner-party{display:grid;grid-template-columns:1fr 1fr;width:100%;gap:.45rem}.runner-member+.runner-member{padding-left:.45rem}.runner-detail{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.run-actions{width:100%;display:grid;grid-template-columns:repeat(5,1fr);gap:.3rem}.action-btn,.danger-btn{padding:.5rem .15rem;font-size:.48rem}.run-layout{gap:.65rem}.panel-head{padding:.7rem}.slot-list{grid-template-columns:repeat(2,minmax(0,1fr));padding:.55rem}.item-slot{min-height:145px}.coach-panel{position:fixed;left:.7rem;right:.7rem;bottom:.55rem;top:auto;z-index:75;max-height:72vh;overflow:auto;box-shadow:0 -8px 28px rgba(0,0,0,.55)}.recommendation-head{position:sticky;top:0;z-index:2;cursor:pointer;background:var(--panel)}.recommendation-head .rec-chevron,.rec-summary{display:block}.coach-panel:not(.open) .recommendations{display:none}.coach-panel.open .rec-chevron{transform:rotate(180deg)}.evo-ready{grid-template-columns:auto 1fr}.evo-ready .evolve-btn{grid-column:1/-1}.picker-backdrop{padding:0;place-items:end}.picker-drawer{height:85vh;height:85dvh;max-height:85dvh;border-left:0;border-right:0}.picker-head{flex-wrap:wrap}.picker-head input{order:3;width:100%;font-size:16px}.picker-grid{grid-template-columns:repeat(2,minmax(0,1fr));padding:.5rem}.picker-item{grid-template-columns:32px 1fr;padding:.4rem}.picker-item .sprite{width:32px;height:32px}.offer-result{grid-template-columns:24px 34px 1fr}.offer-result .sprite{width:34px;height:34px}.offer-result .mini-add{grid-column:1/-1}.offer-selected{flex-wrap:wrap}.offer-submit{margin-left:0}
+  body.active-run main{padding-bottom:5.6rem}.setup-wrap{padding:1.5rem 0}.setup-head{align-items:flex-start}.duo-selection{align-items:stretch;flex-direction:column}.duo-picked{display:grid;grid-template-columns:1fr 1fr}.duo-start{width:100%}.run-char-grid{grid-template-columns:1fr}.run-topbar{padding:.7rem 0}.runner-card{min-width:0}.runner-card .avatar{width:42px;height:42px}.runner-party{display:grid;grid-template-columns:1fr 1fr;width:100%;gap:.45rem}.runner-member+.runner-member{padding-left:.45rem}.runner-detail{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.run-actions{width:100%;display:grid;grid-template-columns:repeat(6,1fr);gap:.25rem}.action-btn,.danger-btn{padding:.5rem .12rem;font-size:.46rem}.run-layout{gap:.65rem}.panel-head{padding:.7rem}.slot-list{grid-template-columns:repeat(2,minmax(0,1fr));padding:.55rem}.item-slot{min-height:145px}.coach-panel{position:fixed;left:.7rem;right:.7rem;bottom:.55rem;top:auto;z-index:75;max-height:72vh;overflow:auto;box-shadow:0 -8px 28px rgba(0,0,0,.55)}.recommendation-head{position:sticky;top:0;z-index:2;cursor:pointer;background:var(--panel)}.recommendation-head .rec-chevron,.rec-summary{display:block}.coach-panel:not(.open) .recommendations{display:none}.coach-panel.open .rec-chevron{transform:rotate(180deg)}.evo-ready{grid-template-columns:auto 1fr}.evo-ready .evolve-btn{grid-column:1/-1}.picker-backdrop{padding:0;place-items:end}.picker-drawer{height:85vh;height:85dvh;max-height:85dvh;border-left:0;border-right:0}.picker-head{flex-wrap:wrap}.picker-head input{order:3;width:100%;font-size:16px}.picker-grid{grid-template-columns:repeat(2,minmax(0,1fr));padding:.5rem}.picker-item{grid-template-columns:32px 1fr;padding:.4rem}.picker-item .sprite{width:32px;height:32px}.offer-result{grid-template-columns:24px 34px 1fr}.offer-result .sprite{width:34px;height:34px}.offer-result .mini-add{grid-column:1/-1}.offer-selected{flex-wrap:wrap}.offer-submit{margin-left:0}
   #search,.filters select{font-size:16px}
 }
 </style>
@@ -559,6 +564,7 @@ footer{background:#0b0d0a;margin-top:1rem}.creator-link{font-size:.78rem}.footer
           <button class="action-btn" id="offer-btn">Compare offer</button>
           <button class="action-btn" id="target-btn">Set target</button>
           <button class="action-btn" id="compact-btn">Compact</button>
+          <button class="action-btn" id="levels-btn" title="Turn level tracking on/off for easier tracking">Levels: ON</button>
           <button class="action-btn" id="undo-btn" disabled>↶ Undo</button>
           <button class="danger-btn" id="end-run-btn">End run</button>
         </div>
@@ -568,12 +574,12 @@ footer{background:#0b0d0a;margin-top:1rem}.creator-link{font-size:.78rem}.footer
       <div class="run-layout">
         <div class="run-stack">
           <section class="run-panel">
-            <div class="panel-head"><div><h2>Your balls</h2><p>Tap +/− to match their current levels.</p></div><div class="panel-actions"><span class="panel-count" id="ball-slot-count">0 / 4</span><button class="quick-add" id="add-ball-btn" data-open-picker="ball">+ Add</button></div></div>
+            <div class="panel-head"><div><h2>Your balls</h2><p id="ball-panel-desc">Tap +/− to match their current levels.</p></div><div class="panel-actions"><span class="panel-count" id="ball-slot-count">0 / 4</span><button class="quick-add" id="add-ball-btn" data-open-picker="ball">+ Add</button></div></div>
             <div class="slot-list" id="run-ball-list"></div>
           </section>
 
           <section class="run-panel">
-            <div class="panel-head"><div><h2>Your passives</h2><p>Tap +/− to match their current levels.</p></div><div class="panel-actions"><span class="panel-count" id="passive-slot-count">0 / 4</span><button class="quick-add" id="add-passive-btn" data-open-picker="passive">+ Add</button></div></div>
+            <div class="panel-head"><div><h2>Your passives</h2><p id="passive-panel-desc">Tap +/− to match their current levels.</p></div><div class="panel-actions"><span class="panel-count" id="passive-slot-count">0 / 4</span><button class="quick-add" id="add-passive-btn" data-open-picker="passive">+ Add</button></div></div>
             <div class="slot-list passive-list" id="run-passive-list"></div>
           </section>
         </div>
@@ -1729,15 +1735,20 @@ function renderRunCharacterGrid(){
     </button>`;
   }).join("");
 }
+function isLevelTrackingEnabled(){
+  if(runState && typeof runState.trackLevels === "boolean") return runState.trackLevels;
+  return localStorage.getItem("pc_track_levels") !== "false";
+}
 function matchRecipe(slots, inventory, needsLevel){
   const used = new Set(), chosen = [];
+  const checkLevel = needsLevel && isLevelTrackingEnabled();
   function visit(slotIndex){
     if(slotIndex===slots.length) return true;
     for(let i=0;i<inventory.length;i++){
       if(used.has(i)) continue;
       const item = inventory[i];
       if(!slots[slotIndex].includes(item.name)) continue;
-      if(needsLevel && (item.level||1)<3) continue;
+      if(checkLevel && (item.level||1)<3) continue;
       used.add(i); chosen.push(i);
       if(visit(slotIndex+1)) return true;
       chosen.pop(); used.delete(i);
@@ -1815,6 +1826,7 @@ function renderRun(){
     saveRun();
   }
   if(typeof runState.compact!=="boolean") runState.compact=false;
+  if(typeof runState.trackLevels!=="boolean") runState.trackLevels = localStorage.getItem("pc_track_levels") !== "false";
   if(runState.target&&typeof runState.target==="string") runState.target={kind:"ball",name:runState.target};
   let migratedPassives=false;
   runState.passives.forEach(passive=>{
@@ -1833,7 +1845,17 @@ function renderRun(){
   document.getElementById("add-ball-btn").disabled = runState.balls.length>=runState.ballCap;
   document.getElementById("add-passive-btn").disabled = runState.passives.length>=runState.passiveCap;
   document.body.classList.toggle("compact-run",runState.compact);
+  document.body.classList.toggle("no-levels",!runState.trackLevels);
   document.getElementById("compact-btn").textContent=runState.compact?"Comfort":"Compact";
+  const levelsBtn=document.getElementById("levels-btn");
+  if(levelsBtn){
+    levelsBtn.textContent=runState.trackLevels?"Levels: ON":"Levels: OFF";
+    levelsBtn.classList.toggle("active",runState.trackLevels);
+  }
+  const ballDesc=document.getElementById("ball-panel-desc");
+  if(ballDesc) ballDesc.textContent=runState.trackLevels?"Tap +/− to match their current levels.":"Levels off · Evolutions ready immediately.";
+  const passiveDesc=document.getElementById("passive-panel-desc");
+  if(passiveDesc) passiveDesc.textContent=runState.trackLevels?"Tap +/− to match their current levels.":"Levels off · Evolutions ready immediately.";
   const undoBtn=document.getElementById("undo-btn");
   undoBtn.disabled=!runUndo;
   undoBtn.title=runUndo?`Undo: ${runUndo.label}`:"Nothing to undo";
@@ -1847,9 +1869,11 @@ function renderRun(){
 }
 function renderRunBalls(){
   const list = document.getElementById("run-ball-list");
+  const trackLevels = isLevelTrackingEnabled();
   const cards = runState.balls.map((b,i)=>{
     const evolved = !!EVO_BY_NAME[b.name];
-    return `<article class="item-slot${evolved?" evolved":""}" aria-label="${esc(b.name)}, level ${b.level}" title="${esc(b.name)} · Level ${b.level}">
+    const lvlText = trackLevels ? `, level ${b.level}` : "";
+    return `<article class="item-slot${evolved?" evolved":""}" aria-label="${esc(b.name)}${lvlText}" title="${esc(b.name)}${trackLevels?` · Level ${b.level}`:""}">
       <button class="slot-remove" data-remove-kind="ball" data-index="${i}" aria-label="Remove ${esc(b.name)}">✕</button>
       ${spriteHTML(b.name,"balls")}<div class="item-slot-name">${esc(b.name)}</div><div class="item-tier">${evolved?`Tier ${EVO_BY_NAME[b.name].tier} evolution`:"Base ball"}</div>
       <div class="level-control"><button data-level-index="${i}" data-level-delta="-1" aria-label="Lower level">−</button><span class="level-pips">${[1,2,3].map(n=>`<i class="${n<=b.level?"on":""}"></i>`).join("")}</span><button data-level-index="${i}" data-level-delta="1" aria-label="Raise level">+</button></div>
@@ -1859,12 +1883,16 @@ function renderRunBalls(){
 }
 function renderRunPassives(){
   const list = document.getElementById("run-passive-list");
+  const trackLevels = isLevelTrackingEnabled();
   const evolvedNames = new Set(GAME_DATA.evolvedPassives.map(p=>p.name));
-  const cards = runState.passives.map((p,i)=>`<article class="item-slot${evolvedNames.has(p.name)?" evolved":""}" aria-label="${esc(p.name)}, level ${p.level}" title="${esc(p.name)} · Level ${p.level}">
-    <button class="slot-remove" data-remove-kind="passive" data-index="${i}" aria-label="Remove ${esc(p.name)}">✕</button>
-    ${spriteHTML(p.name,"passives")}<div class="item-slot-name">${esc(p.name)}</div><div class="item-tier">${evolvedNames.has(p.name)?"Artifact":"Base passive"}</div>
-    <div class="level-control"><button data-passive-level-index="${i}" data-level-delta="-1" aria-label="Lower ${esc(p.name)} level">−</button><span class="level-pips">${[1,2,3].map(n=>`<i class="${n<=p.level?"on":""}"></i>`).join("")}</span><button data-passive-level-index="${i}" data-level-delta="1" aria-label="Raise ${esc(p.name)} level">+</button></div>
-  </article>`);
+  const cards = runState.passives.map((p,i)=>{
+    const lvlText = trackLevels ? `, level ${p.level}` : "";
+    return `<article class="item-slot${evolvedNames.has(p.name)?" evolved":""}" aria-label="${esc(p.name)}${lvlText}" title="${esc(p.name)}${trackLevels?` · Level ${p.level}`:""}">
+      <button class="slot-remove" data-remove-kind="passive" data-index="${i}" aria-label="Remove ${esc(p.name)}">✕</button>
+      ${spriteHTML(p.name,"passives")}<div class="item-slot-name">${esc(p.name)}</div><div class="item-tier">${evolvedNames.has(p.name)?"Artifact":"Base passive"}</div>
+      <div class="level-control"><button data-passive-level-index="${i}" data-level-delta="-1" aria-label="Lower ${esc(p.name)} level">−</button><span class="level-pips">${[1,2,3].map(n=>`<i class="${n<=p.level?"on":""}"></i>`).join("")}</span><button data-passive-level-index="${i}" data-level-delta="1" aria-label="Raise ${esc(p.name)} level">+</button></div>
+    </article>`;
+  });
   list.innerHTML = cards.length?cards.join(""):`<div class="loadout-empty">${runState.passiveCap?"No passives selected.":"This character cannot equip passives."}</div>`;
 }
 function currentBallHasStatus(status){
@@ -1896,7 +1924,7 @@ function scoreBallCandidateForCharacter(b,c,guide){
   runState.balls.forEach(heldBall=>findDirectEvos(b.name,heldBall.name).forEach(e=>direct.push({e,heldBall})));
   if(direct.length){
     const best=direct.sort((x,y)=>(y.heldBall.level||1)-(x.heldBall.level||1))[0];
-    score+=best.heldBall.level===3?95:65;
+    score+=(!isLevelTrackingEnabled() || best.heldBall.level===3)?95:65;
     reason=`Pairs with ${best.heldBall.name} for ${best.e.name}.`;
   }
   if(runState.target&&runState.target.kind==="ball"&&chainBases(runState.target.name).has(b.name)){
@@ -2086,6 +2114,14 @@ document.getElementById("end-run-btn").addEventListener("click",()=>{
 document.getElementById("offer-btn").addEventListener("click",openOffer);
 document.getElementById("target-btn").addEventListener("click",openTarget);
 document.getElementById("compact-btn").addEventListener("click",()=>{runState.compact=!runState.compact;saveRun();renderRun();});
+document.getElementById("levels-btn").addEventListener("click",()=>{
+  if(!runState) return;
+  runState.trackLevels = !runState.trackLevels;
+  localStorage.setItem("pc_track_levels", String(runState.trackLevels));
+  logRun(`Level tracking turned ${runState.trackLevels ? "ON" : "OFF"}.`);
+  saveRun();
+  renderRun();
+});
 document.getElementById("undo-btn").addEventListener("click",undoLastRunAction);
 document.getElementById("clear-target-btn").addEventListener("click",clearEvolutionTarget);
 document.getElementById("recommendation-toggle").addEventListener("click",()=>document.querySelector(".coach-panel").classList.toggle("open"));
@@ -2271,6 +2307,16 @@ if(runState&&runState.active) showRunDashboard(); else showRunLanding();
   console.assert(findDirectEvos("Brood Mother","Egg Sac").some(e=>e.name==="Spider Queen"), "Brood Mother+Egg Sac should give Spider Queen");
   console.assert(findDirectEvos("Laser (Vertical)","Laser (Horizontal)").some(e=>e.name==="Holy Laser"), "Lasers should give Holy Laser");
   console.assert(findDirectEvos("Bleed","Bleed").length===0, "Duplicate ball must not evolve with itself");
+
+  // check level tracking toggle behavior
+  const virusEvo = GAME_DATA.evolvedBalls.find(e=>e.name==="Virus");
+  const testBalls = [{name:"Poison",level:1},{name:"Bleed",level:1}];
+  const prevRun = runState;
+  runState = { active:true, trackLevels:true, balls:testBalls, passives:[], characters:["The Embedded"], ballCap:4, passiveCap:4 };
+  console.assert(matchRecipe(virusEvo.slots, runState.balls, true) === null, "Virus should require level 3 when trackLevels is true");
+  runState.trackLevels = false;
+  console.assert(matchRecipe(virusEvo.slots, runState.balls, true) !== null, "Virus should be ready at level 1 when trackLevels is false");
+  runState = prevRun;
 })();
 </script>
 <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "3ab70bfd0f35459b9cb55f2a95a56e05"}'></script><!-- End Cloudflare Web Analytics -->
