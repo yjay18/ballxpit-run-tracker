@@ -797,7 +797,7 @@ const GAME_DATA = {
     { name:"Timestop", slots:[["Time"],["Freeze"]], description:"Freezes everything on the field for 5.0 seconds but destroys itself after hitting an enemy. Has a 30 second cooldown before it can be shot again.", evolvesInto:[], tier:1, damageTypes:["Base"], statusEffects:["Timestop"] },
     { name:"Vampire Lord", slots:[["Vampire"],["Bleed","Dark"]], description:"Each hit inflicts 3 stacks of bleed. Heals 1 health and consumes all stacks when hitting an enemy with at least 10 stacks of bleed.", evolvesInto:[{name:"Nosferatu",with:["Spider Queen","Mosquito King"]}], tier:1, damageTypes:["Base"], statusEffects:["Bleed","Heal"] },
     { name:"Venom", slots:[["Poison"],["Freeze"]], description:"Applies 1 stack of venom on hit (max 8 stacks). Each stack deals 3-6 damage per second and slows down enemies.", evolvesInto:[], tier:1, damageTypes:["Base"], statusEffects:["Venom","Slow"] },
-    { name:"Virus", slots:[["Poison"],["Ghost","Cell"]], description:"Applies 1 stack of disease to units it hits (max 8 stacks). Disease lasts for 6 seconds. Each stack of disease deals 3-6 damage per second and diseased units have a 15% chance of passing a stack to undiseased nearby enemies each second.", evolvesInto:[], tier:1, damageTypes:["Base"], statusEffects:["Disease"] },
+    { name:"Virus", slots:[["Poison"],["Bleed","Ghost","Cell"]], description:"Applies 1 stack of disease to units it hits (max 8 stacks). Disease lasts for 6 seconds. Each stack of disease deals 3-6 damage per second and diseased units have a 15% chance of passing a stack to undiseased nearby enemies each second.", evolvesInto:[], tier:1, damageTypes:["Base"], statusEffects:["Disease"] },
     { name:"Voluptuous Egg Sac", slots:[["Egg Sac"],["Cell"]], description:"Explodes into 2-3 egg sacs on hitting an enemy. Has a 3 second cooldown before it can be shot again.", evolvesInto:[], tier:1, damageTypes:["Base"], statusEffects:["Baby Ball Spawn"] },
     { name:"Warp", slots:[["Time"],["Light"]], description:"After each hit, warps to a random spot on the field and speeds up by 5%.", evolvesInto:[], tier:1, damageTypes:["Base"], statusEffects:[] },
     { name:"Wraith", slots:[["Freeze"],["Ghost"]], description:"Freezes any enemy it passes through for 0.8 seconds.", evolvesInto:[{name:"Banshee",with:["Phantom"]}], tier:1, damageTypes:["Base"], statusEffects:["Freeze"] },
@@ -2266,6 +2266,8 @@ if(runState&&runState.active) showRunDashboard(); else showRunLanding();
     "Vampire indirect-uses mismatch: "+vampIndirect.join(", "));
   console.assert(findDirectEvos("Bleed","Iron").some(e=>e.name==="Hemorrhage"), "Bleed+Iron should give Hemorrhage");
   console.assert(findDirectEvos("Bleed","Charm").some(e=>e.name==="Berserk"), "Bleed+Charm should give Berserk");
+  console.assert(findDirectEvos("Poison","Bleed").some(e=>e.name==="Virus"), "Poison+Bleed should give Virus");
+  console.assert(findDirectEvos("Bleed","Poison").some(e=>e.name==="Virus"), "Bleed+Poison should give Virus");
   console.assert(findDirectEvos("Brood Mother","Egg Sac").some(e=>e.name==="Spider Queen"), "Brood Mother+Egg Sac should give Spider Queen");
   console.assert(findDirectEvos("Laser (Vertical)","Laser (Horizontal)").some(e=>e.name==="Holy Laser"), "Lasers should give Holy Laser");
   console.assert(findDirectEvos("Bleed","Bleed").length===0, "Duplicate ball must not evolve with itself");
