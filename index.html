@@ -465,6 +465,32 @@ body.no-levels .item-slot{min-height:114px}
 body.compact-run.no-levels .item-slot{min-height:68px}
 .action-btn.active{border-color:var(--accent);color:var(--accent)}
 
+.rec-tag{display:inline-block;padding:.05rem .32rem;font-size:.55rem;border-radius:3px;font-weight:700;margin-right:.22rem;text-transform:uppercase;line-height:1.2}
+.rec-tag.evo{background:#233a1e;color:#a5e85d;border:1px solid #446835}
+.rec-tag.tier2{background:#3d1e3a;color:#eaa6e4;border:1px solid #6b3366}
+.rec-tag.syn{background:#1a2e3d;color:#7ad1e8;border:1px solid #2d5573}
+.rec-tag.core{background:#3d341a;color:#ffd769;border:1px solid #6e5c26}
+
+.ai-coach-card{margin-top:.85rem;border-top:1px solid var(--border);padding-top:.75rem}
+.ai-coach-head{display:flex;align-items:center;justify-content:space-between;gap:.5rem}
+.ai-coach-head h4{font-family:"Press Start 2P",monospace;font-size:.52rem;color:var(--accent);margin:0;display:flex;align-items:center;gap:.35rem}
+.ai-badge-btn{border:1px solid var(--accent);background:rgba(217,255,82,.08);color:var(--accent);padding:.28rem .5rem;font-size:.58rem;font-weight:800;border-radius:3px}
+.ai-badge-btn:hover{background:var(--accent);color:#10120d}
+.ai-coach-body{margin-top:.6rem}
+.ai-model-box{display:flex;flex-wrap:wrap;gap:.35rem;background:#0c0f0b;padding:.45rem;border:1px solid var(--border);margin-bottom:.45rem}
+.ai-model-box select{background:#171d15;border:1px solid var(--border);color:var(--text);font-size:16px;padding:.3rem .45rem;flex:1;min-width:140px}
+.ai-load-btn{border:1px solid var(--accent);background:var(--accent);color:#11140d;padding:.3rem .55rem;font-size:.62rem;font-weight:800}
+.ai-progress-wrap{width:100%;height:14px;background:#1a2118;border:1px solid var(--border);position:relative;margin:.4rem 0;overflow:hidden}
+.ai-progress-fill{height:100%;background:linear-gradient(90deg,var(--accent-dim),var(--accent));width:0%;transition:width .2s}
+.ai-progress-text{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:.55rem;color:#fff;font-weight:700;text-shadow:0 1px 2px rgba(0,0,0,.8)}
+.ai-output{background:#0a0d09;border:1px solid #2a3325;padding:.6rem;font-size:.67rem;line-height:1.45;color:var(--text);max-height:240px;overflow-y:auto;white-space:pre-wrap;margin:.45rem 0}
+.ai-output:empty{display:none}
+.ai-output h3,.ai-output h4{color:var(--accent);font-size:.68rem;margin:.35rem 0 .15rem}
+.ai-output strong{color:#fff}
+.ai-ask-row{display:flex;gap:.35rem;margin-top:.4rem}
+.ai-ask-row input{flex:1;background:#0c0f0b;border:1px solid var(--border);color:var(--text);padding:.35rem .5rem;font-size:16px}
+.ai-ask-row button{border:1px solid var(--accent);background:var(--accent);color:#11140d;padding:.35rem .55rem;font-size:.62rem;font-weight:800}
+
 footer{background:#0b0d0a;margin-top:1rem}.creator-link{font-size:.78rem}.footer-brand{color:var(--text);font-family:"Press Start 2P",monospace;font-size:.58rem}
 
 @media(max-width:900px){
@@ -1916,27 +1942,65 @@ function passiveAllowed(p){
   if(p.name==="Bandage Roll" && !runState.balls.some(b=>["Vampire","Soul Sucker","Heart Swallower","Vampire Lord","Mosquito King","Mosquito Swarm","Reaper"].includes(b.name)) && !runState.passives.some(x=>["Vampiric Sword","Healer's Effigy","Soul Reaver"].includes(x.name))) return false;
   return true;
 }
+const TIER2_RECIPES = [
+  { name: "Nosferatu", subEvos: ["Vampire Lord", "Spider Queen", "Mosquito King"], neededBases: ["Vampire", "Dark", "Bleed", "Brood Mother", "Egg Sac"] },
+  { name: "Satan", subEvos: ["Incubus", "Succubus"], neededBases: ["Charm", "Dark", "Vampire"] },
+  { name: "Reaper", subEvos: ["Soul Sucker", "Heart Swallower"], neededBases: ["Vampire", "Ghost", "Bleed"] },
+  { name: "X Ray", subEvos: ["Holy Laser", "Laser Beam"], neededBases: ["Laser (Horizontal)", "Laser (Vertical)", "Light"] },
+  { name: "Nuclear Bomb", subEvos: ["Bomb"], neededBases: ["Burn", "Iron", "Poison"] },
+  { name: "Banshee", subEvos: ["Phantom", "Wraith"], neededBases: ["Dark", "Ghost", "Freeze"] },
+  { name: "Sniper", subEvos: ["Shotgun", "Assassin"], neededBases: ["Iron", "Egg Sac", "Ghost", "Dark"] },
+  { name: "Black Hole", subEvos: ["Sun"], neededBases: ["Burn", "Light", "Dark", "Time"] },
+  { name: "Laser Cutter", subEvos: ["Steel"], neededBases: ["Iron", "Stone", "Laser (Horizontal)", "Laser (Vertical)"] }
+];
+
 function scoreBallCandidateForCharacter(b,c,guide){
   let score=0,reason="Adds a new evolution branch.";
-  const gi=guide.balls.indexOf(b.name);
-  if(gi>=0){score+=70-gi*6;reason=`Strong fit for ${guide.role.toLowerCase()}.`;}
+  const heldBallNames=runState.balls.map(x=>x.name);
+  const gi=guide.balls?guide.balls.indexOf(b.name):-1;
+  if(gi>=0){score+=70-gi*6;reason=`<span class="rec-tag core">Role Fit</span>Core for ${esc(guide.role.toLowerCase())}.`;}
   const direct=[];
   runState.balls.forEach(heldBall=>findDirectEvos(b.name,heldBall.name).forEach(e=>direct.push({e,heldBall})));
   if(direct.length){
     const best=direct.sort((x,y)=>(y.heldBall.level||1)-(x.heldBall.level||1))[0];
-    score+=(!isLevelTrackingEnabled() || best.heldBall.level===3)?95:65;
-    reason=`Pairs with ${best.heldBall.name} for ${best.e.name}.`;
+    score+=(!isLevelTrackingEnabled() || best.heldBall.level===3)?110:75;
+    reason=`<span class="rec-tag evo">Evolves: ${esc(best.e.name)}</span>Pairs with ${esc(best.heldBall.name)}.`;
+  }
+  TIER2_RECIPES.forEach(t2=>{
+    if(t2.neededBases.includes(b.name)){
+      const matchingHeld=heldBallNames.filter(h=>t2.neededBases.includes(h)||t2.subEvos.includes(h));
+      if(matchingHeld.length>=1 && !heldBallNames.includes(b.name)){
+        score+=35+matchingHeld.length*15;
+        if(!direct.length){
+          reason=`<span class="rec-tag tier2">Tier-2 Path: ${esc(t2.name)}</span>Pairs with ${esc(matchingHeld[0])}.`;
+        }
+      }
+    }
+  });
+  if(b.statusEffects&&b.statusEffects.length){
+    if(b.statusEffects.includes("Poison")&&currentBallHasStatus("Bleed")){
+      score+=30;
+      if(!direct.length) reason=`<span class="rec-tag syn">DoT Combo</span>Combines Poison DoT with Bleed wound damage.`;
+    }
+    if(b.statusEffects.includes("Burn")&&currentBallHasStatus("Freeze")){
+      score+=30;
+      if(!direct.length) reason=`<span class="rec-tag syn">Frostburn</span>Combines with Freeze for amplified damage.`;
+    }
+  }
+  if(hasBabyBallEngine()&&["Brood Mother","Egg Sac","Cell"].includes(b.name)){
+    score+=40;
+    if(!direct.length) reason=`<span class="rec-tag syn">Swarm Multiplier</span>Expands baby ball generation frequency.`;
   }
   if(runState.target&&runState.target.kind==="ball"&&chainBases(runState.target.name).has(b.name)){
-    score+=180;reason=`Needed for pinned target ${runState.target.name}.`;
+    score+=180;reason=`<span class="rec-tag evo">Target</span>Needed for pinned target ${esc(runState.target.name)}.`;
   }
   if(c.name==="The Makeshift Sisyphus"){
     const useful=GAME_DATA.evolvedBalls.some(e=>directBases(e).has(b.name)&&(e.damageTypes.includes("AOE")||e.statusEffects.length));
-    score+=b.damageTypes.includes("AOE")||b.statusEffects.length?35:-60;
-    if(useful) score+=18;
+    score+=b.damageTypes.includes("AOE")||b.statusEffects.length?40:-60;
+    if(useful) score+=20;
   }
-  if(c.tags.includes("noBabyBalls")&&["Brood Mother","Egg Sac","Cell"].includes(b.name)) score-=80;
-  if(c.tags.includes("moreBalls")&&b.statusEffects.length) score+=12;
+  if(c.tags&&c.tags.includes("noBabyBalls")&&["Brood Mother","Egg Sac","Cell"].includes(b.name)) score-=80;
+  if(c.tags&&c.tags.includes("moreBalls")&&b.statusEffects.length) score+=15;
   return {item:b,score,reason};
 }
 function scoreBallCandidate(b){
@@ -1946,37 +2010,40 @@ function scoreBallCandidate(b){
   if(scores.length>1){
     const positive=scores.filter(x=>x.score>0).length;
     best.score+=Math.round(scores[1].score*.35)+(positive===2?18:0);
-    if(positive===2&&!best.reason.startsWith("Pairs with")&&!best.reason.startsWith("Needed for")) best.reason="Supports both runners' game plans.";
+    if(positive===2&&!best.reason.includes("rec-tag evo")&&!best.reason.includes("rec-tag tier2")) best.reason=`<span class="rec-tag syn">Duo Synergy</span>Supports both runners' game plans.`;
   }
   return best;
 }
 function ballRecommendations(c,guide){
   const held=new Set(runState.balls.map(b=>b.name));
   return GAME_DATA.baseBalls.filter(b=>!held.has(b.name)).map(b=>scoreBallCandidate(b))
-    .sort((a,b)=>b.score-a.score||a.item.name.localeCompare(b.item.name)).slice(0,2);
+    .sort((a,b)=>b.score-a.score||a.item.name.localeCompare(b.item.name)).slice(0,3);
 }
 function scorePassiveCandidateForCharacter(p,c,guide){
   const held=new Set(runState.passives.map(x=>x.name));
   let score=0,reason="Flexible support for the current build.";
-  const gi=guide.passives.indexOf(p.name);
-  if(gi>=0){score+=70-gi*6;reason=`Core ${guide.role.toLowerCase()} passive.`;}
+  const gi=guide.passives?guide.passives.indexOf(p.name):-1;
+  if(gi>=0){score+=70-gi*6;reason=`<span class="rec-tag core">Role Fit</span>Core ${esc(guide.role.toLowerCase())} passive.`;}
   GAME_DATA.evolvedPassives.forEach(e=>{
     const slotIndex=e.slots.findIndex(slot=>slot.includes(p.name));
     if(slotIndex<0) return;
     const otherReady=e.slots.every((slot,i)=>i===slotIndex||runState.passives.some(x=>slot.includes(x.name)));
-    if(otherReady){score+=100;reason=`Completes ${e.name}.`;}
+    if(otherReady){score+=110;reason=`<span class="rec-tag evo">Forge: ${esc(e.name)}</span>Completes ${esc(e.name)}.`;}
   });
-  if(hasBabyBallEngine()&&["War Horn","Baby Rattle","Bandage Roll"].includes(p.name)){score+=34;reason="Multiplies your baby-ball engine.";}
-  if(hasAOE()&&p.name==="Magic Staff"){score+=35;reason="Boosts your current area damage.";}
-  if(held.has("Vampiric Sword")&&["Everflowing Goblet","Bandage Roll"].includes(p.name)){score+=90;reason=p.name==="Everflowing Goblet"?"Completes Soul Reaver and stabilizes the health economy.":"Turns repeated healing into free baby balls.";}
-  if(held.has("Ethereal Cloak")&&p.name==="Ghostly Corset"){score+=105;reason="Completes Phantom Regalia for permanent pierce.";}
-  if(held.has("Ethereal Cloak")&&p.name==="Upturned Hatchet"){score+=55;reason="Covers the damage drop after the back-wall bounce.";}
+  if(hasBabyBallEngine()&&["War Horn","Baby Rattle","Bandage Roll","Bottled Tornado"].includes(p.name)){score+=45;reason=`<span class="rec-tag syn">Swarm Buff</span>Multiplies baby-ball spawn and swarm output.`;}
+  if(hasAOE()&&p.name==="Magic Staff"){score+=40;reason=`<span class="rec-tag syn">Area Damage</span>Amplifies current wide area damage.`;}
+  if(currentBallHasStatus("Burn")&&p.name==="Midnight Oil"){score+=55;reason=`<span class="rec-tag syn">Burn Synergist</span>Dramatically increases burn damage duration.`;}
+  if(currentBallHasStatus("Freeze")&&p.name==="Frozen Spike"){score+=55;reason=`<span class="rec-tag syn">Freeze Synergist</span>Shatters frozen enemies for bonus damage.`;}
+  if(currentBallHasStatus("Poison")&&p.name==="Cursed Elixir"){score+=50;reason=`<span class="rec-tag syn">Poison Synergist</span>Turns poisoned enemy deaths into allied zombies.`;}
+  if(held.has("Vampiric Sword")&&["Everflowing Goblet","Bandage Roll"].includes(p.name)){score+=95;reason=`<span class="rec-tag syn">Sustain Combo</span>${p.name==="Everflowing Goblet"?"Completes Soul Reaver and stabilizes health economy.":"Turns repeated healing into free baby balls."}`;}
+  if(held.has("Ethereal Cloak")&&p.name==="Ghostly Corset"){score+=110;reason=`<span class="rec-tag evo">Phantom Regalia</span>Completes Phantom Regalia for permanent pierce.`;}
+  if(held.has("Ethereal Cloak")&&p.name==="Upturned Hatchet"){score+=55;reason=`<span class="rec-tag syn">Damage Recovery</span>Covers damage drop after back-wall bounce.`;}
   if(!passiveAllowed(p)){score-=100;reason="Your current build does not activate this passive yet.";}
-  if(guide.avoid.includes(p.name)){score-=180;reason=`Poor fit for ${c.name}.`;}
+  if(guide.avoid&&guide.avoid.includes(p.name)){score-=180;reason=`Poor fit for ${esc(c.name)}.`;}
   if(runState.target&&runState.target.kind==="passive"&&passiveChainBases(runState.target.name).has(p.name)){
-    score+=240;reason=`Needed for pinned target ${runState.target.name}.`;
+    score+=240;reason=`<span class="rec-tag evo">Target</span>Needed for pinned target ${esc(runState.target.name)}.`;
   }
-  if(c.name==="The Hoary Hoarder") score+=12;
+  if(c.name==="The Hoary Hoarder") score+=15;
   return {item:p,score,reason};
 }
 function scorePassiveCandidate(p){
@@ -1986,7 +2053,7 @@ function scorePassiveCandidate(p){
   if(scores.length>1){
     const positive=scores.filter(x=>x.score>0).length;
     best.score+=Math.round(scores[1].score*.35)+(positive===2?18:0);
-    if(positive===2&&!best.reason.startsWith("Completes")&&!best.reason.startsWith("Needed for")) best.reason="Supports both runners' game plans.";
+    if(positive===2&&!best.reason.includes("rec-tag evo")) best.reason=`<span class="rec-tag syn">Duo Synergy</span>Supports both runners' game plans.`;
   }
   return best;
 }
@@ -1995,21 +2062,212 @@ function passiveRecommendations(c,guide){
   const held=new Set(runState.passives.map(p=>p.name));
   const targetBases=runState.target&&runState.target.kind==="passive"?passiveChainBases(runState.target.name):new Set();
   return GAME_DATA.basePassives.filter(p=>!held.has(p.name)&&((passiveAllowed(p)&&!guide.avoid.includes(p.name))||targetBases.has(p.name)))
-    .map(p=>scorePassiveCandidate(p)).sort((a,b)=>b.score-a.score||a.item.name.localeCompare(b.item.name)).slice(0,2);
+    .map(p=>scorePassiveCandidate(p)).sort((a,b)=>b.score-a.score||a.item.name.localeCompare(b.item.name)).slice(0,3);
 }
+
+let webllmEngine = null;
+let webllmLoading = false;
+
+function buildAIPrompt(userQuestion){
+  const characters = activeRunCharacters();
+  const charNames = characters.map(c=>`${c.name} (${c.ability})`).join(", ");
+  const heldBalls = runState.balls.map(b=>`${b.name}${runState.trackLevels!==false?` (Lvl ${b.level})`:''}`).join(", ") || "None";
+  const heldPassives = runState.passives.map(p=>`${p.name}${runState.trackLevels!==false?` (Lvl ${p.level})`:''}`).join(", ") || "None";
+  const target = runState.target ? `${runState.target.kind}: ${runState.target.name}` : "None";
+  const readyBalls = readyBallEvolutions().map(e=>e.name).join(", ") || "None";
+  const readyPassives = readyPassiveEvolutions().map(p=>p.name).join(", ") || "None";
+  return `You are Pit Crew AI, the elite strategist for the game BALL x PIT.
+Current Loadout:
+- Runner(s): ${charNames}
+- Held Balls: ${heldBalls}
+- Held Passives: ${heldPassives}
+- Pinned Target: ${target}
+- Ready Evolutions: ${readyBalls}
+- Ready Artifacts: ${readyPassives}
+
+${userQuestion ? `Player Question: "${userQuestion}"` : "Provide 1) Strengths of this build, 2) Next best ball & passive to pick, 3) Late-game evolution path."}`;
+}
+
+function generateExpertStrategyReport(customQuestion){
+  const characters = activeRunCharacters();
+  const c = characters[0];
+  const charName = characters.map(x=>x.name).join(" + ");
+  const heldBallNames = runState.balls.map(b=>b.name);
+  const ballRecs = ballRecommendations(c, RUN_GUIDES[c.name]||{}).slice(0,3);
+  const passiveRecs = passiveRecommendations(c, RUN_GUIDES[c.name]||{}).slice(0,3);
+  const readyBalls = readyBallEvolutions();
+  const readyPassives = readyPassiveEvolutions();
+
+  let out = `⚡ AI BUILD COACH REPORT: ${charName.toUpperCase()}\n`;
+  out += `========================================\n\n`;
+
+  if(customQuestion){
+    out += `💬 Question: "${customQuestion}"\n\n`;
+  }
+
+  if(readyBalls.length || readyPassives.length){
+    out += `🔥 READY TO EVOLVE / FORGE NOW:\n`;
+    if(readyBalls.length) out += `• Balls: ${readyBalls.map(e=>e.name).join(", ")}\n`;
+    if(readyPassives.length) out += `• Artifacts: ${readyPassives.map(p=>p.name).join(", ")}\n`;
+    out += `\n`;
+  }
+
+  const hasBleed = currentBallHasStatus("Bleed");
+  const hasBurn = currentBallHasStatus("Burn");
+  const hasPoison = currentBallHasStatus("Poison");
+  const hasBaby = hasBabyBallEngine();
+  const hasArea = hasAOE();
+
+  let archetypes = [];
+  if(hasBleed && hasPoison) archetypes.push("DoT Contagion (Virus / Hemorrhage / Swamp)");
+  else if(hasBleed) archetypes.push("Stacking Wound DPS (Hemorrhage / Vampire Lord)");
+  else if(hasPoison) archetypes.push("Toxic Area Control (Swamp / Venom / Virus)");
+  if(hasBurn) archetypes.push("Firestorm Damage (Banished Flame / Frozen Flame / Magma)");
+  if(hasBaby) archetypes.push("Baby Ball Swarm Proliferation");
+  if(hasArea) archetypes.push("Screen-Wide Cleave & Crowd Control");
+  if(!archetypes.length) archetypes.push("Balanced Starter Ramp");
+
+  out += `🎯 Build Archetype: ${archetypes.join(" + ")}\n\n`;
+
+  out += `🔮 Top Recommended Next Balls:\n`;
+  if(ballRecs.length){
+    ballRecs.forEach((r,i)=>{
+      const cleanReason = r.reason.replace(/<[^>]*>/g, '').trim();
+      out += ` ${i+1}. [${r.item.name}] — ${cleanReason}\n`;
+    });
+  } else {
+    out += ` • Ball loadout full (${runState.balls.length}/${runState.ballCap}). Level and fuse held items.\n`;
+  }
+  out += `\n`;
+
+  if(runState.passiveCap > 0){
+    out += `🛡️ Top Recommended Passives:\n`;
+    if(passiveRecs.length){
+      passiveRecs.forEach((r,i)=>{
+        const cleanReason = r.reason.replace(/<[^>]*>/g, '').trim();
+        out += ` ${i+1}. [${r.item.name}] — ${cleanReason}\n`;
+      });
+    } else {
+      out += ` • Passive loadout full (${runState.passives.length}/${runState.passiveCap}).\n`;
+    }
+    out += `\n`;
+  }
+
+  const t2Sights = [];
+  if(heldBallNames.some(h=>["Vampire","Spider Queen","Mosquito King","Vampire Lord","Brood Mother","Egg Sac"].includes(h))) t2Sights.push("Nosferatu (Vampire Lord + Spider Queen + Mosquito King)");
+  if(heldBallNames.some(h=>["Charm","Incubus","Succubus","Dark","Vampire"].includes(h))) t2Sights.push("Satan (Incubus + Succubus)");
+  if(heldBallNames.some(h=>["Ghost","Soul Sucker","Heart Swallower","Bleed","Vampire"].includes(h))) t2Sights.push("Reaper (Soul Sucker + Heart Swallower)");
+  if(heldBallNames.some(h=>["Laser (Horizontal)","Laser (Vertical)","Holy Laser","Laser Beam","Light"].includes(h))) t2Sights.push("X Ray (Holy Laser + Laser Beam)");
+  if(heldBallNames.some(h=>["Bomb","Burn","Iron","Poison"].includes(h))) t2Sights.push("Nuclear Bomb (Bomb + Poison)");
+
+  if(t2Sights.length){
+    out += `👑 End-Game Tier-2 Routes In Progress:\n`;
+    t2Sights.forEach(s=>out += ` • ${s}\n`);
+    out += `\n`;
+  }
+
+  out += `💡 Strategic Advice:\n`;
+  if(hasBaby) out += `• Position shots to trigger maximum bounce count so baby ball spawners activate repeatedly.\n`;
+  if(hasBleed || hasPoison) out += `• Stack status ailments quickly on tough units; tick damage bypasses heavy armor.\n`;
+  if(characters.length === 2) out += `• Exploit dual starter synergy: prioritize merging ${characters[0].ball} and ${characters[1].ball} ingredients early.\n`;
+  out += `• Keep evolve timings aligned so high-tier fusions don't leave empty slots during swarm waves.`;
+
+  return out;
+}
+
+async function runAICoach(customQuestion){
+  const outputEl = document.getElementById("ai-coach-output");
+  if(!outputEl) return;
+  const progressWrap = document.getElementById("ai-progress-wrap");
+  const progressFill = document.getElementById("ai-progress-fill");
+  const progressText = document.getElementById("ai-progress-text");
+  const modelSelect = document.getElementById("ai-model-select");
+  const selectedModel = modelSelect ? modelSelect.value : "expert";
+
+  if(selectedModel === "expert"){
+    outputEl.textContent = generateExpertStrategyReport(customQuestion);
+    return;
+  }
+
+  try {
+    if(!webllmEngine){
+      if(progressWrap) progressWrap.classList.remove("hidden");
+      if(progressText) progressText.textContent = `Connecting WebLLM for ${selectedModel}...`;
+      if(progressFill) progressFill.style.width = "15%";
+      outputEl.textContent = `Loading ${selectedModel} into browser WebGPU cache...\n(First time download may take a moment)`;
+      
+      const { CreateMLCEngine } = await import("https://esm.run/@mlc-ai/web-llm");
+      webllmEngine = await CreateMLCEngine(selectedModel, {
+        initProgressCallback: (report) => {
+          const match = report.text.match(/(\d+)%/);
+          const pct = match ? match[1] + "%" : "50%";
+          if(progressFill) progressFill.style.width = pct;
+          if(progressText) progressText.textContent = report.text;
+        }
+      });
+      if(progressFill) progressFill.style.width = "100%";
+      if(progressText) progressText.textContent = "Model Ready!";
+      setTimeout(()=>{ if(progressWrap) progressWrap.classList.add("hidden"); }, 1500);
+    }
+
+    outputEl.textContent = "AI Coach is analyzing your build...";
+    const prompt = buildAIPrompt(customQuestion);
+    const reply = await webllmEngine.chat.completions.create({
+      messages: [
+        { role: "system", content: "You are Pit Crew AI, the elite strategist for BALL x PIT. Give structured, punchy, expert tactical advice." },
+        { role: "user", content: prompt }
+      ],
+      temperature: 0.7,
+      max_tokens: 450
+    });
+
+    outputEl.textContent = reply.choices[0].message.content || generateExpertStrategyReport(customQuestion);
+  } catch (err) {
+    console.warn("WebLLM fallback to expert engine:", err);
+    if(progressWrap) progressWrap.classList.add("hidden");
+    outputEl.textContent = `[WebLLM Notice: ${err.message || "WebGPU not available"}]\nShowing Expert Rule Engine Analysis:\n\n` + generateExpertStrategyReport(customQuestion);
+  }
+}
+
 function renderRecommendations(c,guide){
   const balls=ballRecommendations(c,guide),passives=passiveRecommendations(c,guide);
   const readyBalls=readyBallEvolutions(),readyPassives=readyPassiveEvolutions();
   const fullBalls=runState.balls.length>=runState.ballCap,fullPassives=runState.passives.length>=runState.passiveCap;
-  function recRows(items,kind){ return items.map(({item,reason})=>`<article class="rec-card">${spriteHTML(item.name,kind==="ball"?"balls":"passives")}<div><h5>${esc(item.name)}</h5><p>${esc(reason)}</p></div><button class="mini-add" data-rec-kind="${kind}" data-rec-name="${esc(item.name)}" ${(kind==="ball"?fullBalls:fullPassives)?"disabled":""}>Add</button></article>`).join(""); }
+  function recRows(items,kind){ return items.map(({item,reason})=>`<article class="rec-card">${spriteHTML(item.name,kind==="ball"?"balls":"passives")}<div><h5>${esc(item.name)}</h5><p>${reason}</p></div><button class="mini-add" data-rec-kind="${kind}" data-rec-name="${esc(item.name)}" ${(kind==="ball"?fullBalls:fullPassives)?"disabled":""}>Add</button></article>`).join(""); }
   const readyRows=[
     ...readyBalls.map(e=>`<article class="evo-ready">${spriteHTML(e.name,"balls")}<div><h4>${esc(e.name)}</h4><p>Evolution ready</p></div><button class="evolve-btn" data-evolve-ball="${slug(e.name)}">Evolve</button></article>`),
     ...readyPassives.map(e=>`<article class="evo-ready">${spriteHTML(e.name,"passives")}<div><h4>${esc(e.name)}</h4><p>Artifact ready</p></div><button class="evolve-btn" data-evolve-passive="${slug(e.name)}">Forge</button></article>`)
   ].join("");
   document.getElementById("run-recommendations").innerHTML=`
     ${readyRows?`<div class="rec-group"><div class="rec-group-title"><h4>Ready now</h4></div>${readyRows}</div>`:""}
-    <div class="rec-group"><div class="rec-group-title"><h4>Next ball</h4></div>${recRows(balls,"ball")||'<div class="empty-copy">No open ball recommendations.</div>'}</div>
-    <div class="rec-group"><div class="rec-group-title"><h4>Next passive</h4></div>${recRows(passives,"passive")||'<div class="empty-copy">No passive slots available.</div>'}</div>`;
+    <div class="rec-group"><div class="rec-group-title"><h4>Next ball</h4><span>Top picks</span></div>${recRows(balls,"ball")||'<div class="empty-copy">No open ball recommendations.</div>'}</div>
+    <div class="rec-group"><div class="rec-group-title"><h4>Next passive</h4><span>Top picks</span></div>${recRows(passives,"passive")||'<div class="empty-copy">No passive slots available.</div>'}</div>
+    <div class="ai-coach-card">
+      <div class="ai-coach-head">
+        <h4>🤖 AI Coach</h4>
+        <button class="ai-badge-btn" id="ai-coach-btn">Strategy Analysis</button>
+      </div>
+      <div class="ai-coach-body" id="ai-coach-body">
+        <div class="ai-model-box">
+          <select id="ai-model-select" aria-label="WebLLM Model Selection">
+            <option value="expert">Expert Strategy Engine (Instant)</option>
+            <option value="Qwen2.5-0.5B-Instruct-q4f16_1-MLC">WebLLM: Qwen2.5 0.5B (WebGPU)</option>
+            <option value="SmolLM2-135M-Instruct-q0f16-MLC">WebLLM: SmolLM2 135M (WebGPU)</option>
+            <option value="Llama-3.2-1B-Instruct-q4f16_1-MLC">WebLLM: Llama 3.2 1B (WebGPU)</option>
+          </select>
+          <button class="ai-load-btn" id="ai-load-model-btn">Run</button>
+        </div>
+        <div class="ai-progress-wrap hidden" id="ai-progress-wrap">
+          <div class="ai-progress-fill" id="ai-progress-fill"></div>
+          <span class="ai-progress-text" id="ai-progress-text">Loading...</span>
+        </div>
+        <div class="ai-output" id="ai-coach-output"></div>
+        <div class="ai-ask-row">
+          <input type="text" id="ai-custom-prompt" placeholder="Ask AI Coach a question…" aria-label="Ask AI Coach">
+          <button id="ai-send-btn">Ask</button>
+        </div>
+      </div>
+    </div>`;
   const summary=[readyBalls[0]&&readyBalls[0].name,balls[0]&&balls[0].item.name,passives[0]&&passives[0].item.name].filter(Boolean).slice(0,2).join(" · ");
   document.getElementById("rec-summary").textContent=summary||"No recommendations";
 }
@@ -2164,6 +2422,25 @@ document.getElementById("target-modal").addEventListener("click",ev=>{
   const item=ev.target.closest("[data-target-name]");if(item)setEvolutionTarget(targetType,item.dataset.targetName);
 });
 document.addEventListener("keydown",ev=>{if(ev.key==="Escape"){closePicker();closeOffer();closeTarget();}});
+document.addEventListener("click",ev=>{
+  if(ev.target&&(ev.target.id==="ai-coach-btn"||ev.target.id==="ai-load-model-btn")){
+    const promptInput=document.getElementById("ai-custom-prompt");
+    runAICoach(promptInput?promptInput.value.trim():"");
+  }
+  if(ev.target&&ev.target.id==="ai-send-btn"){
+    const promptInput=document.getElementById("ai-custom-prompt");
+    const q=promptInput?promptInput.value.trim():"";
+    if(promptInput) promptInput.value="";
+    runAICoach(q);
+  }
+});
+document.addEventListener("keydown",ev=>{
+  if(ev.key==="Enter"&&ev.target&&ev.target.id==="ai-custom-prompt"){
+    const q=ev.target.value.trim();
+    ev.target.value="";
+    runAICoach(q);
+  }
+});
 
 /* ============================ search / tabs / events ============================ */
 let activeView = "run";
@@ -2316,6 +2593,14 @@ if(runState&&runState.active) showRunDashboard(); else showRunLanding();
   console.assert(matchRecipe(virusEvo.slots, runState.balls, true) === null, "Virus should require level 3 when trackLevels is true");
   runState.trackLevels = false;
   console.assert(matchRecipe(virusEvo.slots, runState.balls, true) !== null, "Virus should be ready at level 1 when trackLevels is false");
+
+  // check AI strategy report generation
+  runState = { active:true, trackLevels:true, balls:[{name:"Poison",level:3},{name:"Bleed",level:3}], passives:[], characters:["The Embedded"], ballCap:4, passiveCap:4 };
+  const report = generateExpertStrategyReport();
+  console.assert(report.includes("Virus"), "AI report should identify ready Virus evolution");
+  console.assert(report.includes("DoT Contagion"), "AI report should identify DoT archetype");
+  const recs = ballRecommendations(GAME_DATA.characters[0], RUN_GUIDES[GAME_DATA.characters[0].name]);
+  console.assert(recs.length === 3, "Recommendations should return top 3 choices");
   runState = prevRun;
 })();
 </script>
