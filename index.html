@@ -423,13 +423,36 @@ main{max-width:1240px;padding:0 1rem 5rem}
 .panel-head p{margin:.16rem 0 0;font-size:.67rem;color:var(--muted)}
 .panel-actions{display:flex;align-items:center;gap:.55rem}.panel-count{color:var(--accent);font-family:"Press Start 2P",monospace;font-size:.58rem;white-space:nowrap}
 .quick-add{border:1px solid var(--accent);background:transparent;color:var(--accent);padding:.38rem .5rem;font-size:.62rem;font-weight:800}.quick-add:hover{background:var(--accent);color:#11140d}.quick-add:disabled{opacity:.35;cursor:default}
+.ball-merge-bar{display:flex;align-items:center;justify-content:space-between;gap:.65rem;padding:.55rem .85rem;background:#121810;border-bottom:1px solid #3d4f29;font-size:.68rem}
+.ball-merge-info{display:flex;align-items:center;gap:.5rem;flex:1;min-width:0}
+.merge-badge{display:inline-block;padding:.1rem .35rem;font-size:.55rem;font-weight:800;border-radius:2px;background:#253020;color:#c0f058;border:1px solid #4a5c39}
+.merge-badge.evo{background:#3b1e38;color:#eaa6e4;border-color:#6f3a68}
+.merge-badge.fuse{background:#1a2f40;color:#7bd3ea;border-color:#2f5573}
+.ball-merge-title{color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ball-merge-title strong{color:#fff}
+.ball-merge-action{display:flex;align-items:center;gap:.35rem;flex-shrink:0}
+.merge-btn{border:1px solid var(--accent);background:var(--accent);color:#11140d;padding:.4rem .65rem;font-size:.65rem;font-weight:800;cursor:pointer;border-radius:2px}
+.merge-btn:hover:not(:disabled){background:#efffa7}
+.merge-btn:disabled{opacity:.4;cursor:not-allowed;border-color:#555}
+.merge-cancel-btn{border:1px solid var(--border);background:transparent;color:var(--muted);padding:.4rem .5rem;font-size:.65rem;cursor:pointer}
+.merge-cancel-btn:hover{color:var(--text);border-color:var(--text)}
+
+.dual-sprite{overflow:hidden;position:relative}
+.dual-sprite .dual-half{position:absolute;width:60%;height:100%;object-fit:cover;top:0}
+.dual-sprite .dual-left{left:0;clip-path:polygon(0 0, 100% 0, 0 100%)}
+.dual-sprite .dual-right{right:0;clip-path:polygon(100% 0, 100% 100%, 0 100%)}
+
 .slot-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:.55rem;padding:.75rem}
-.item-slot{position:relative;display:flex;flex-direction:column;align-items:center;min-height:154px;padding:.7rem .45rem .55rem;background:#0d100c;border:1px solid #2b3327;text-align:center}
+.item-slot{position:relative;display:flex;flex-direction:column;align-items:center;min-height:154px;padding:.7rem .45rem .55rem;background:#0d100c;border:1px solid #2b3327;text-align:center;cursor:pointer;user-select:none;transition:border-color .15s,transform .1s}
+.item-slot:hover{border-color:var(--border-strong)}
+.item-slot.selected{border-color:var(--accent)!important;background:#141b11!important;box-shadow:0 0 0 1px var(--accent),0 4px 12px rgba(217,255,82,.15);transform:translateY(-2px)}
+.item-slot.selected::after{content:"SELECTED";position:absolute;top:4px;left:5px;font-size:.5rem;font-weight:800;letter-spacing:.5px;background:var(--accent);color:#11140d;padding:.05rem .25rem;border-radius:2px}
 .item-slot.evolved{border-color:#6f4b74;background:linear-gradient(180deg,rgba(127,73,139,.1),#0d100c 55%)}
+.item-slot.fusion{border-color:#375775;background:linear-gradient(180deg,rgba(55,87,117,.15),#0d100c 55%)}
 .item-slot .sprite{width:52px;height:52px;margin:.05rem auto .4rem}.item-slot-name{font-weight:750;font-size:.75rem;line-height:1.25;min-height:2.4em}.item-tier{color:var(--muted);font-size:.58rem;text-transform:uppercase;margin-top:.18rem}.level-control{display:flex;align-items:center;justify-content:center;gap:.35rem;margin-top:auto;padding-top:.45rem}.level-control button{width:25px;height:25px;border:1px solid var(--border);background:var(--panel2);color:var(--text);line-height:1}.level-control button:hover{border-color:var(--accent)}.level-pips{display:flex;gap:3px}.level-pips i{width:7px;height:7px;background:#3c4437;display:block}.level-pips i.on{background:var(--accent)}
 .slot-remove{position:absolute;right:5px;top:4px;border:0;background:transparent;color:#646c5e;padding:.2rem;font-size:.8rem}.slot-remove:hover{color:var(--danger)}
 .loadout-empty{grid-column:1/-1;color:var(--muted);font-size:.7rem;padding:.15rem}
-.passive-list .item-slot{min-height:130px}.passive-list .item-slot .sprite{width:46px;height:46px}
+.passive-list .item-slot{min-height:130px;cursor:default}.passive-list .item-slot:hover{border-color:#2b3327}.passive-list .item-slot .sprite{width:46px;height:46px}
 .evo-ready{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:.65rem;padding:.6rem;background:#10150e;border:1px solid #3f512c}.evo-ready .sprite{width:42px;height:42px}.evo-ready h4{margin:0;font-size:.76rem}.evo-ready p{margin:.18rem 0 0;color:var(--muted);font-size:.65rem}.evolve-btn,.mini-add{
   border:1px solid var(--accent);background:var(--accent);color:#11140d;padding:.5rem .6rem;font-size:.65rem;font-weight:800;text-transform:uppercase;
 }
@@ -581,6 +604,7 @@ footer{background:#0b0d0a;margin-top:1rem}.creator-link{font-size:.78rem}.footer
         <div class="run-stack">
           <section class="run-panel">
             <div class="panel-head"><div><h2>Your balls</h2><p id="ball-panel-desc">Tap +/− to match their current levels.</p></div><div class="panel-actions"><span class="panel-count" id="ball-slot-count">0 / 4</span><button class="quick-add" id="add-ball-btn" data-open-picker="ball">+ Add</button></div></div>
+            <div class="ball-merge-bar hidden" id="ball-merge-bar"></div>
             <div class="slot-list" id="run-ball-list"></div>
           </section>
 
@@ -1041,14 +1065,43 @@ function hueFor(name){
   for(const ch of name) h = (h*31 + ch.charCodeAt(0))>>>0;
   return h%360;
 }
+function getBallData(name){
+  if(!name) return null;
+  if(BASE_BY_NAME[name]) return BASE_BY_NAME[name];
+  if(EVO_BY_NAME[name]) return EVO_BY_NAME[name];
+  if(typeof name==="string" && name.includes(" + ")){
+    const parts = name.split(" + ").map(p=>p.trim());
+    const d1 = getBallData(parts[0]) || { damageTypes: [], statusEffects: [] };
+    const d2 = getBallData(parts[1]) || { damageTypes: [], statusEffects: [] };
+    return {
+      name,
+      tier: "Fusion",
+      damageTypes: Array.from(new Set([...(d1.damageTypes||[]), ...(d2.damageTypes||[])])),
+      statusEffects: Array.from(new Set([...(d1.statusEffects||[]), ...(d2.statusEffects||[])])),
+      description: `${d1.description || parts[0]} + ${d2.description || parts[1]}`
+    };
+  }
+  return null;
+}
+
 // Icon slot: loads img/{kind}/{slug}.png if present, else a generated placeholder.
 // kind is "balls" or "passives". Ball placeholders are colored by their first
 // status effect so e.g. all Burn balls read as red until real sprites are added.
 function spriteHTML(name, kind){
+  if(kind==="balls" && typeof name==="string" && name.includes(" + ")){
+    const parts = name.split(" + ").map(p=>p.trim());
+    const s1 = slug(parts[0]), s2 = slug(parts[1]);
+    const item1 = getBallData(parts[0]);
+    const item2 = getBallData(parts[1]);
+    const c1 = item1 && item1.statusEffects && item1.statusEffects.length ? STATUS_COLORS[item1.statusEffects[0]] : `hsl(${hueFor(parts[0])},45%,50%)`;
+    const c2 = item2 && item2.statusEffects && item2.statusEffects.length ? STATUS_COLORS[item2.statusEffects[0]] : `hsl(${hueFor(parts[1])},45%,50%)`;
+    const bg = `linear-gradient(135deg, ${c1||'#3f512c'} 0%, ${c1||'#3f512c'} 50%, ${c2||'#233b4d'} 50%, ${c2||'#233b4d'} 100%)`;
+    return `<span class="sprite dual-sprite" title="${esc(name)}"><span class="ph" style="background:${bg}"></span><img src="img/balls/${s1}.png" class="dual-half dual-left" alt="" onerror="this.remove()"><img src="img/balls/${s2}.png" class="dual-half dual-right" alt="" onerror="this.remove()"></span>`;
+  }
   const s = slug(name);
   let inner;
   if(kind==="balls"){
-    const item = BASE_BY_NAME[name] || EVO_BY_NAME[name];
+    const item = getBallData(name);
     const c = item && item.statusEffects.length ? STATUS_COLORS[item.statusEffects[0]] : null;
     const bg = c
       ? `radial-gradient(circle at 35% 30%, ${c}, #14121a 78%)`
@@ -1763,6 +1816,129 @@ function matchRecipe(slots, inventory, needsLevel){
   }
   return visit(0)?chosen.slice():null;
 }
+let selectedBallIndices = [];
+
+function clearBallSelection(){
+  selectedBallIndices = [];
+  renderRunBalls();
+  renderBallMergeBar();
+}
+
+function toggleBallSelection(index){
+  if(!runState || index < 0 || index >= runState.balls.length) return;
+  const pos = selectedBallIndices.indexOf(index);
+  if(pos >= 0){
+    selectedBallIndices.splice(pos, 1);
+  } else {
+    if(selectedBallIndices.length >= 2){
+      selectedBallIndices = [index];
+    } else {
+      selectedBallIndices.push(index);
+    }
+  }
+  renderRunBalls();
+  renderBallMergeBar();
+}
+
+function renderBallMergeBar(){
+  const bar = document.getElementById("ball-merge-bar");
+  if(!bar) return;
+  if(selectedBallIndices.length === 0){
+    bar.classList.add("hidden");
+    bar.innerHTML = "";
+    return;
+  }
+  bar.classList.remove("hidden");
+  if(selectedBallIndices.length === 1){
+    const b1 = runState.balls[selectedBallIndices[0]];
+    bar.innerHTML = `
+      <div class="ball-merge-info">
+        <span class="merge-badge">1/2</span>
+        <span class="ball-merge-title"><strong>${esc(b1?b1.name:"Ball")}</strong> selected · Tap a 2nd ball to Evolve or Fuse</span>
+      </div>
+      <div class="ball-merge-action">
+        <button class="merge-cancel-btn" id="cancel-merge-btn">Cancel</button>
+      </div>`;
+    return;
+  }
+  if(selectedBallIndices.length === 2){
+    const idx1 = selectedBallIndices[0], idx2 = selectedBallIndices[1];
+    const b1 = runState.balls[idx1], b2 = runState.balls[idx2];
+    if(!b1 || !b2){
+      selectedBallIndices = [];
+      bar.classList.add("hidden");
+      return;
+    }
+    const evos = findDirectEvos(b1.name, b2.name);
+    const trackLevels = isLevelTrackingEnabled();
+    const needsLevel = trackLevels && ((b1.level||1) < 3 || (b2.level||1) < 3);
+    if(evos.length > 0){
+      const targetEvo = evos[0];
+      const disabled = needsLevel ? "disabled" : "";
+      const reasonText = needsLevel ? " (Need Level 3)" : "";
+      bar.innerHTML = `
+        <div class="ball-merge-info">
+          <span class="merge-badge evo">EVO</span>
+          <span class="ball-merge-title">${esc(b1.name)} + ${esc(b2.name)} ➔ <strong>${esc(targetEvo.name)}</strong></span>
+        </div>
+        <div class="ball-merge-action">
+          <button class="merge-btn" id="exec-merge-btn" data-merge-type="evolve" data-evo-name="${esc(targetEvo.name)}" ${disabled}>
+            Evolve${reasonText}
+          </button>
+          <button class="merge-cancel-btn" id="cancel-merge-btn" aria-label="Cancel">✕</button>
+        </div>`;
+    } else {
+      const fusedName = `${b1.name} + ${b2.name}`;
+      const disabled = needsLevel ? "disabled" : "";
+      const reasonText = needsLevel ? " (Need Level 3)" : "";
+      bar.innerHTML = `
+        <div class="ball-merge-info">
+          <span class="merge-badge fuse">FUSION</span>
+          <span class="ball-merge-title">${esc(b1.name)} + ${esc(b2.name)} ➔ <strong>${esc(fusedName)}</strong></span>
+        </div>
+        <div class="ball-merge-action">
+          <button class="merge-btn" id="exec-merge-btn" data-merge-type="fuse" ${disabled}>
+            Fuse${reasonText}
+          </button>
+          <button class="merge-cancel-btn" id="cancel-merge-btn" aria-label="Cancel">✕</button>
+        </div>`;
+    }
+  }
+}
+
+function executeMerge(){
+  if(selectedBallIndices.length !== 2) return;
+  const idx1 = selectedBallIndices[0], idx2 = selectedBallIndices[1];
+  const b1 = runState.balls[idx1], b2 = runState.balls[idx2];
+  if(!b1 || !b2) return;
+  const trackLevels = isLevelTrackingEnabled();
+  if(trackLevels && ((b1.level||1) < 3 || (b2.level||1) < 3)) return;
+
+  const evos = findDirectEvos(b1.name, b2.name);
+  if(evos.length > 0){
+    const evo = evos[0];
+    checkpointUndo(`Evolve ${evo.name}`);
+    const sorted = [idx1, idx2].sort((a,b)=>b-a);
+    sorted.forEach(i=>runState.balls.splice(i,1));
+    runState.balls.push({name: evo.name, level: 1});
+    if(runState.target && runState.target.kind==="ball" && runState.target.name===evo.name){
+      runState.target = null;
+    }
+    logRun(`Evolved ${b1.name} + ${b2.name} into ${evo.name}.`);
+    setCheck(slug(evo.name), true);
+  } else {
+    const fusedName = `${b1.name} + ${b2.name}`;
+    checkpointUndo(`Fuse ${fusedName}`);
+    const sorted = [idx1, idx2].sort((a,b)=>b-a);
+    sorted.forEach(i=>runState.balls.splice(i,1));
+    runState.balls.push({name: fusedName, level: 1, fused: [b1.name, b2.name]});
+    logRun(`Fused ${b1.name} + ${b2.name} into ${fusedName} (freed 1 slot).`);
+  }
+  selectedBallIndices = [];
+  saveRun();
+  renderRun();
+}
+
 function readyBallEvolutions(){ return GAME_DATA.evolvedBalls.filter(e=>matchRecipe(e.slots,runState.balls,true)); }
 function readyPassiveEvolutions(){ return GAME_DATA.evolvedPassives.filter(e=>matchRecipe(e.slots,runState.passives,false)); }
 function evolveBall(name){
@@ -1774,7 +1950,7 @@ function evolveBall(name){
   runState.balls.push({name:evo.name,level:1});
   if(runState.target&&runState.target.kind==="ball"&&runState.target.name===evo.name) runState.target=null;
   logRun(`Evolved ${ingredients.join(" + ")} into ${evo.name}.`);
-  setCheck(slug(evo.name),true); saveRun(); renderRun();
+  setCheck(slug(evo.name),true); selectedBallIndices = []; saveRun(); renderRun();
 }
 function evolvePassive(name){
   const evo = GAME_DATA.evolvedPassives.find(e=>e.name===name), used = evo&&matchRecipe(evo.slots,runState.passives,false);
@@ -1790,6 +1966,7 @@ function evolvePassive(name){
 function addBall(name){
   if(!runState || runState.balls.length>=runState.ballCap || runState.balls.some(b=>b.name===name)) return false;
   checkpointUndo(`Add ${name}`);
+  selectedBallIndices = [];
   runState.balls.push({name,level:1}); logRun(`Added ${name} at level 1.`); saveRun(); renderRun(); return true;
 }
 function addPassive(name){
@@ -1817,6 +1994,7 @@ function removeRunItem(kind,index){
   const list = kind==="ball"?runState.balls:runState.passives;
   const item = list[index]; if(!item) return;
   checkpointUndo(`Remove ${item.name}`);
+  selectedBallIndices = [];
   list.splice(index,1); logRun(`Removed ${item.name} from the ${kind} loadout.`); saveRun(); renderRun();
 }
 
@@ -1870,6 +2048,7 @@ function renderRun(){
   document.getElementById("target-name").textContent=runState.target?runState.target.name:"";
   document.getElementById("target-btn").textContent=runState.target?"Change target":"Set target";
   renderRunBalls();
+  renderBallMergeBar();
   renderRunPassives();
   renderRecommendations(c,guide);
 }
@@ -1878,10 +2057,15 @@ function renderRunBalls(){
   const trackLevels = isLevelTrackingEnabled();
   const cards = runState.balls.map((b,i)=>{
     const evolved = !!EVO_BY_NAME[b.name];
+    const isFusion = b.fused || (typeof b.name==="string" && b.name.includes(" + "));
+    const isSelected = selectedBallIndices.includes(i);
     const lvlText = trackLevels ? `, level ${b.level}` : "";
-    return `<article class="item-slot${evolved?" evolved":""}" aria-label="${esc(b.name)}${lvlText}" title="${esc(b.name)}${trackLevels?` · Level ${b.level}`:""}">
+    let tierText = "Base ball";
+    if(evolved) tierText = `Tier ${EVO_BY_NAME[b.name].tier} evolution`;
+    else if(isFusion) tierText = "Fused Ball (2-in-1)";
+    return `<article class="item-slot${evolved?" evolved":""}${isFusion?" fusion":""}${isSelected?" selected":""}" data-ball-slot-index="${i}" aria-label="${esc(b.name)}${lvlText}" title="${esc(b.name)}${trackLevels?` · Level ${b.level}`:""}">
       <button class="slot-remove" data-remove-kind="ball" data-index="${i}" aria-label="Remove ${esc(b.name)}">✕</button>
-      ${spriteHTML(b.name,"balls")}<div class="item-slot-name">${esc(b.name)}</div><div class="item-tier">${evolved?`Tier ${EVO_BY_NAME[b.name].tier} evolution`:"Base ball"}</div>
+      ${spriteHTML(b.name,"balls")}<div class="item-slot-name">${esc(b.name)}</div><div class="item-tier">${tierText}</div>
       <div class="level-control"><button data-level-index="${i}" data-level-delta="-1" aria-label="Lower level">−</button><span class="level-pips">${[1,2,3].map(n=>`<i class="${n<=b.level?"on":""}"></i>`).join("")}</span><button data-level-index="${i}" data-level-delta="1" aria-label="Raise level">+</button></div>
     </article>`;
   });
@@ -1903,17 +2087,22 @@ function renderRunPassives(){
 }
 function currentBallHasStatus(status){
   return runState.balls.some(b=>{
-    const item=BASE_BY_NAME[b.name]||EVO_BY_NAME[b.name];
-    return item&&item.statusEffects.includes(status);
+    const item = getBallData(b.name);
+    return item && item.statusEffects.includes(status);
   });
 }
 function hasBabyBallEngine(){
   return runState.balls.some(b=>{
-    const item=BASE_BY_NAME[b.name]||EVO_BY_NAME[b.name];
-    return item&&(item.statusEffects.some(s=>s.includes("Baby Ball")||s.includes("Spawn")) || ["Brood Mother","Egg Sac","Cell"].includes(b.name));
+    const item = getBallData(b.name);
+    return item && (item.statusEffects.some(s=>s.includes("Baby Ball")||s.includes("Spawn")) || ["Brood Mother","Egg Sac","Cell"].includes(b.name) || (b.name.includes(" + ") && (b.name.includes("Brood Mother")||b.name.includes("Egg Sac")||b.name.includes("Cell"))));
   });
 }
-function hasAOE(){ return runState.balls.some(b=>{ const item=BASE_BY_NAME[b.name]||EVO_BY_NAME[b.name]; return item&&item.damageTypes.includes("AOE"); }); }
+function hasAOE(){
+  return runState.balls.some(b=>{
+    const item = getBallData(b.name);
+    return item && item.damageTypes.includes("AOE");
+  });
+}
 function passiveAllowed(p){
   if(p.name==="Midnight Oil" && !currentBallHasStatus("Burn") && !currentBallHasStatus("Frostburn")) return false;
   if(p.name==="Frozen Spike" && !currentBallHasStatus("Freeze")) return false;
@@ -2180,7 +2369,14 @@ document.getElementById("run-dashboard").addEventListener("click",ev=>{
   const rm=ev.target.closest("[data-remove-kind]");if(rm){removeRunItem(rm.dataset.removeKind,Number(rm.dataset.index));return;}
   const ballEvo=ev.target.closest("[data-evolve-ball]");if(ballEvo){const e=GAME_DATA.evolvedBalls.find(x=>slug(x.name)===ballEvo.dataset.evolveBall);if(e)evolveBall(e.name);return;}
   const passiveEvo=ev.target.closest("[data-evolve-passive]");if(passiveEvo){const e=GAME_DATA.evolvedPassives.find(x=>slug(x.name)===passiveEvo.dataset.evolvePassive);if(e)evolvePassive(e.name);return;}
-  const rec=ev.target.closest("[data-rec-kind]");if(rec&&!rec.disabled){(rec.dataset.recKind==="ball"?addBall:addPassive)(rec.dataset.recName);}
+  const rec=ev.target.closest("[data-rec-kind]");if(rec&&!rec.disabled){(rec.dataset.recKind==="ball"?addBall:addPassive)(rec.dataset.recName);return;}
+  if(ev.target.closest("#exec-merge-btn")){executeMerge();return;}
+  if(ev.target.closest("#cancel-merge-btn")){clearBallSelection();return;}
+  const slot=ev.target.closest("[data-ball-slot-index]");
+  if(slot && !ev.target.closest(".slot-remove") && !ev.target.closest(".level-control")){
+    toggleBallSelection(Number(slot.dataset.ballSlotIndex));
+    return;
+  }
 });
 document.getElementById("picker-close").addEventListener("click",closePicker);
 document.getElementById("item-picker").addEventListener("click",ev=>{
@@ -2364,10 +2560,25 @@ if(runState&&runState.active) showRunDashboard(); else showRunLanding();
   console.assert(matchRecipe(virusEvo.slots, runState.balls, true) === null, "Virus should require level 3 when trackLevels is true");
   runState.trackLevels = false;
   console.assert(matchRecipe(virusEvo.slots, runState.balls, true) !== null, "Virus should be ready at level 1 when trackLevels is false");
+
+  // check 2-ball direct evolution via selection
+  selectedBallIndices = [0, 1];
+  executeMerge();
+  console.assert(runState.balls.length === 1 && runState.balls[0].name === "Virus", "2-ball selection evolve should produce Virus");
+
+  // check 2-ball non-evolving fusion via selection
+  runState.balls = [{name:"Burn",level:1},{name:"Iron",level:1}];
+  selectedBallIndices = [0, 1];
+  executeMerge();
+  console.assert(runState.balls.length === 1 && runState.balls[0].name === "Burn + Iron", "2-ball selection fuse should produce Burn + Iron");
+  const fusedData = getBallData("Burn + Iron");
+  console.assert(fusedData && fusedData.tier === "Fusion" && fusedData.statusEffects.includes("Burn"), "getBallData should combine fusion attributes");
+
   // check recommendations
   const recs = ballRecommendations(GAME_DATA.characters[0], RUN_GUIDES[GAME_DATA.characters[0].name]);
   console.assert(recs.length === 3, "Recommendations should return top 3 choices");
   runState = prevRun;
+  selectedBallIndices = [];
 })();
 </script>
 <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "3ab70bfd0f35459b9cb55f2a95a56e05"}'></script><!-- End Cloudflare Web Analytics -->
