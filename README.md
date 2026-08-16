@@ -14,8 +14,8 @@ state and encyclopedia checkmarks stay in the browser's `localStorage`.
 - Duo runs include both starting balls and combine character-aware recommendation weights.
 - Shows only the active character party, 4 current ball slots, current passives, and
   the best next pickups so the screen stays readable during active play.
-- Tracks levels 1–3 for base balls, evolved balls, base passives, and evolved
-  passive artifacts.
+- Keeps level tracking off by default for fast play, with an optional levels
+  toggle for balls, passives, and evolved items.
 - Compares only the 2–3 items currently offered by the game and ranks the best
   choice for the active character and build.
 - Supports one-step Undo for run changes, a compact icon-focused layout, and a
@@ -23,10 +23,16 @@ state and encyclopedia checkmarks stay in the browser's `localStorage`.
 - Hides encyclopedia navigation during active runs and keeps recommendations in
   a collapsible mobile tray at the bottom of the screen.
 - Detects ball evolutions when every recipe component is level 3.
-- Detects passive artifacts as soon as all required components are held.
+- Detects passive artifact recipes when all components are held, and enforces
+  level 3 for every component when level tracking is enabled.
 - Applies a ready evolution from the recommendation panel, consumes its
   ingredients, and adds the result at level 1.
-- Re-scores ball and passive suggestions whenever the loadout changes.
+- Routes ball and passive suggestions through the detected build strategy,
+  including baby-ball swarm, status/AOE, bounce, crit, sustain, close-range,
+  summon, and deep-evolution builds.
+- Suggests the next relevant passive evolution and its missing ingredients.
+- Lets any two eligible unfused balls evolve or fuse, previews both inherited
+  abilities, and records fused balls as level 3.
 - Handles character overrides such as Sisyphus's zero direct damage,
   Tactician's irrelevant Speed stat, Empty Nester's missing baby balls, Hoary
   Hoarder's 2/8 slot split, and Ballbearer's 10/0 slot split.
@@ -67,10 +73,10 @@ The encyclopedia foundation is current through the **Shadow Update (April 27,
 Hoarder and Ballbearer. The wider Naturalist Update data set has not been fully
 audited, so community corrections are welcome.
 
-Recommendations are practical heuristics, not a claim of a solved optimal
-meta. Character rules act as hard filters where appropriate; recipe proximity,
-current loadout, conditional loot requirements, and an optional pinned target
-then contribute to the ranking.
+Recommendations are deterministic practical heuristics, not a claim of a
+solved optimal meta. The current character and loadout select a strategy route;
+recipe proximity, fusion carriers, passive evolution paths, conditional loot
+requirements, and an optional pinned target then contribute to the ranking.
 
 ## Visit analytics
 

@@ -160,19 +160,24 @@ Fission distributes one or more random level gains among equipped items. It is
 usually the safe early choice because it raises current power without reducing
 projectile count. If everything is already maxed, Fission can become Gold.
 
-Fusion combines two level-3 balls to free a slot and retain both properties.
-The immediate projectile count drops, so a poorly timed Fusion can reduce wave
-clear until the open slot is filled again.
+Fusion combines two unfused level-3 special balls to free a slot. Base and
+evolved balls can be mixed unless the pair has a forced evolution recipe. The
+result stays at level 3, inherits both listed abilities, and cannot be fused
+again. Effect priority is deterministic for the exact pair: selection order can
+change the displayed name or icon, but not the functional result. Collision and
+cooldown rules can dominate one another, so an impact-ending effect may suppress
+pierce. Brood Mother is especially valuable because its spawned baby balls also
+carry the partner ball's effect.
 
 Evolution is a specific recipe. Every ball component must be level 3. The
 ingredients are consumed and replaced by the evolved ball. Pit Crew's compact
 recommendation panel detects ready recipes and performs the same inventory
 transformation in the tracker.
 
-Passive artifacts are different: their components only need to be held, not
-leveled. Combining them frees a passive slot. Pit Crew still records levels
-1-3 for both ordinary passives and evolved artifacts so the displayed loadout
-matches the current in-game run.
+Passive artifacts use exact recipes and their components must also reach level
+3. Combining them frees a passive slot. Pit Crew hides levels by default for
+faster tracking; when levels are enabled, it enforces the level-3 requirement
+for both ball and passive evolutions.
 
 Slot-lock happens when every slot contains a different unfinished recipe piece.
 There is then no room to take the missing component and no valid merge. Pick a
@@ -320,12 +325,19 @@ Wings of the Anointed = Radiant Feather + Fleet Feet
 
 9. HOW PIT CREW RECOMMENDS ITEMS
 --------------------------------
-The recommendation engine is heuristic. It starts with the selected character's
-curated priorities and exclusions. It then adjusts scores using current state:
+The recommendation engine is deterministic. It first routes the current
+character and loadout into the strongest visible strategy: baby-ball swarm,
+status/AOE, bounce, critical execution, sustain, close-range retaliation,
+friendly summons, or a deep evolution chain. It then adjusts scores using the
+current state:
 
 - A ball receives a large bonus when it completes an evolution with a held ball.
 - A passive receives a large bonus when it completes a held artifact recipe.
 - Baby-ball passives rise when the loadout can already spawn baby balls.
+- The nearest strategy-compatible passive evolution and its missing ingredients
+  receive explicit priority.
+- Strong arbitrary fusions such as status + AOE or spawner + payload are
+  surfaced with an inheritance preview.
 - Magic Staff rises when the loadout already deals AOE damage.
 - Conditional passives remain hidden until their required status is present.
 
@@ -343,8 +355,8 @@ the best practical choice.
 ----------------------------------
 1. Press Start a Run and choose the current character.
 2. Add every ball and passive when it is taken in-game.
-3. Use the minus and plus controls to match ball and passive levels. This also
-   applies to evolved balls and evolved passive artifacts.
+3. Levels are off by default. Turn them on when you want the minus and plus
+   controls to mirror in-game levels and enforce level-3 recipe readiness.
 4. Standard characters display 4 ball slots and 4 passive slots. Character-
    specific limits still override this where needed.
 5. Read the compact Recommended Next panel for the strongest two available
