@@ -2439,7 +2439,7 @@ function renderOffer(){
     const lookup=Object.fromEntries(offerPool().map(item=>[item.name,item]));
     const ranked=offerSelections.map(name=>offerType==="ball"?scoreBallCandidate(lookup[name]):scorePassiveCandidate(lookup[name])).sort((a,b)=>b.score-a.score||a.item.name.localeCompare(b.item.name));
     const full=offerType==="ball"?runState.balls.length>=runState.ballCap:runState.passives.length>=runState.passiveCap;
-    results.innerHTML=`<button class="back-btn" data-offer-edit>← Change choices</button>`+ranked.map(({item,reason},i)=>`<article class="offer-result${i===0?" best":""}"><span class="offer-rank">${i+1}</span>${spriteHTML(item.name,offerType==="ball"?"balls":"passives")}<div><h4>${esc(item.name)}${i===0?' <span class="eyebrow">Best</span>':""}</h4><p>${esc(reason)}</p></div><button class="mini-add" data-offer-take="${esc(item.name)}" ${full?"disabled":""}>Choose</button></article>`).join("");
+    results.innerHTML=`<button class="back-btn" data-offer-edit>← Change choices</button>`+ranked.map(({item,reason},i)=>`<article class="offer-result${i===0?" best":""}"><span class="offer-rank">${i+1}</span>${spriteHTML(item.name,offerType==="ball"?"balls":"passives")}<div><h4>${esc(item.name)}${i===0?' <span class="eyebrow">Best</span>':""}</h4><p>${reason}</p></div><button class="mini-add" data-offer-take="${esc(item.name)}" ${full?"disabled":""}>Choose</button></article>`).join("");
   }
 }
 function openTarget(){
@@ -2750,6 +2750,14 @@ if(runState&&runState.active) showRunDashboard(); else showRunLanding();
     console.assert(artifact&&artifact.artifact.name==="Cornucopia", "Swarm route should suggest Cornucopia");
     const recs = ballRecommendations(GAME_DATA.characters.find(c=>c.name==="The Cohabitants"), RUN_GUIDES["The Cohabitants"]);
     console.assert(recs.length === 3, "Recommendations should return top 3 choices");
+
+    offerType = "ball";
+    offerSelections = ["Egg Sac", "Ghost"];
+    offerRanked = true;
+    renderOffer();
+    const offerHTML = document.getElementById("offer-results").innerHTML;
+    console.assert(offerHTML.includes("<span class=\"rec-tag evo\">Evolves: Spider Queen</span>"), "Compare offer should render unescaped evolution badge HTML");
+    console.assert(!offerHTML.includes("&lt;span class="), "Compare offer should not contain escaped HTML tags in reasons");
   } finally {
     runState=prevRun;runUndo=prevUndo;checks=prevChecks;selectedBallIndices=[];
     saveChecks();saveRun();updateProgress();
