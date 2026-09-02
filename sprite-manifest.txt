@@ -11,6 +11,7 @@ img/balls/charm.png   <- Charm
 img/balls/dark.png   <- Dark
 img/balls/earthquake.png   <- Earthquake
 img/balls/egg-sac.png   <- Egg Sac
+img/balls/flesh.png   <- Flesh
 img/balls/freeze.png   <- Freeze
 img/balls/ghost.png   <- Ghost
 img/balls/iron.png   <- Iron
@@ -25,6 +26,7 @@ img/balls/vampire.png   <- Vampire
 img/balls/wind.png   <- Wind
 
 == Evolved balls (img/balls/) ==
+img/balls/armageddon.png   <- Armageddon
 img/balls/assassin.png   <- Assassin
 img/balls/banished-flame.png   <- Banished Flame
 img/balls/banshee.png   <- Banshee
@@ -34,9 +36,12 @@ img/balls/blizzard.png   <- Blizzard
 img/balls/bomb.png   <- Bomb
 img/balls/brimstone.png   <- Brimstone
 img/balls/catapult.png   <- Catapult
+img/balls/drill.png   <- Drill
+img/balls/elemental.png   <- Elemental
 img/balls/erosion.png   <- Erosion
 img/balls/fireworks.png   <- Fireworks
 img/balls/flash.png   <- Flash
+img/balls/flesh-mound.png   <- Flesh Mound
 img/balls/flicker.png   <- Flicker
 img/balls/freeze-ray.png   <- Freeze Ray
 img/balls/frozen-flame.png   <- Frozen Flame
@@ -50,16 +55,20 @@ img/balls/landslide.png   <- Landslide
 img/balls/laser-beam.png   <- Laser Beam
 img/balls/laser-cutter.png   <- Laser Cutter
 img/balls/leech.png   <- Leech
+img/balls/lightning-bug.png   <- Lightning Bug
 img/balls/lightning-rod.png   <- Lightning Rod
 img/balls/lovestruck.png   <- Lovestruck
 img/balls/maggot.png   <- Maggot
 img/balls/magma.png   <- Magma
 img/balls/mosquito-king.png   <- Mosquito King
+img/balls/mosquito-kingdom.png   <- Mosquito Kingdom
 img/balls/mosquito-swarm.png   <- Mosquito Swarm
 img/balls/nosferatu.png   <- Nosferatu
 img/balls/noxious.png   <- Noxious
 img/balls/nuclear-bomb.png   <- Nuclear Bomb
+img/balls/offspring.png   <- Offspring
 img/balls/overgrowth.png   <- Overgrowth
+img/balls/petrify.png   <- Petrify
 img/balls/phantom.png   <- Phantom
 img/balls/radiation-beam.png   <- Radiation Beam
 img/balls/reaper.png   <- Reaper
@@ -77,6 +86,7 @@ img/balls/sun.png   <- Sun
 img/balls/swamp.png   <- Swamp
 img/balls/time-bomb.png   <- Time Bomb
 img/balls/timestop.png   <- Timestop
+img/balls/tumor.png   <- Tumor
 img/balls/vampire-lord.png   <- Vampire Lord
 img/balls/venom.png   <- Venom
 img/balls/virus.png   <- Virus
@@ -84,6 +94,7 @@ img/balls/voluptuous-egg-sac.png   <- Voluptuous Egg Sac
 img/balls/warp.png   <- Warp
 img/balls/wraith.png   <- Wraith
 img/balls/x-ray.png   <- X Ray
+img/balls/zombie.png   <- Zombie
 
 == Base passives (img/passives/) ==
 img/passives/archers-effigy.png   <- Archer's Effigy
@@ -117,6 +128,7 @@ img/passives/lovers-quiver.png   <- Lover's Quiver
 img/passives/magic-staff.png   <- Magic Staff
 img/passives/magnet.png   <- Magnet
 img/passives/midnight-oil.png   <- Midnight Oil
+img/passives/platinum-dumbbell.png   <- Platinum Dumbbell
 img/passives/pressure-valve.png   <- Pressure Valve
 img/passives/protective-charm.png   <- Protective Charm
 img/passives/radiant-feather.png   <- Radiant Feather
@@ -141,6 +153,7 @@ img/passives/war-horn.png   <- War Horn
 img/passives/wretched-onion.png   <- Wretched Onion
 
 == Evolved passives (img/passives/) ==
+img/passives/ardent-tire.png   <- Ardent Tire
 img/passives/argent-stopwatch.png   <- Argent Stopwatch
 img/passives/arrow-of-fate.png   <- Arrow of Fate
 img/passives/cornucopia.png   <- Cornucopia
@@ -149,10 +162,13 @@ img/passives/deadeyes-impaler.png   <- Deadeye's Impaler
 img/passives/full-metal-rapier.png   <- Full Metal Rapier
 img/passives/gracious-impaler.png   <- Gracious Impaler
 img/passives/grotesque-artillery.png   <- Grotesque Artillery
+img/passives/inglorious-hammer.png   <- Inglorious Hammer
 img/passives/odiferous-shell.png   <- Odiferous Shell
 img/passives/phantom-regalia.png   <- Phantom Regalia
+img/passives/remote-detonator.png   <- Remote Detonator
 img/passives/soul-reaver.png   <- Soul Reaver
 img/passives/tormenters-mask.png   <- Tormenters Mask
+img/passives/windweaver.png   <- Windweaver
 img/passives/wings-of-the-anointed.png   <- Wings of the Anointed
 
 == Characters (img/characters/) ==
@@ -177,5 +193,5 @@ img/characters/the-carouser.png   <- The Carouser
 img/characters/the-tunneller.png   <- The Tunneller
 img/characters/the-tiptoer.png   <- The Tiptoer
 img/characters/the-false-messiah.png   <- The False Messiah
-img/characters/the-hoary-hoarder.png   <- The Hoary Hoarder (optional; initials placeholder currently used)
-img/characters/the-ballbearer.png   <- The Ballbearer (optional; initials placeholder currently used)
+img/characters/the-hoary-hoarder.png   <- The Hoary Hoarder
+img/characters/the-ballbearer.png   <- The Ballbearer

@@ -167,7 +167,8 @@ again. Effect priority is deterministic for the exact pair: selection order can
 change the displayed name or icon, but not the functional result. Collision and
 cooldown rules can dominate one another, so an impact-ending effect may suppress
 pierce. Brood Mother is especially valuable because its spawned baby balls also
-carry the partner ball's effect.
+carry the partner ball's effect. Pairwise ingredients whose only shared recipe
+needs 3 or more balls, such as Elemental, can still be fused as a pair.
 
 Evolution is a specific recipe. Every ball component must be level 3. The
 ingredients are consumed and replaced by the evolved ball. Pit Crew's compact
@@ -194,6 +195,7 @@ Charm — may turn an enemy against its allies.
 Dark — very high impact multiplier, then destroys itself and waits to refire.
 Earthquake — area damage around the impact tile.
 Egg Sac — bursts into several baby balls and has a refire delay.
+Flesh — starts at half damage and gains 25% speed with every bounce.
 Freeze — immobilizes and amplifies damage received.
 Ghost — passes through enemies.
 Iron — heavy double-damage projectile with reduced movement speed.
@@ -213,6 +215,7 @@ Wind — pierces and slows at the cost of direct damage.
 Parentheses indicate alternatives for one recipe slot.
 
 Assassin = Iron + (Ghost OR Dark)
+Armageddon = Inferno + Storm
 Banished Flame = Dark + Burn
 Banshee = Phantom + Wraith
 Berserk = Charm + (Bleed OR Burn)
@@ -221,15 +224,18 @@ Blizzard = Freeze + (Wind OR Lightning)
 Bomb = Burn + Iron
 Brimstone = (Stone OR Poison) + Burn
 Catapult = Stone + Egg Sac
+Drill = Earthquake + Iron
+Elemental = Burn + Wind + Freeze + Earthquake
 Erosion = Time + Wind
 Fireworks = Burn + Egg Sac
 Flash = Lightning + Light
+Flesh Mound = Brood Mother + Flesh
 Flicker = Light + Dark
 Freeze Ray = Freeze + (Laser Horizontal OR Laser Vertical)
 Frozen Flame = Burn + Freeze
 Glacier = Freeze + (Earthquake OR Stone)
 Heart Swallower = Bleed + Ghost
-Hemorrhage = Bleed + Iron
+Hemorrhage = Bleed + (Iron OR Flesh)
 Holy Laser = Laser Horizontal + Laser Vertical
 Incubus = Charm + Dark
 Inferno = Burn + (Wind OR Time)
@@ -237,16 +243,20 @@ Landslide = Stone + Earthquake
 Laser Beam = Light + (Laser Horizontal OR Laser Vertical)
 Laser Cutter = (Laser Horizontal OR Laser Vertical) + Steel
 Leech = Brood Mother + Bleed
+Lightning Bug = Lightning + Brood Mother
 Lightning Rod = Lightning + Iron
 Lovestruck = Charm + (Light OR Lightning OR Time)
 Maggot = Brood Mother + Cell
 Magma = Burn + Earthquake
 Mosquito King = Vampire + Brood Mother
+Mosquito Kingdom = Mosquito King + Mosquito Swarm
 Mosquito Swarm = Vampire + Egg Sac
 Nosferatu = Vampire Lord + Spider Queen + Mosquito King
 Noxious = Wind + (Poison OR Dark)
 Nuclear Bomb = Bomb + Poison
+Offspring = Cell + Flesh
 Overgrowth = Earthquake + Cell
+Petrify = Stone + Flesh
 Phantom = Dark + Ghost
 Radiation Beam = (Laser Horizontal OR Laser Vertical) + (Poison OR Cell)
 Reaper = Soul Sucker + Heart Swallower
@@ -264,6 +274,7 @@ Sun = Burn + Light
 Swamp = Poison + Earthquake
 Time Bomb = Time + Bomb
 Timestop = Time + Freeze
+Tumor = Radiation Beam + Flesh
 Vampire Lord = Vampire + (Bleed OR Dark)
 Venom = Poison + Freeze
 Virus = Poison + (Bleed OR Ghost OR Cell)
@@ -271,6 +282,7 @@ Voluptuous Egg Sac = Egg Sac + Cell
 Warp = Time + Light
 Wraith = Freeze + Ghost
 X Ray = Holy Laser + Laser Beam
+Zombie = Vampire + Flesh
 
 Nested targets need deliberate inventory planning:
 
@@ -280,6 +292,10 @@ Nested targets need deliberate inventory planning:
   all three evolved components to level 3 at the same time.
 - Reaper: create Soul Sucker and Heart Swallower, then level both.
 - X Ray: create Holy Laser and Laser Beam, then level both.
+- Armageddon: create Inferno and Storm, then level both.
+- Mosquito Kingdom: create Mosquito King and Mosquito Swarm, then level both.
+- Tumor: create Radiation Beam, then level it alongside Flesh.
+- Elemental: keep Burn, Wind, Freeze, and Earthquake together at level 3.
 
 
 8. PASSIVES AND ARTIFACTS
@@ -305,10 +321,16 @@ Important mechanical loops:
   passives become Cornucopia and further multiply spawned balls.
 - Wretched Onion and Breastplate become Odiferous Shell, turning dangerous
   close contact into a chance to execute enemies.
+- Rubber Headband and Wagon Wheel become Ardent Tire, scaling speed and damage
+  on every bounce. Platinum Dumbbell and Upturned Hatchet become Inglorious
+  Hammer for repeated back-wall damage.
+- Magnet and Pressure Valve become Remote Detonator for kill-triggered Bomb
+  balls. Bottled Tornado and Slingshot become Windweaver for gem-triggered Wind.
 
 Passive artifact recipes:
 
 Argent Stopwatch = Hourglass + Silver Bullet
+Ardent Tire = Wagon Wheel + Rubber Headband
 Arrow of Fate = Lover's Quiver + Hand Mirror
 Cornucopia = Baby Rattle + War Horn
 Deadeye's Cross = all four directional Hilted Daggers
@@ -316,10 +338,13 @@ Deadeye's Impaler = Deadeye's Cross + Gracious Impaler
 Full Metal Rapier = Iron Onesie + Sword Breaker
 Gracious Impaler = Reacher's Spear + Deadeye's Amulet
 Grotesque Artillery = Turret + Hand Fan
+Inglorious Hammer = Platinum Dumbbell + Upturned Hatchet
 Odiferous Shell = Wretched Onion + Breastplate
 Phantom Regalia = Ghostly Corset + Ethereal Cloak
+Remote Detonator = Pressure Valve + Magnet
 Soul Reaver = Vampiric Sword + Everflowing Goblet
 Tormenters Mask = Spiked Collar + Crown of Thorns
+Windweaver = Bottled Tornado + Slingshot
 Wings of the Anointed = Radiant Feather + Fleet Feet
 
 
@@ -332,6 +357,10 @@ friendly summons, or a deep evolution chain. It then adjusts scores using the
 current state:
 
 - A ball receives a large bonus when it completes an evolution with a held ball.
+- If several evolutions are ready, their results are ranked by the detected
+  route and held passives: baby-ball items favor baby-ball results, Magic Staff
+  favors AOE, bounce and back-wall items favor matching trajectories, and
+  status-specific passives favor evolutions that apply their status.
 - A passive receives a large bonus when it completes a held artifact recipe.
 - Baby-ball passives rise when the loadout can already spawn baby balls.
 - The nearest strategy-compatible passive evolution and its missing ingredients

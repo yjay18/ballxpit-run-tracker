@@ -38,8 +38,10 @@ state and encyclopedia checkmarks stay in the browser's `localStorage`.
   Hoarder's 2/8 slot split, and Ballbearer's 10/0 slot split.
 - Surfaces ready ball evolutions and passive artifacts directly above the next
   pickup suggestions.
-- Keeps the original searchable encyclopedia for 20 base balls, 59 ball
-  evolutions, 53 base passives, 13 passive artifacts, and Matchmaker pairs.
+- Ranks simultaneous ready evolutions by the detected build route and concrete
+  support from held passives, including multi-ball recipes such as Elemental.
+- Keeps the original searchable encyclopedia for 21 base balls, 69 ball
+  evolutions, 54 base passives, 17 passive artifacts, and Matchmaker pairs.
 - Works as a single responsive page on desktop and mobile.
 
 ## Run locally
@@ -68,10 +70,10 @@ Then open `http://localhost:8000`.
 
 ## Data status
 
-The encyclopedia foundation is current through the **Shadow Update (April 27,
-2026)**. The supplied systems brief adds strategy profiles for the Hoary
-Hoarder and Ballbearer. The wider Naturalist Update data set has not been fully
-audited, so community corrections are welcome.
+The encyclopedia and recommendation model are current through the
+**Naturalist Update (August 6, 2026)**, including Flesh, all ten new evolved
+balls, Platinum Dumbbell, the four new passive artifacts, and the new
+Hemorrhage recipe. Community corrections are still welcome.
 
 Recommendations are deterministic practical heuristics, not a claim of a
 solved optimal meta. The current character and loadout select a strategy route;
@@ -97,7 +99,7 @@ Matchmaker logic, and sprite collection that made this run companion possible.
 Its MIT license and copyright notice are preserved in `LICENSE`. Thank you to
 the original creator and contributors.
 
-Additional game data was compiled from
+Additional game data and the Naturalist update sprites were sourced from
 [ballxpit.wiki.gg](https://ballxpit.wiki.gg). Curated Matchmaker combinations in
 the inherited tracker credit [Dexerto](https://www.dexerto.com).
 

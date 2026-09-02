@@ -535,11 +535,11 @@ footer{background:#0b0d0a;margin-top:1rem}.creator-link{font-size:.78rem}.footer
     </nav>
     <div class="hdr-controls">
       <div class="progress-group">
-        <span class="progress-label">Evolutions found: <b id="evo-count">0</b> / 59</span>
+        <span class="progress-label">Evolutions found: <b id="evo-count">0</b> / 69</span>
         <div class="pbar"><span id="evo-bar"></span></div>
       </div>
       <div class="progress-group">
-        <span class="progress-label">Passive artifacts: <b id="pas-count">0</b> / 13</span>
+        <span class="progress-label">Passive artifacts: <b id="pas-count">0</b> / 17</span>
         <div class="pbar"><span id="pas-bar"></span></div>
       </div>
       <input id="search" type="search" placeholder="Search name, recipe, description…" aria-label="Search encyclopedia">
@@ -676,7 +676,7 @@ footer{background:#0b0d0a;margin-top:1rem}.creator-link{font-size:.78rem}.footer
 
   <section class="view" id="view-base">
     <h2>Base Balls</h2>
-    <p class="section-note">The 20 base balls. Click a name for details, starting characters, and every evolution it feeds into.</p>
+    <p class="section-note">The 21 base balls. Click a name for details, starting characters, and every evolution it feeds into.</p>
     <div class="tbl-wrap"><table id="base-table" class="sticky-tbl">
       <thead><tr><th class="chk"></th><th class="name-col">Name</th><th>Description</th><th>Damage Type</th><th>Status Effects</th><th>Starting Character(s)</th><th>Unlock</th></tr></thead>
     </table></div>
@@ -687,9 +687,9 @@ footer{background:#0b0d0a;margin-top:1rem}.creator-link{font-size:.78rem}.footer
     <div class="infobox">
       <h3>How evolutions work</h3>
       <ul>
-        <li>Both ingredient balls must be <b>level 3</b>, then combine them in the <b>Fusion Reactor</b> building.</li>
+        <li>Every ingredient ball must be <b>level 3</b>, then combine them in the <b>Fusion Reactor</b> building.</li>
         <li>Ingredient order never matters for evolutions.</li>
-        <li>If two balls CAN evolve together, the Fusion Reactor forces the evolution; you cannot arbitrary-fuse that pair (exception: the three Nosferatu components can also fuse pairwise).</li>
+        <li>If two balls have a two-ball evolution, the Fusion Reactor forces it. Ingredients whose only shared recipe needs 3+ balls (such as Nosferatu or Elemental) can still fuse pairwise.</li>
         <li>Evolved balls can themselves be leveled to 3 and evolved again (Tier 2) or fused freely with any non-matching ball.</li>
         <li>Passive ingredients must also be <b>level 3</b>. They can evolve via exact recipes, but cannot be arbitrarily fused.</li>
       </ul>
@@ -748,14 +748,14 @@ footer{background:#0b0d0a;margin-top:1rem}.creator-link{font-size:.78rem}.footer
   <p class="creator-link">Created by <a href="https://yjay18.github.io/yuuvjauhari/">Yuuv Jauhari</a>.</p>
   <p class="footer-brand">PIT CREW</p>
   <p>Built on the <a href="https://cryphixi.github.io/ballxpit-tracker/">BALL x PIT Evolution Tracker</a> by <b>Allena Oglivie / Cryphixi</b>. Its encyclopedia structure, recipes, Matchmaker logic, and sprite collection made this companion possible. Original MIT license preserved.</p>
-  <p>Core encyclopedia data from <a href="https://ballxpit.wiki.gg/wiki/Balls">ballxpit.wiki.gg</a>, current through the Shadow Update (April 27, 2026), with supplied post-update character profiles. The broader Naturalist data set has not yet been fully audited. Curated team combos credit: <a href="https://www.dexerto.com">Dexerto</a>.</p>
+  <p>Core encyclopedia data from <a href="https://ballxpit.wiki.gg/wiki/Balls">ballxpit.wiki.gg</a>, current through the Naturalist Update (August 6, 2026). Curated team combos credit: <a href="https://www.dexerto.com">Dexerto</a>.</p>
   <p>BALL x PIT and all game art are the property of Kenny Sun and Devolver Digital. This is an unofficial fan project, not affiliated with or endorsed by the developer or publisher. Sprite assets will be removed on request.</p>
 </footer>
 
 <script>
 /* =====================================================================
-   GAME DATA — current through the Shadow Update (April 27, 2026)
-   Pulled from ballxpit.wiki.gg on 2026-07-14.
+   GAME DATA — current through the Naturalist Update (August 6, 2026)
+   Audited against ballxpit.wiki.gg on 2026-09-01.
    Recipes use a "slots" format: array of slots, each slot an array of
    acceptable balls (length > 1 means "or").
    ===================================================================== */
@@ -770,6 +770,7 @@ const GAME_DATA = {
     { name:"Dark", description:"Deals 3.0x damage but destroys itself after hitting an enemy. Has a 3 second cooldown before it can be shot again.", characters:["The Shade"], unlock:"Clear The BONExYARD", damageTypes:["Base"], statusEffects:[] },
     { name:"Earthquake", description:"Deals 5-13 damage to nearby units in a 3x3 tile square.", characters:["The Makeshift Sisyphus","The Tunneller"], unlock:"Unlocked by default", damageTypes:["Base","AOE"], statusEffects:[] },
     { name:"Egg Sac", description:"Explodes into 2-4 baby balls on hitting an enemy. Has a 3 second cooldown before it can be shot again.", characters:["The Flagellant"], unlock:"Unlocked by default", damageTypes:["Base"], statusEffects:["Baby Ball Spawn"] },
+    { name:"Flesh", description:"Deals 50% damage initially. Speed increases by 25% per bounce.", characters:[], unlock:"Clear The GORYxGRASSLANDS", damageTypes:["Base"], statusEffects:[] },
     { name:"Freeze", description:"Has a 4% chance to freeze enemies for 5.0 seconds. Frozen enemies receive 25% more damage.", characters:["The Repentant"], unlock:"Unlocked by default", damageTypes:["Base"], statusEffects:["Freeze"] },
     { name:"Ghost", description:"Passes through enemies.", characters:["The Empty Nester"], unlock:"Unlocked by default", damageTypes:["Base"], statusEffects:[] },
     { name:"Iron", description:"Deals double damage but moves 40% slower.", characters:["The Shieldbearer","The Tactician"], unlock:"Unlocked by default", damageTypes:["Base"], statusEffects:[] },
@@ -785,6 +786,7 @@ const GAME_DATA = {
   ],
 
   evolvedBalls: [
+    { name:"Armageddon", slots:[["Inferno"],["Storm"]], description:"Creates a meteor shower upon hitting an enemy. The shower lasts for 5 seconds and deals 30-50 damage per second to enemies within a 3 tile radius.", evolvesInto:[], tier:2, damageTypes:["Base","AOE"], statusEffects:[] },
     { name:"Assassin", slots:[["Iron"],["Ghost","Dark"]], description:"Passes through the front of enemies, but not the back. Backstabs deal 30% bonus damage.", evolvesInto:[{name:"Sniper",with:["Shotgun"]}], tier:1, damageTypes:["Base"], statusEffects:[] },
     { name:"Banished Flame", slots:[["Dark"],["Burn"]], description:"Add 1 stack of darkflame on hit for 2 seconds (max 6 stacks). Darkflame deals 1-30 damage per stack per second. When the darkflame goes out, it deals 1-100 to the enemy.", evolvesInto:[], tier:1, damageTypes:["Base"], statusEffects:["Darkflame"] },
     { name:"Banshee", slots:[["Phantom"],["Wraith"]], description:"Curses all enemies while on the field when launched. Cursed enemies are dealt 150-300 after being hit 6 times.", evolvesInto:[], tier:2, damageTypes:["Base"], statusEffects:["Curse"] },
@@ -794,34 +796,41 @@ const GAME_DATA = {
     { name:"Bomb", slots:[["Burn"],["Iron"]], description:"Explodes when hitting an enemy, dealing 150-300 damage to nearby enemies. Has a 3 second cooldown before it can be shot again.", evolvesInto:[{name:"Nuclear Bomb",with:["Poison"]},{name:"Time Bomb",with:["Time"]}], tier:1, damageTypes:["AOE"], statusEffects:[] },
     { name:"Brimstone", slots:[["Stone","Poison"],["Burn"]], description:"Applies 1 stack of burn and poison every second to all enemies within a 2 tile radius (max 4 stacks). Burn deals 1-4 damage per stack per second and poison deals 2-3 damage per stack per second.", evolvesInto:[], tier:1, damageTypes:["Base"], statusEffects:["Burn","Poison"] },
     { name:"Catapult", slots:[["Stone"],["Egg Sac"]], description:"Launches 3-5 stone baby balls every 1.5 seconds, which are destroyed after hitting anything.", evolvesInto:[], tier:1, damageTypes:["Base"], statusEffects:["Baby Ball Spawn"] },
+    { name:"Drill", slots:[["Earthquake"],["Iron"]], description:"Pierces enemies and deals 50% bonus damage until reaching the back of the field.", evolvesInto:[], tier:1, damageTypes:["Base"], statusEffects:[] },
+    { name:"Elemental", slots:[["Burn"],["Wind"],["Freeze"],["Earthquake"]], description:"Applies a random status effect (burn, slow, or freeze) to nearby enemies on hit.", evolvesInto:[], tier:1, damageTypes:["Base","AOE"], statusEffects:["Burn","Slow","Freeze"] },
     { name:"Erosion", slots:[["Time"],["Wind"]], description:"Passes through enemies. Deals 3% of enemy's current health as bonus damage on hit.", evolvesInto:[], tier:1, damageTypes:["Base"], statusEffects:[] },
     { name:"Fireworks", slots:[["Burn"],["Egg Sac"]], description:"Explodes into 3-6 fireworks. Fireworks target random enemies, dealing 20-30 damage and applying 1 stack of burn. Burnt units are dealt 7-11 damage per stack per second.", evolvesInto:[], tier:1, damageTypes:["Base"], statusEffects:["Firework Spawn","Burn"] },
     { name:"Flash", slots:[["Lightning"],["Light"]], description:"Damage all enemies on screen for 1-3 damage after hitting an enemy and blind them for 2 seconds.", evolvesInto:[], tier:1, damageTypes:["Base","AOE"], statusEffects:["Blind"] },
+    { name:"Flesh Mound", slots:[["Brood Mother"],["Flesh"]], description:"Emits a fleshy baby ball in a random direction every 1.0 seconds.", evolvesInto:[], tier:1, damageTypes:["Base"], statusEffects:["Fleshy Baby Ball Spawn"] },
     { name:"Flicker", slots:[["Light"],["Dark"]], description:"Deals 1-7 damage to every enemy on screen every 1.4 seconds.", evolvesInto:[], tier:1, damageTypes:["Base","AOE"], statusEffects:[] },
     { name:"Freeze Ray", slots:[["Freeze"],["Laser (Horizontal)","Laser (Vertical)"]], description:"Emits a freeze ray when hitting an enemy, dealing 20-50 to all enemies in its path, with a 10% chance of freezing them for 10.0 seconds.", evolvesInto:[], tier:1, damageTypes:["Base","AOE"], statusEffects:["Freeze"] },
     { name:"Frozen Flame", slots:[["Burn"],["Freeze"]], description:"Add 1 stack of frostburn on hit for 20 seconds (max 4 stacks). Frostburnt units are dealt 8-12 damage per stack per second and receive 25% more damage from other sources.", evolvesInto:[], tier:1, damageTypes:["Base"], statusEffects:["Frostburn"] },
     { name:"Glacier", slots:[["Freeze"],["Earthquake","Stone"]], description:"Releases glacial spikes over time that deal 15-30 to enemies that touch them and freeze them for 2.0 seconds. This ball and its glacial spikes also deal 6-12 damage to nearby units.", evolvesInto:[], tier:1, damageTypes:["Base"], statusEffects:["Freeze"] },
     { name:"Heart Swallower", slots:[["Bleed"],["Ghost"]], description:"Saps enemies on hit, with a 40% chance of stealing 1 health and reducing their attack damage by 20%. Lifesteal chance only applies once per enemy.", evolvesInto:[{name:"Reaper",with:["Soul Sucker"]}], tier:1, damageTypes:["Base"], statusEffects:["Lifesteal","Attack Down"] },
-    { name:"Hemorrhage", slots:[["Bleed"],["Iron"]], description:"Inflicts 3 stacks of bleed. When hitting an enemy with 12 stacks of bleed or more, consumes all stacks of bleed to deal 20% of their current health.", evolvesInto:[], tier:1, damageTypes:["Base"], statusEffects:["Bleed"] },
+    { name:"Hemorrhage", slots:[["Bleed"],["Iron","Flesh"]], description:"Inflicts 3 stacks of bleed. When hitting an enemy with 12 stacks of bleed or more, consumes all stacks of bleed to deal 20% of their current health.", evolvesInto:[], tier:1, damageTypes:["Base"], statusEffects:["Bleed"] },
     { name:"Holy Laser", slots:[["Laser (Horizontal)"],["Laser (Vertical)"]], description:"Deals 24-36 damage to all enemies in the same row and column.", evolvesInto:[{name:"X Ray",with:["Laser Beam"]}], tier:1, damageTypes:["AOE"], statusEffects:[] },
     { name:"Incubus", slots:[["Charm"],["Dark"]], description:"Each hit has a 4% chance of charming the enemy for 9 seconds. Charmed enemies curse nearby enemies. Cursed enemies are dealt 100-200 after being hit 5 times.", evolvesInto:[{name:"Satan",with:["Succubus"]}], tier:1, damageTypes:["Base"], statusEffects:["Charm","Curse"] },
-    { name:"Inferno", slots:[["Burn"],["Wind","Time"]], description:"Applies 1 stack of burn every second to all enemies within a 2 tile radius. Burn lasts for 6 seconds, dealing 3-7 damage per stack per second.", evolvesInto:[], tier:1, damageTypes:["AOE"], statusEffects:["Burn"] },
+    { name:"Inferno", slots:[["Burn"],["Wind","Time"]], description:"Applies 1 stack of burn every second to all enemies within a 2 tile radius. Burn lasts for 6 seconds, dealing 3-7 damage per stack per second.", evolvesInto:[{name:"Armageddon",with:["Storm"]}], tier:1, damageTypes:["AOE"], statusEffects:["Burn"] },
     { name:"Landslide", slots:[["Stone"],["Earthquake"]], description:"Creates a landslide and destroys self upon hitting an enemy. The landslide lasts for 5 seconds and deals 20-30 damage per second to enemies within a 2 tile radius.", evolvesInto:[], tier:1, damageTypes:["Base","AOE"], statusEffects:["Landslide"] },
     { name:"Laser Beam", slots:[["Light"],["Laser (Horizontal)","Laser (Vertical)"]], description:"Emit a laser beam on hit that deals 30-42 damage and blinds enemies for 8 seconds.", evolvesInto:[{name:"X Ray",with:["Holy Laser"]}], tier:1, damageTypes:["Base","AOE"], statusEffects:["Blind"] },
     { name:"Laser Cutter", slots:[["Laser (Horizontal)","Laser (Vertical)"],["Steel"]], description:"Constantly emits a laser in front of it, which deals 100-150 damage per second.", evolvesInto:[], tier:2, damageTypes:["Base","AOE"], statusEffects:[] },
     { name:"Leech", slots:[["Brood Mother"],["Bleed"]], description:"Attaches up to 1 leech onto enemies it hits, which add 2 stacks of bleed per second (max 24 stacks).", evolvesInto:[], tier:1, damageTypes:["Base"], statusEffects:["Leech","Bleed"] },
+    { name:"Lightning Bug", slots:[["Lightning"],["Brood Mother"]], description:"Spawns a lightning bug each time it hits an enemy. Lightning bugs attack a random enemy, dealing 1-80 damage to up to 3 nearby enemies.", evolvesInto:[], tier:1, damageTypes:["Base","AOE"], statusEffects:["Lightning Bug Spawn"] },
     { name:"Lightning Rod", slots:[["Lightning"],["Iron"]], description:"Plants a lightning rod into enemies it hits. These enemies are struck by lightning every 3.0 seconds, dealing 1-30 damage to up to 8 nearby enemies.", evolvesInto:[], tier:1, damageTypes:["Base","AOE"], statusEffects:["Lightning Rod"] },
     { name:"Lovestruck", slots:[["Charm"],["Light","Lightning","Time"]], description:"Inflicts lovestruck on hit enemies for 20 seconds. Lovestruck units have a 50% chance of healing you for 5 health when they attack.", evolvesInto:[], tier:1, damageTypes:["Base"], statusEffects:["Lovestruck"] },
     { name:"Maggot", slots:[["Brood Mother"],["Cell"]], description:"Infest enemies on hit with maggots. When they die, they explode into 1-2 baby balls.", evolvesInto:[], tier:1, damageTypes:["Base"], statusEffects:["Infest","Baby Ball Spawn"] },
     { name:"Magma", slots:[["Burn"],["Earthquake"]], description:"Emits lava blobs over time. Enemies who walk into lava blobs are dealt 15-30 damage and gain 1 stack of burn (max 3 stacks). Burn lasts for 3 seconds, dealing 3-8 damage per stack per second. This ball and its lava blobs also deal 6-12 damage to nearby units.", evolvesInto:[], tier:1, damageTypes:["Base","AOE"], statusEffects:["Burn"] },
-    { name:"Mosquito King", slots:[["Vampire"],["Brood Mother"]], description:"Spawns a mosquito each time it hits an enemy. Mosquitos attack a random enemy, dealing 80-120 damage each. If a mosquito kills an enemy, they steal 1 health.", evolvesInto:[{name:"Nosferatu",with:["Vampire Lord","Spider Queen"]}], tier:1, damageTypes:["Base"], statusEffects:["Mosquito Spawn","Lifesteal"] },
-    { name:"Mosquito Swarm", slots:[["Vampire"],["Egg Sac"]], description:"Explodes into 3-6 mosquitos. Mosquitos attack random enemies, dealing 80-120 damage each. If a mosquito kills an enemy, they steal 1 health.", evolvesInto:[], tier:1, damageTypes:["Base"], statusEffects:["Mosquito Spawn","Lifesteal"] },
+    { name:"Mosquito King", slots:[["Vampire"],["Brood Mother"]], description:"Spawns a mosquito each time it hits an enemy. Mosquitos attack a random enemy, dealing 80-120 damage each. If a mosquito kills an enemy, they steal 1 health.", evolvesInto:[{name:"Nosferatu",with:["Vampire Lord","Spider Queen"]},{name:"Mosquito Kingdom",with:["Mosquito Swarm"]}], tier:1, damageTypes:["Base"], statusEffects:["Mosquito Spawn","Lifesteal"] },
+    { name:"Mosquito Kingdom", slots:[["Mosquito King"],["Mosquito Swarm"]], description:"Spawns a swarm of mosquitos each time it hits an enemy. Mosquitos attack random enemies and steal health when they land a killing blow.", evolvesInto:[], tier:2, damageTypes:["Base"], statusEffects:["Mosquito Spawn","Lifesteal"] },
+    { name:"Mosquito Swarm", slots:[["Vampire"],["Egg Sac"]], description:"Explodes into 3-6 mosquitos. Mosquitos attack random enemies, dealing 80-120 damage each. If a mosquito kills an enemy, they steal 1 health.", evolvesInto:[{name:"Mosquito Kingdom",with:["Mosquito King"]}], tier:1, damageTypes:["Base"], statusEffects:["Mosquito Spawn","Lifesteal"] },
     { name:"Nosferatu", slots:[["Vampire Lord"],["Spider Queen"],["Mosquito King"]], description:"Spawns a vampire bat each bounce. Vampire bats fly towards a random enemy, dealing 132-176 damage on hit, turning into a Vampire Lord.", evolvesInto:[], tier:2, damageTypes:["Base"], statusEffects:["Vampire Bat Spawn"] },
     { name:"Noxious", slots:[["Wind"],["Poison","Dark"]], description:"Passes through enemies and applies 3 stacks of poison to nearby enemies within a 2 tile radius. Poison lasts for 4 seconds and each stack deals 1-3 damage per second.", evolvesInto:[], tier:1, damageTypes:["Base"], statusEffects:["Poison"] },
     { name:"Nuclear Bomb", slots:[["Bomb"],["Poison"]], description:"Explodes when hitting an enemy, dealing 300-500 damage to nearby enemies and applying 1 stack of radiation to everyone present indefinitely (max 5 stacks). Each stack of radiation increases damage received by 10%. Has a 3 second cooldown.", evolvesInto:[], tier:2, damageTypes:["AOE"], statusEffects:["Radiation"] },
+    { name:"Offspring", slots:[["Cell"],["Flesh"]], description:"Splits into a clone on hit 4 times.", evolvesInto:[], tier:1, damageTypes:["Base"], statusEffects:["Clone"] },
     { name:"Overgrowth", slots:[["Earthquake"],["Cell"]], description:"Applies 1 stack of overgrowth. Upon reaching 3, consume all stacks and deal 150-200 damage to all enemies in a 3x3 tile square.", evolvesInto:[], tier:1, damageTypes:["Base","AOE"], statusEffects:["Overgrowth"] },
     { name:"Phantom", slots:[["Dark"],["Ghost"]], description:"Curse enemies on hit. Cursed enemies are dealt 100-200 damage after being hit 5 times.", evolvesInto:[{name:"Banshee",with:["Wraith"]}], tier:1, damageTypes:["Base"], statusEffects:["Curse"] },
-    { name:"Radiation Beam", slots:[["Laser (Horizontal)","Laser (Vertical)"],["Poison","Cell"]], description:"Emit a radiation beam on hit that deals 24-48 damage and applies 1 stack of radiation (max 5 stacks). Radiation lasts for 15 seconds and causes enemies to receive 10% more damage from all sources per stack.", evolvesInto:[], tier:1, damageTypes:["Base","AOE"], statusEffects:["Radiation"] },
+    { name:"Petrify", slots:[["Stone"],["Flesh"]], description:"Petrifies all enemies within its sightline for 1.5 seconds when first launched, dealing 50-120 damage.", evolvesInto:[], tier:1, damageTypes:["Base","AOE"], statusEffects:["Petrify"] },
+    { name:"Radiation Beam", slots:[["Laser (Horizontal)","Laser (Vertical)"],["Poison","Cell"]], description:"Emit a radiation beam on hit that deals 24-48 damage and applies 1 stack of radiation (max 5 stacks). Radiation lasts for 15 seconds and causes enemies to receive 10% more damage from all sources per stack.", evolvesInto:[{name:"Tumor",with:["Flesh"]}], tier:1, damageTypes:["Base","AOE"], statusEffects:["Radiation"] },
     { name:"Reaper", slots:[["Soul Sucker"],["Heart Swallower"]], description:"Has a 10% chance to kill enemies on impact, healing you for 5 health.", evolvesInto:[], tier:2, damageTypes:["Base"], statusEffects:["Instant Kill"] },
     { name:"Sacrifice", slots:[["Bleed"],["Dark"]], description:"Inflicts 4 stacks of bleed (max 15 stacks) and applies curse to hit enemies. Cursed enemies are dealt 50-100 after being hit 5 times.", evolvesInto:[], tier:1, damageTypes:["Base"], statusEffects:["Bleed","Curse"] },
     { name:"Sandstorm", slots:[["Earthquake","Stone"],["Wind"]], description:"Goes through enemies and is surrounded by a raging storm dealing 10-20 damage per second and blinding nearby enemies for 3 seconds.", evolvesInto:[], tier:1, damageTypes:["Base","AOE"], statusEffects:["Blind"] },
@@ -831,19 +840,21 @@ const GAME_DATA = {
     { name:"Soul Sucker", slots:[["Vampire"],["Ghost"]], description:"Passes through enemies and saps them, with a 30% chance of stealing 1 health and reducing their attack damage by 20%. Lifesteal chance only applies once per enemy.", evolvesInto:[{name:"Reaper",with:["Heart Swallower"]}], tier:1, damageTypes:["Base"], statusEffects:["Lifesteal","Attack Down"] },
     { name:"Spider Queen", slots:[["Brood Mother"],["Egg Sac"]], description:"Has a 25% chance of birthing an Egg Sac each time it hits an enemy.", evolvesInto:[{name:"Nosferatu",with:["Vampire Lord","Mosquito King"]}], tier:1, damageTypes:["Base"], statusEffects:["Baby Ball Spawn"] },
     { name:"Steel", slots:[["Iron"],["Stone"]], description:"Initially deals double damage but moves 50% slower. Damage increases by 10% each time it hits an enemy (max 300%).", evolvesInto:[{name:"Laser Cutter",with:["Laser (Horizontal) or Laser (Vertical)"]}], tier:1, damageTypes:["Base"], statusEffects:[] },
-    { name:"Storm", slots:[["Lightning"],["Wind"]], description:"Emits lightning to strike nearby enemies every second, dealing 1-40 damage.", evolvesInto:[], tier:1, damageTypes:["AOE"], statusEffects:[] },
+    { name:"Storm", slots:[["Lightning"],["Wind"]], description:"Emits lightning to strike nearby enemies every second, dealing 1-40 damage.", evolvesInto:[{name:"Armageddon",with:["Inferno"]}], tier:1, damageTypes:["AOE"], statusEffects:[] },
     { name:"Succubus", slots:[["Charm"],["Vampire"]], description:"Each hit has a 4% chance of charming the enemy for 9 seconds. Heals 1 when hitting a charmed enemy.", evolvesInto:[{name:"Satan",with:["Incubus"]}], tier:1, damageTypes:["Base"], statusEffects:["Charm"] },
     { name:"Sun", slots:[["Burn"],["Light"]], description:"Blind all enemies in view and add 1 stack of burn every second (max 5 stacks). Burn lasts for 6 seconds and deals 6-12 damage per stack per second.", evolvesInto:[{name:"Black Hole",with:["Dark or Time"]}], tier:1, damageTypes:["Base"], statusEffects:["Blind","Burn"] },
     { name:"Swamp", slots:[["Poison"],["Earthquake"]], description:"Leaves behind tar blobs over time. Enemies who walk into tar blobs are dealt 15-30, are slowed by 50% for 7 seconds and gain 1 stack of poison (max 8 stacks). Each stack of poison deals 1-3 damage per second. This ball and its tar blobs also deal 6-12 damage to nearby units.", evolvesInto:[], tier:1, damageTypes:["Base","AOE"], statusEffects:["Slow","Poison"] },
     { name:"Time Bomb", slots:[["Time"],["Bomb"]], description:"Throws a time bomb every few seconds, which explodes after a delay, dealing 80-120 damage to nearby enemies.", evolvesInto:[], tier:2, damageTypes:["Base","AOE"], statusEffects:["Time Bomb Spawn","Time Snare"] },
     { name:"Timestop", slots:[["Time"],["Freeze"]], description:"Freezes everything on the field for 5.0 seconds but destroys itself after hitting an enemy. Has a 30 second cooldown before it can be shot again.", evolvesInto:[], tier:1, damageTypes:["Base"], statusEffects:["Timestop"] },
+    { name:"Tumor", slots:[["Radiation Beam"],["Flesh"]], description:"Applies a tumor on hit. Enemies with a tumor die after 40 seconds, except for bosses.", evolvesInto:[], tier:2, damageTypes:["Base"], statusEffects:["Tumor"] },
     { name:"Vampire Lord", slots:[["Vampire"],["Bleed","Dark"]], description:"Each hit inflicts 3 stacks of bleed. Heals 1 health and consumes all stacks when hitting an enemy with at least 10 stacks of bleed.", evolvesInto:[{name:"Nosferatu",with:["Spider Queen","Mosquito King"]}], tier:1, damageTypes:["Base"], statusEffects:["Bleed","Heal"] },
     { name:"Venom", slots:[["Poison"],["Freeze"]], description:"Applies 1 stack of venom on hit (max 8 stacks). Each stack deals 3-6 damage per second and slows down enemies.", evolvesInto:[], tier:1, damageTypes:["Base"], statusEffects:["Venom","Slow"] },
     { name:"Virus", slots:[["Poison"],["Bleed","Ghost","Cell"]], description:"Applies 1 stack of disease to units it hits (max 8 stacks). Disease lasts for 6 seconds. Each stack of disease deals 3-6 damage per second and diseased units have a 15% chance of passing a stack to undiseased nearby enemies each second.", evolvesInto:[], tier:1, damageTypes:["Base"], statusEffects:["Disease"] },
     { name:"Voluptuous Egg Sac", slots:[["Egg Sac"],["Cell"]], description:"Explodes into 2-3 egg sacs on hitting an enemy. Has a 3 second cooldown before it can be shot again.", evolvesInto:[], tier:1, damageTypes:["Base"], statusEffects:["Baby Ball Spawn"] },
     { name:"Warp", slots:[["Time"],["Light"]], description:"After each hit, warps to a random spot on the field and speeds up by 5%.", evolvesInto:[], tier:1, damageTypes:["Base"], statusEffects:[] },
     { name:"Wraith", slots:[["Freeze"],["Ghost"]], description:"Freezes any enemy it passes through for 0.8 seconds.", evolvesInto:[{name:"Banshee",with:["Phantom"]}], tier:1, damageTypes:["Base"], statusEffects:["Freeze"] },
-    { name:"X Ray", slots:[["Holy Laser"],["Laser Beam"]], description:"Emits an X-shaped laser on hit, which deals 50-75 damage to enemies and applies 1 stack of radiation (max 5 stacks). Radiation causes enemies to receive 10% more damage from all sources per stack.", evolvesInto:[], tier:2, damageTypes:["Base"], statusEffects:["Radiation"] }
+    { name:"X Ray", slots:[["Holy Laser"],["Laser Beam"]], description:"Emits an X-shaped laser on hit, which deals 50-75 damage to enemies and applies 1 stack of radiation (max 5 stacks). Radiation causes enemies to receive 10% more damage from all sources per stack.", evolvesInto:[], tier:2, damageTypes:["Base"], statusEffects:["Radiation"] },
+    { name:"Zombie", slots:[["Vampire"],["Flesh"]], description:"Infects enemies on hit, giving them a 40% chance to turn into a friendly zombie on death.", evolvesInto:[], tier:1, damageTypes:["Base"], statusEffects:["Zombie Spawn"] }
   ],
 
   basePassives: [
@@ -878,6 +889,7 @@ const GAME_DATA = {
     { name:"Magic Staff", description:"Increase area-of-effect damage (such as earthquake, laser, and lightning) by 20%.", appearance:"None", unlock:"Unlocked by default" },
     { name:"Magnet", description:"Increase range at which you pick up items and catch balls by 1.0 tiles.", appearance:"None", unlock:"Unlocked by default" },
     { name:"Midnight Oil", description:"Balls that hit flaming enemies light on fire and deal 10-20 bonus fire damage on the next hit.", appearance:"Requires a ball that applies Burn", unlock:"Unlocked by default" },
+    { name:"Platinum Dumbbell", description:"Balls deal 12% bonus damage until they hit the back of the field.", appearance:"None", unlock:"Unknown (wiki lists \"?\")" },
     { name:"Pressure Valve", description:"Enemies explode on death, dealing 20-30 damage to adjacent enemies.", appearance:"None", unlock:"Clear The BONExYARD" },
     { name:"Protective Charm", description:"Gain a shield that blocks the next damage you would receive. Recharges after 60 seconds.", appearance:"None", unlock:"Clear The FUNGALxFOREST" },
     { name:"Radiant Feather", description:"Increases ball launch speed by 20%, but get knocked back a little each time you shoot a ball.", appearance:"None", unlock:"Unlocked by default" },
@@ -903,6 +915,7 @@ const GAME_DATA = {
   ],
 
   evolvedPassives: [
+    { name:"Ardent Tire", slots:[["Wagon Wheel"],["Rubber Headband"]], description:"Each bounce increases ball speed by 10% and damage by 5%.", tier:1 },
     { name:"Argent Stopwatch", slots:[["Hourglass"],["Silver Bullet"]], description:"Balls deal 200% damage, but damage decays by 20% each time they bounce (minimum 100%).", tier:1 },
     { name:"Arrow of Fate", slots:[["Lover's Quiver"],["Hand Mirror"]], description:"Projectiles no longer hurt you. Shoot 1-2 baby balls when hit by a projectile.", tier:1 },
     { name:"Cornucopia", slots:[["Baby Rattle"],["War Horn"]], description:"Each time baby balls are created, spawn 0-1 additional baby balls.", tier:1 },
@@ -911,10 +924,13 @@ const GAME_DATA = {
     { name:"Full Metal Rapier", slots:[["Iron Onesie"],["Sword Breaker"]], description:"Balls deal 1% more damage for each baby ball and enemy on the field.", tier:1 },
     { name:"Gracious Impaler", slots:[["Reacher's Spear"],["Deadeye's Amulet"]], description:"Critical hits have a 5% chance to instantly kill enemies.", tier:1 },
     { name:"Grotesque Artillery", slots:[["Turret"],["Hand Fan"]], description:"Floats around your character and shoots a random level 1 unevolved special ball at enemies every 8.0 seconds.", tier:1 },
+    { name:"Inglorious Hammer", slots:[["Platinum Dumbbell"],["Upturned Hatchet"]], description:"When balls hit a wall or the back of the field, they hit a random enemy with 50% bonus damage.", tier:1 },
     { name:"Odiferous Shell", slots:[["Wretched Onion"],["Breastplate"]], description:"When you touch enemies, they have a 50% chance of instantly dying.", tier:1 },
     { name:"Phantom Regalia", slots:[["Ghostly Corset"],["Ethereal Cloak"]], description:"Balls go through enemies until they hit the back wall. Balls deal 50% more damage when going through enemies.", tier:1 },
+    { name:"Remote Detonator", slots:[["Pressure Valve"],["Magnet"]], description:"Enemies spawn a level 1 Bomb ball upon dying.", tier:1 },
     { name:"Soul Reaver", slots:[["Vampiric Sword"],["Everflowing Goblet"]], description:"Each kill heals you by 1 and you can heal past your max health at 30% efficiency.", tier:1 },
     { name:"Tormenters Mask", slots:[["Spiked Collar"],["Crown of Thorns"]], description:"Enemies have a 10% chance of dying immediately the first time they detect you.", tier:1 },
+    { name:"Windweaver", slots:[["Bottled Tornado"],["Slingshot"]], description:"Shoot a level 1 Wind ball every time you pick up a gem.", tier:1 },
     { name:"Wings of the Anointed", slots:[["Radiant Feather"],["Fleet Feet"]], description:"Balls move 40% faster and you move 20% faster. You no longer are affected by environmental hazards on the ground.", tier:2 }
   ],
 
@@ -965,12 +981,12 @@ const GAME_DATA = {
 /* ============================ sanity assertions ============================ */
 (function(){
   const t2 = GAME_DATA.evolvedBalls.filter(e=>e.tier===2).map(e=>e.name).sort();
-  console.assert(GAME_DATA.baseBalls.length===20, "Expected 20 base balls, got "+GAME_DATA.baseBalls.length);
-  console.assert(GAME_DATA.evolvedBalls.length===59, "Expected 59 evolved balls, got "+GAME_DATA.evolvedBalls.length);
-  console.assert(t2.length===10, "Expected 10 Tier 2 evolutions, got "+t2.length+": "+t2.join(", "));
-  console.assert(JSON.stringify(t2)===JSON.stringify(["Banshee","Black Hole","Laser Cutter","Nosferatu","Nuclear Bomb","Reaper","Satan","Sniper","Time Bomb","X Ray"]), "Tier 2 list mismatch: "+t2.join(", "));
-  console.assert(GAME_DATA.basePassives.length===53, "Expected 53 base passives, got "+GAME_DATA.basePassives.length);
-  console.assert(GAME_DATA.evolvedPassives.length===13, "Expected 13 evolved passives, got "+GAME_DATA.evolvedPassives.length);
+  console.assert(GAME_DATA.baseBalls.length===21, "Expected 21 base balls, got "+GAME_DATA.baseBalls.length);
+  console.assert(GAME_DATA.evolvedBalls.length===69, "Expected 69 evolved balls, got "+GAME_DATA.evolvedBalls.length);
+  console.assert(t2.length===13, "Expected 13 Tier 2 evolutions, got "+t2.length+": "+t2.join(", "));
+  console.assert(JSON.stringify(t2)===JSON.stringify(["Armageddon","Banshee","Black Hole","Laser Cutter","Mosquito Kingdom","Nosferatu","Nuclear Bomb","Reaper","Satan","Sniper","Time Bomb","Tumor","X Ray"]), "Tier 2 list mismatch: "+t2.join(", "));
+  console.assert(GAME_DATA.basePassives.length===54, "Expected 54 base passives, got "+GAME_DATA.basePassives.length);
+  console.assert(GAME_DATA.evolvedPassives.length===17, "Expected 17 evolved passives, got "+GAME_DATA.evolvedPassives.length);
   console.assert(GAME_DATA.characters.length===23, "Expected 23 characters, got "+GAME_DATA.characters.length);
   const baseNames = new Set(GAME_DATA.baseBalls.map(b=>b.name));
   GAME_DATA.characters.forEach(c=>console.assert(c.ball==="None" || baseNames.has(c.ball), "Character "+c.name+" has unknown starting ball "+c.ball));
@@ -1017,7 +1033,7 @@ function passiveChainBases(name, seen){
 function usedIn(name){
   return GAME_DATA.evolvedBalls.filter(e=>e.slots.some(slot=>slot.includes(name)));
 }
-// direct evolutions from an unordered pair of (distinct) base balls
+// direct evolutions from an unordered pair of distinct balls
 function findDirectEvos(a,b){
   if(a===b) return [];
   return GAME_DATA.evolvedBalls.filter(e=>e.slots.length===2 && (
@@ -1053,7 +1069,8 @@ const STATUS_COLORS = {
   "Bleed":"#a91e2c","Leech":"#8c2f3a","Curse":"#9b59b6","Blind":"#d9c94d","Charm":"#ff7eb6",
   "Lovestruck":"#f06292","Berserk":"#e0603a","Slow":"#7f9bb3","Heal":"#6fdc8c","Lifesteal":"#c0577f",
   "Attack Down":"#8a8fa3","Instant Kill":"#e8e8e8","Baby Ball Spawn":"#6aa7d8","Sniper Baby Ball Spawn":"#6aa7d8",
-  "Clone":"#6ad8c8","Mosquito Spawn":"#b08c5a","Vampire Bat Spawn":"#7a4a6e","Infest":"#a3b03f",
+  "Fleshy Baby Ball Spawn":"#b56f72","Clone":"#6ad8c8","Mosquito Spawn":"#b08c5a","Lightning Bug Spawn":"#e8d44d",
+  "Vampire Bat Spawn":"#7a4a6e","Zombie Spawn":"#6f9e62","Infest":"#a3b03f","Petrify":"#9c8f82","Tumor":"#b56f72",
   "Overgrowth":"#4fae60","Landslide":"#b08968","Lightning Rod":"#e8d44d"
 };
 function statusTag(s){
@@ -1198,8 +1215,8 @@ function updateProgress(){
   const p = EPAS_IDS.filter(id=>checks[id]).length;
   document.getElementById("evo-count").textContent = e;
   document.getElementById("pas-count").textContent = p;
-  document.getElementById("evo-bar").style.width = (e/59*100)+"%";
-  document.getElementById("pas-bar").style.width = (p/13*100)+"%";
+  document.getElementById("evo-bar").style.width = (e/69*100)+"%";
+  document.getElementById("pas-bar").style.width = (p/17*100)+"%";
 }
 
 /* ============================ table rendering ============================ */
@@ -1688,7 +1705,7 @@ function defaultLevelTracking(){ return levelPreferenceEnabled(localStorage.getI
 const RUN_GUIDES = {
   "The Warrior": { role:"Status bruiser", summary:"A clean slate with reliable Bleed. Use the starter to open Hemorrhage, Sacrifice, or Heart Swallower, then cover the board with control.", balls:["Iron","Dark","Ghost","Charm","Vampire"], passives:["Shortbow","Silver Bullet","Breastplate","Wagon Wheel","Magic Staff"], avoid:[] },
   "The Itchy Finger": { role:"Rapid on-hit firestarter", summary:"Your doubled fire rate applies stacks quickly. Build Burn into a map-clearing evolution and use defenses to survive the scattered aim.", balls:["Iron","Egg Sac","Light","Wind","Freeze"], passives:["Midnight Oil","Magic Staff","Silver Bullet","Breastplate","Shortbow"], avoid:[] },
-  "The Repentant": { role:"Bounce scaler", summary:"Every rebound is damage. Favor balls that stay alive, cross the board repeatedly, or become devastating after the back-wall turn.", balls:["Wind","Ghost","Burn","Earthquake","Laser (Horizontal)"], passives:["Rubber Headband","Wagon Wheel","Upturned Hatchet","Radiant Feather","Ethereal Cloak"], avoid:[] },
+  "The Repentant": { role:"Bounce scaler", summary:"Every rebound is damage. Favor balls that stay alive, cross the board repeatedly, or become devastating after the back-wall turn.", balls:["Flesh","Wind","Ghost","Burn","Earthquake"], passives:["Rubber Headband","Wagon Wheel","Platinum Dumbbell","Upturned Hatchet","Ethereal Cloak"], avoid:[] },
   "The Cohabitants": { role:"Mirrored swarm", summary:"Two half-damage shots are perfect for on-hit effects and baby-ball engines. Multiply projectiles, then buff every child on the board.", balls:["Egg Sac","Cell","Vampire","Bleed","Lightning"], passives:["Baby Rattle","War Horn","Bandage Roll","Bottled Tornado","Shortbow"], avoid:[] },
   "The Cogitator": { role:"Autopilot observer", summary:"Upgrade choices happen automatically in-game. Use this companion as a record of what the Cogitator picked and where those pieces can evolve.", balls:["Light","Poison","Freeze","Iron","Cell"], passives:["Magic Staff","Breastplate","Silver Bullet","Protective Charm","Everflowing Goblet"], avoid:[] },
   "The Embedded": { role:"Piercing poisoner", summary:"Native pierce spreads Poison through whole columns. Add area effects and status evolutions that benefit from repeated contact.", balls:["Earthquake","Wind","Laser (Horizontal)","Freeze","Dark"], passives:["Magic Staff","Upturned Hatchet","Midnight Oil","Frozen Spike","Breastplate"], avoid:["Ethereal Cloak"] },
@@ -1707,8 +1724,8 @@ const RUN_GUIDES = {
   "The Tunneller": { role:"Wraparound status engine", summary:"Vertical wrap keeps effects cycling through the formation. Persistent AOE and stacked statuses extract the most value from every lap.", balls:["Burn","Poison","Freeze","Wind","Cell"], passives:["Magic Staff","Midnight Oil","Frozen Spike","Wagon Wheel","Breastplate"], avoid:[] },
   "The Tiptoer": { role:"Glass-cannon infiltrator", summary:"Most enemies cannot see you, but only a few hits will end the run. Evasion, shields, and screen-wide control outrank extra Endurance.", balls:["Freeze","Light","Poison","Lightning","Ghost"], passives:["Ghostly Shield","Protective Charm","Breastplate","Radiant Feather","Magic Staff"], avoid:["Vampiric Sword","Wretched Onion"] },
   "The False Messiah": { role:"Audience-powered wildcard", summary:"Twitch votes add uncertainty, so favor resilient recipes with several useful outcomes instead of one fragile, slot-heavy line.", balls:["Iron","Ghost","Charm","Vampire","Burn"], passives:["Breastplate","Everflowing Goblet","Magic Staff","Silver Bullet","Protective Charm"], avoid:[] },
-  "The Hoary Hoarder": { role:"Artifact collector", summary:"Two ball slots and eight passive slots invert the normal economy. Lock one realistic ball evolution, then chain passive artifacts to compress the hoard.", balls:["Iron","Ghost","Burn","Freeze","Earthquake"], passives:["Everflowing Goblet","Vampiric Sword","Baby Rattle","War Horn","Fleet Feet","Radiant Feather"], avoid:[] },
-  "The Ballbearer": { role:"Evolution architect", summary:"Ten ball slots and zero passive slots make this the safest home for Nosferatu, Satan, Nuclear Bomb, and other nested recipes.", balls:["Vampire","Brood Mother","Egg Sac","Charm","Dark","Burn","Iron","Poison"], passives:[], avoid:[] }
+  "The Hoary Hoarder": { role:"Artifact collector", summary:"Two ball slots and eight passive slots invert the normal economy. Lock one realistic ball evolution, then chain the nearest artifact recipe to compress the hoard.", balls:["Iron","Ghost","Burn","Freeze","Earthquake"], passives:["Rubber Headband","Wagon Wheel","Platinum Dumbbell","Upturned Hatchet","Magnet","Pressure Valve","Bottled Tornado","Slingshot","Everflowing Goblet","Vampiric Sword"], avoid:[] },
+  "The Ballbearer": { role:"Evolution architect", summary:"Ten ball slots and zero passive slots make this the safest home for Elemental, Armageddon, Mosquito Kingdom, Nosferatu, and other deep recipes.", balls:["Flesh","Vampire","Brood Mother","Egg Sac","Burn","Wind","Freeze","Earthquake","Lightning","Iron","Cell","Stone"], passives:[], avoid:[] }
 };
 
 let runState = null;
@@ -1925,7 +1942,7 @@ function renderBallMergeBar(){
     const trackLevels = isLevelTrackingEnabled();
     const needsLevel = trackLevels && ((b1.level||1) < 3 || (b2.level||1) < 3);
     if(evos.length > 0){
-      const targetEvo = evos[0];
+      const targetEvo = rankEvolutionChoices(evos)[0];
       const disabled = needsLevel ? "disabled" : "";
       const reasonText = needsLevel ? " (Need Level 3)" : "";
       bar.innerHTML = `
@@ -1971,7 +1988,7 @@ function executeMerge(){
 
   const evos = findDirectEvos(b1.name, b2.name);
   if(evos.length > 0){
-    const evo = evos[0];
+    const evo = rankEvolutionChoices(evos)[0];
     checkpointUndo(`Evolve ${evo.name}`);
     const sorted = [idx1, idx2].sort((a,b)=>b-a);
     sorted.forEach(i=>runState.balls.splice(i,1));
@@ -2171,14 +2188,18 @@ function passiveAllowed(p){
   if(p.name==="Frozen Spike" && !currentBallHasStatus("Freeze")) return false;
   if(p.name==="Voodoo Doll" && !currentBallHasStatus("Curse")) return false;
   if(p.name==="Silver Blindfold" && !currentBallHasStatus("Blind")) return false;
-  if(p.name==="Bandage Roll" && !runState.balls.some(b=>["Vampire","Soul Sucker","Heart Swallower","Vampire Lord","Mosquito King","Mosquito Swarm","Reaper"].includes(b.name)) && !runState.passives.some(x=>["Vampiric Sword","Healer's Effigy","Soul Reaver"].includes(x.name))) return false;
+  if(p.name==="Bandage Roll" && !runState.balls.some(b=>["Vampire","Soul Sucker","Heart Swallower","Vampire Lord","Mosquito King","Mosquito Swarm","Mosquito Kingdom","Reaper"].includes(b.name)) && !runState.passives.some(x=>["Vampiric Sword","Healer's Effigy","Soul Reaver"].includes(x.name))) return false;
   return true;
 }
-const TIER2_RECIPES = [
+const DEEP_RECIPES = [
   { name: "Nosferatu", subEvos: ["Vampire Lord", "Spider Queen", "Mosquito King"], neededBases: ["Vampire", "Dark", "Bleed", "Brood Mother", "Egg Sac"] },
+  { name: "Mosquito Kingdom", subEvos: ["Mosquito King", "Mosquito Swarm"], neededBases: ["Vampire", "Brood Mother", "Egg Sac"] },
   { name: "Satan", subEvos: ["Incubus", "Succubus"], neededBases: ["Charm", "Dark", "Vampire"] },
   { name: "Reaper", subEvos: ["Soul Sucker", "Heart Swallower"], neededBases: ["Vampire", "Ghost", "Bleed"] },
   { name: "X Ray", subEvos: ["Holy Laser", "Laser Beam"], neededBases: ["Laser (Horizontal)", "Laser (Vertical)", "Light"] },
+  { name: "Tumor", subEvos: ["Radiation Beam"], neededBases: ["Laser (Horizontal)", "Laser (Vertical)", "Poison", "Cell", "Flesh"] },
+  { name: "Armageddon", subEvos: ["Inferno", "Storm"], neededBases: ["Burn", "Wind", "Time", "Lightning"] },
+  { name: "Elemental", subEvos: [], neededBases: ["Burn", "Wind", "Freeze", "Earthquake"] },
   { name: "Nuclear Bomb", subEvos: ["Bomb"], neededBases: ["Burn", "Iron", "Poison"] },
   { name: "Banshee", subEvos: ["Phantom", "Wraith"], neededBases: ["Dark", "Ghost", "Freeze"] },
   { name: "Sniper", subEvos: ["Shotgun", "Assassin"], neededBases: ["Iron", "Egg Sac", "Ghost", "Dark"] },
@@ -2187,14 +2208,15 @@ const TIER2_RECIPES = [
 ];
 
 const BUILD_ROUTES = [
-  { id:"swarm", name:"Baby-ball swarm", summary:"Multiply child projectiles first, then make every baby carry useful damage or status effects.", balls:["Egg Sac","Brood Mother","Cell","Bleed","Burn","Vampire"], passives:["Baby Rattle","War Horn","Iron Onesie","Sword Breaker","Bandage Roll","Bottled Tornado","Slingshot","Turret","Hand Fan"], artifacts:["Cornucopia","Full Metal Rapier","Grotesque Artillery"] },
-  { id:"status", name:"Status + area control", summary:"Spread burn, poison, bleed, or freeze through wide-area hits and persistent zones.", balls:["Earthquake","Burn","Poison","Freeze","Bleed","Lightning","Light","Wind"], passives:["Magic Staff","Midnight Oil","Frozen Spike","Cursed Elixir","Pressure Valve","Dynamite","Hourglass","Silver Bullet"], artifacts:["Argent Stopwatch"] },
-  { id:"bounce", name:"Bounce + back-wall damage", summary:"Keep projectiles alive and turn wall contacts, pierce, and return trips into scaling damage.", balls:["Ghost","Wind","Stone","Iron","Light","Laser (Horizontal)","Laser (Vertical)"], passives:["Wagon Wheel","Rubber Headband","Upturned Hatchet","Ethereal Cloak","Ghostly Corset","Hourglass","Silver Bullet","Radiant Feather","Fleet Feet"], artifacts:["Phantom Regalia","Argent Stopwatch","Wings of the Anointed"] },
+  { id:"swarm", name:"Baby-ball swarm", summary:"Multiply child projectiles first, then make every baby carry useful damage or status effects.", balls:["Egg Sac","Brood Mother","Cell","Bleed","Burn","Vampire"], passives:["Baby Rattle","War Horn","Iron Onesie","Sword Breaker","Bandage Roll","Bottled Tornado","Slingshot","Turret","Hand Fan"], artifacts:["Windweaver","Cornucopia","Full Metal Rapier","Grotesque Artillery"] },
+  { id:"status", name:"Status + area control", summary:"Spread burn, poison, bleed, or freeze through wide-area hits and persistent zones.", balls:["Earthquake","Burn","Poison","Freeze","Bleed","Lightning","Light","Wind"], passives:["Magic Staff","Midnight Oil","Frozen Spike","Cursed Elixir","Pressure Valve","Magnet","Dynamite","Hourglass","Silver Bullet"], artifacts:["Remote Detonator","Argent Stopwatch"] },
+  { id:"bounce", name:"Bounce + back-wall damage", summary:"Keep projectiles alive and turn wall contacts, pierce, and return trips into scaling damage.", balls:["Flesh","Ghost","Wind","Stone","Iron","Light","Laser (Horizontal)","Laser (Vertical)"], passives:["Wagon Wheel","Rubber Headband","Platinum Dumbbell","Upturned Hatchet","Ethereal Cloak","Ghostly Corset","Hourglass","Silver Bullet","Radiant Feather","Fleet Feet"], artifacts:["Ardent Tire","Inglorious Hammer","Phantom Regalia","Argent Stopwatch","Wings of the Anointed"] },
   { id:"crit", name:"Critical execution", summary:"Raise reliable critical coverage, then convert crits into bonus damage or instant kills.", balls:["Iron","Ghost","Dark","Light","Laser (Horizontal)","Laser (Vertical)"], passives:["Diamond Hilted Dagger","Sapphire Hilted Dagger","Ruby Hilted Dagger","Emerald Hilted Dagger","Reacher's Spear","Deadeye's Amulet"], artifacts:["Deadeye's Cross","Gracious Impaler","Deadeye's Impaler"] },
   { id:"sustain", name:"Healing + sustain", summary:"Turn repeated hits and kills into healing, overheal, and defensive projectile value.", balls:["Vampire","Charm","Ghost","Bleed","Brood Mother","Egg Sac"], passives:["Vampiric Sword","Everflowing Goblet","Bandage Roll","Healer's Effigy","Lover's Quiver","Hand Mirror","Breastplate","Protective Charm"], artifacts:["Soul Reaver","Arrow of Fate"] },
   { id:"close", name:"Close-range retaliation", summary:"Survive contact and punish enemies the moment they enter melee range.", balls:["Charm","Freeze","Light","Bleed","Vampire"], passives:["Wretched Onion","Breastplate","Spiked Collar","Crown of Thorns","Eye of the Beholder","Protective Charm"], artifacts:["Odiferous Shell","Tormenters Mask"] },
   { id:"summons", name:"Friendly-piece army", summary:"Add autonomous attackers, then keep them alive and turn their coverage into a passive damage engine.", balls:["Charm","Brood Mother","Egg Sac","Cell","Vampire"], passives:["Turret","Hand Fan","Archer's Effigy","Healer's Effigy","Stone Effigy","Artificial Heart","Ghostly Shield","Traitor's Cowl"], artifacts:["Grotesque Artillery"] },
-  { id:"evolution", name:"Deep evolution chain", summary:"Use the extra ball capacity to finish compact tier-2 recipes instead of opening unrelated branches.", balls:["Vampire","Brood Mother","Egg Sac","Charm","Dark","Burn","Iron","Poison","Ghost","Bleed"], passives:[], artifacts:[] }
+  { id:"artifacts", name:"Passive artifact chain", summary:"Use the expanded passive capacity to finish the nearest recipe, forge it, and reopen ingredient slots.", balls:[], passives:["Rubber Headband","Wagon Wheel","Platinum Dumbbell","Upturned Hatchet","Magnet","Pressure Valve","Bottled Tornado","Slingshot"], artifacts:["Ardent Tire","Inglorious Hammer","Remote Detonator","Windweaver"] },
+  { id:"evolution", name:"Deep evolution chain", summary:"Use the extra ball capacity to finish compact multi-ball and tier-2 recipes instead of opening unrelated branches.", balls:["Flesh","Vampire","Brood Mother","Egg Sac","Charm","Dark","Burn","Iron","Poison","Ghost","Bleed","Wind","Freeze","Earthquake","Lightning"], passives:[], artifacts:[] }
 ];
 const ROUTE_DEFAULTS = {
   "The Warrior":"status","The Itchy Finger":"status","The Repentant":"bounce","The Cohabitants":"swarm",
@@ -2202,14 +2224,14 @@ const ROUTE_DEFAULTS = {
   "The Spendthrift":"sustain","The Juggler":"status","The Empty Nester":"bounce","The Flagellant":"swarm",
   "The Makeshift Sisyphus":"status","The Physicist":"bounce","The Tactician":"crit","The Radical":"status",
   "The Falconer":"crit","The Carouser":"close","The Tunneller":"status","The Tiptoer":"sustain",
-  "The False Messiah":"status","The Hoary Hoarder":"summons","The Ballbearer":"evolution"
+  "The False Messiah":"status","The Hoary Hoarder":"artifacts","The Ballbearer":"evolution"
 };
 function routeBallSignal(route,item){
   const data=getBallData(item.name); if(!data) return false;
   if(route.balls.includes(item.name)) return true;
   if(route.id==="swarm") return data.statusEffects.some(status=>/(Baby Ball|Spawn|Clone|Infest)/i.test(status));
-  if(route.id==="status") return data.damageTypes.includes("AOE")||data.statusEffects.some(status=>/(Burn|Poison|Bleed|Freeze|Disease|Venom|Frostburn|Darkflame|Radiation)/i.test(status));
-  if(route.id==="bounce") return /passes through|back wall|bounce/i.test(data.description||"");
+  if(route.id==="status") return data.damageTypes.includes("AOE")||data.statusEffects.some(status=>/(Burn|Poison|Bleed|Freeze|Disease|Venom|Frostburn|Darkflame|Radiation|Petrify|Tumor)/i.test(status));
+  if(route.id==="bounce") return /passes through|pierces|back (?:wall|of the field)|reaching the back|bounce/i.test(data.description||"");
   if(route.id==="sustain") return data.statusEffects.some(status=>/(Heal|Lifesteal|Lovestruck)/i.test(status));
   if(route.id==="evolution") return !!(data.tier&&data.tier!=="Fusion");
   return false;
@@ -2248,11 +2270,39 @@ function missingPassiveBases(name,held,seen){
 function bestRouteArtifact(route){
   if(!route||runState.passiveCap===0) return null;
   const held=new Set(runState.passives.map(item=>item.name));
-  const names=[...(runState.target&&runState.target.kind==="passive"?[runState.target.name]:[]),...route.artifacts].filter((name,index,array)=>array.indexOf(name)===index&&!held.has(name)&&EVOPAS_BY_NAME[name]);
+  const passiveFocus=activeRunCharacters().some(c=>c.tags&&c.tags.includes("passiveFocus"));
+  const pool=passiveFocus?GAME_DATA.evolvedPassives.map(item=>item.name):route.artifacts;
+  const names=[...(runState.target&&runState.target.kind==="passive"?[runState.target.name]:[]),...pool].filter((name,index,array)=>array.indexOf(name)===index&&!held.has(name)&&EVOPAS_BY_NAME[name]);
   return names.map((name,index)=>{
     const artifact=EVOPAS_BY_NAME[name],allBases=passiveChainBases(name),missing=missingPassiveBases(name,held);
     return {artifact,missing,owned:Math.max(0,allBases.size-missing.length),priority:index};
   }).sort((a,b)=>b.owned-a.owned||a.priority-b.priority)[0]||null;
+}
+function evolutionFit(e,route){
+  route=route||inferBuildRoute();
+  const held=new Set(runState.passives.map(item=>item.name)),support=[];
+  let score=routeBallSignal(route,e)?35:0;
+  const add=(names,condition,points)=>{
+    if(!condition) return;
+    names.filter(name=>held.has(name)).forEach(name=>{if(!support.includes(name)) support.push(name);});
+    if(names.some(name=>held.has(name))) score+=points;
+  };
+  const statuses=e.statusEffects||[],description=e.description||"";
+  add(["Baby Rattle","War Horn","Iron Onesie","Cornucopia","Full Metal Rapier"],statuses.some(status=>/Baby Ball/i.test(status)),45);
+  add(["Magic Staff"],e.damageTypes.includes("AOE"),40);
+  add(["Rubber Headband","Wagon Wheel","Platinum Dumbbell","Upturned Hatchet","Ardent Tire","Inglorious Hammer"],/passes through|pierces|back (?:wall|of the field)|reaching the back|bounce/i.test(description),45);
+  add(["Midnight Oil"],statuses.some(status=>/(Burn|Frostburn|Darkflame)/i.test(status)),35);
+  add(["Frozen Spike"],statuses.some(status=>/(Freeze|Frostburn)/i.test(status)),35);
+  add(["Cursed Elixir"],statuses.some(status=>/(Poison|Venom|Disease)/i.test(status)),35);
+  add(["Voodoo Doll"],statuses.includes("Curse"),35);
+  add(["Silver Blindfold"],statuses.includes("Blind"),35);
+  add(["Bandage Roll","Everflowing Goblet"],statuses.some(status=>/(Heal|Lifesteal|Lovestruck)/i.test(status)),35);
+  if(runState.target&&runState.target.kind==="ball"&&runState.target.name===e.name) score+=250;
+  return {score,support,reason:support.length?`Supported by ${support.join(" + ")}.`:routeBallSignal(route,e)?`Fits ${route.name.toLowerCase()}.`:"Available recipe."};
+}
+function rankEvolutionChoices(evos,route){
+  route=route||inferBuildRoute();
+  return [...evos].sort((a,b)=>evolutionFit(b,route).score-evolutionFit(a,route).score||b.tier-a.tier||a.name.localeCompare(b.name));
 }
 function bestFusionOpportunity(){
   let best=null;
@@ -2277,22 +2327,29 @@ function scoreBallCandidateForCharacter(b,c,guide){
   const direct=[];
   runState.balls.forEach(heldBall=>findDirectEvos(b.name,heldBall.name).forEach(e=>direct.push({e,heldBall})));
   if(direct.length){
-    const best=direct.sort((x,y)=>(y.heldBall.level||1)-(x.heldBall.level||1))[0];
-    score+=(!isLevelTrackingEnabled() || best.heldBall.level===3)?110:75;
-    reason=`<span class="rec-tag evo">Evolves: ${esc(best.e.name)}</span>Pairs with ${esc(best.heldBall.name)}.`;
+    const best=direct.sort((x,y)=>evolutionFit(y.e,route).score-evolutionFit(x.e,route).score||(y.heldBall.level||1)-(x.heldBall.level||1))[0];
+    const fit=evolutionFit(best.e,route);
+    score+=((!isLevelTrackingEnabled() || best.heldBall.level===3)?110:75)+Math.min(60,fit.score);
+    reason=`<span class="rec-tag evo">Evolves: ${esc(best.e.name)}</span>Pairs with ${esc(best.heldBall.name)}. ${esc(fit.reason)}`;
+  }
+  const completesMulti=GAME_DATA.evolvedBalls.filter(e=>e.slots.length>2&&!matchRecipe(e.slots,runState.balls,false)&&matchRecipe(e.slots,[...runState.balls,{name:b.name,level:3}],false));
+  if(completesMulti.length){
+    const best=rankEvolutionChoices(completesMulti,route)[0],fit=evolutionFit(best,route);
+    score+=140+Math.min(60,fit.score);
+    reason=`<span class="rec-tag evo">Completes: ${esc(best.name)}</span>Finishes the ${best.slots.length}-ball recipe. ${esc(fit.reason)}`;
   }
   const fusionFit=runState.balls.filter(held=>!isFusedBallItem(held)&&!findDirectEvos(b.name,held.name).length).map(held=>({held,analysis:fusionPairAnalysis(b,held)})).sort((a,b)=>b.analysis.score-a.analysis.score)[0];
   if(fusionFit&&fusionFit.analysis.score>=50){
     score+=fusionFit.analysis.score;
     if(!direct.length) reason=`<span class="rec-tag syn">Fusion: ${esc(fusionFit.analysis.title)}</span>Pairs with ${esc(fusionFit.held.name)} and inherits both effects.`;
   }
-  TIER2_RECIPES.forEach(t2=>{
-    if(t2.neededBases.includes(b.name)){
-      const matchingHeld=heldBallNames.filter(h=>t2.neededBases.includes(h)||t2.subEvos.includes(h));
+  DEEP_RECIPES.forEach(recipe=>{
+    if(recipe.neededBases.includes(b.name)){
+      const matchingHeld=heldBallNames.filter(h=>recipe.neededBases.includes(h)||recipe.subEvos.includes(h));
       if(matchingHeld.length>=1 && !heldBallNames.includes(b.name)){
         score+=35+matchingHeld.length*15;
-        if(!direct.length){
-          reason=`<span class="rec-tag tier2">Tier-2 Path: ${esc(t2.name)}</span>Pairs with ${esc(matchingHeld[0])}.`;
+        if(!direct.length&&!completesMulti.length){
+          reason=`<span class="rec-tag tier2">Evolution Path: ${esc(recipe.name)}</span>Pairs with ${esc(matchingHeld[0])}.`;
         }
       }
     }
@@ -2393,15 +2450,16 @@ function passiveRecommendations(c,guide){
 
 function renderRecommendations(c,guide){
   const balls=ballRecommendations(c,guide),passives=passiveRecommendations(c,guide);
-  const readyBalls=readyBallEvolutions(),readyPassives=readyPassiveEvolutions();
   const route=inferBuildRoute(),artifactPath=bestRouteArtifact(route),fusion=bestFusionOpportunity(),tracksLevels=isLevelTrackingEnabled();
+  const readyBalls=rankEvolutionChoices(readyBallEvolutions(),route),readyPassives=readyPassiveEvolutions();
   const fullBalls=runState.balls.length>=runState.ballCap,fullPassives=runState.passives.length>=runState.passiveCap;
   function recRows(items,kind){ return items.map(({item,reason})=>`<article class="rec-card">${spriteHTML(item.name,kind==="ball"?"balls":"passives")}<div><h5>${esc(item.name)}</h5><p>${reason}</p></div><button class="mini-add" data-rec-kind="${kind}" data-rec-name="${esc(item.name)}" ${(kind==="ball"?fullBalls:fullPassives)?"disabled":""}>Add</button></article>`).join(""); }
   const artifactReady=artifactPath&&matchRecipe(artifactPath.artifact.slots,runState.passives,true);
   const artifactHTML=artifactPath?`<article class="artifact-path">${spriteHTML(artifactPath.artifact.name,"passives")}<div><h5>Passive evolution · ${esc(artifactPath.artifact.name)}</h5><p>${artifactPath.missing.length?`Next: ${esc(artifactPath.missing.join(" + "))}`:artifactReady?"Ready to forge":tracksLevels?"Ingredients held · level each to 3":"Ingredients held · forge at level 3 in-game"}</p></div>${recipeIconsHTML(artifactPath.artifact.slots,"passives",runState.passives)}</article>`:"";
   const routeHTML=`<div class="route-card"><span class="eyebrow">Detected build route</span><h4>${esc(route.name)}</h4><p>${esc(route.summary)}</p><div class="route-signals">Based on ${esc(route.signals.join(" · ")||c.name)}</div>${artifactHTML}</div>`;
+  const hasClearBest=readyBalls.length>1&&evolutionFit(readyBalls[0],route).score>evolutionFit(readyBalls[1],route).score;
   const readyRows=[
-    ...readyBalls.map(e=>`<article class="evo-ready">${spriteHTML(e.name,"balls")}<div><h4>${esc(e.name)}</h4><p>${tracksLevels?"Level-3 evolution ready":"Ingredients held · combine at level 3 in-game"}</p>${recipeIconsHTML(e.slots,"balls",runState.balls)}</div><button class="evolve-btn" data-evolve-ball="${slug(e.name)}">${tracksLevels?"Evolve":"Mark evolved"}</button></article>`),
+    ...readyBalls.map((e,index)=>{const fit=evolutionFit(e,route),recipeNote=e.slots.length>2?` · ${e.slots.length}-ball recipe`:"";return `<article class="evo-ready">${spriteHTML(e.name,"balls")}<div><h4>${esc(e.name)}${index===0&&hasClearBest?' <span class="rec-tag route">Best fit</span>':""}</h4><p>${tracksLevels?"Level-3 evolution ready":"Ingredients held · combine at level 3 in-game"}${recipeNote} · ${esc(fit.reason)}</p>${recipeIconsHTML(e.slots,"balls",runState.balls)}</div><button class="evolve-btn" data-evolve-ball="${slug(e.name)}">${tracksLevels?"Evolve":"Mark evolved"}</button></article>`;}),
     ...readyPassives.map(e=>`<article class="evo-ready">${spriteHTML(e.name,"passives")}<div><h4>${esc(e.name)}</h4><p>${tracksLevels?"Level-3 passive evolution ready":"Ingredients held · forge at level 3 in-game"}</p>${recipeIconsHTML(e.slots,"passives",runState.passives)}</div><button class="evolve-btn" data-evolve-passive="${slug(e.name)}">${tracksLevels?"Forge":"Mark forged"}</button></article>`)
   ].join("");
   const fusionHTML=fusion?`<article class="evo-ready fusion-opportunity">${spriteHTML(`${fusion.left.name} + ${fusion.right.name}`,"balls")}<div><h4>${esc(fusion.analysis.title)}</h4><p>${esc(fusion.left.name)} × ${esc(fusion.right.name)} · ${esc(fusion.analysis.note)}</p>${recipeIconsHTML([[fusion.left.name],[fusion.right.name]],"balls",runState.balls)}</div><button class="evolve-btn" data-preview-fusion="${fusion.indices.join(",")}">Preview</button></article>`:"";
@@ -2411,7 +2469,7 @@ function renderRecommendations(c,guide){
     ${fusionHTML?`<div class="rec-group"><div class="rec-group-title"><h4>Fusion opportunity</h4><span>Inherits both</span></div>${fusionHTML}</div>`:""}
     <div class="rec-group"><div class="rec-group-title"><h4>Next ball</h4><span>Top picks</span></div>${recRows(balls,"ball")||'<div class="empty-copy">No open ball recommendations.</div>'}</div>
     <div class="rec-group"><div class="rec-group-title"><h4>Next passive</h4><span>Top picks</span></div>${recRows(passives,"passive")||'<div class="empty-copy">No passive slots available.</div>'}</div>`;
-  const summary=[route.name,readyBalls[0]&&readyBalls[0].name,balls[0]&&balls[0].item.name].filter(Boolean).slice(0,2).join(" · ");
+  const summary=[route.name,artifactPath&&artifactPath.artifact.name,readyBalls[0]&&readyBalls[0].name,balls[0]&&balls[0].item.name].filter(Boolean).slice(0,2).join(" · ");
   document.getElementById("rec-summary").textContent=summary||"No recommendations";
 }
 
@@ -2701,21 +2759,26 @@ if(runState&&runState.active) showRunDashboard(); else showRunLanding();
 // acceptance self-checks (console only)
 (function(){
   const freezeDirect = GAME_DATA.evolvedBalls.filter(e=>directBases(e).has("Freeze")).map(e=>e.name).sort();
-  console.assert(JSON.stringify(freezeDirect)===JSON.stringify(["Blizzard","Freeze Ray","Frozen Flame","Glacier","Timestop","Venom","Wraith"]),
+  console.assert(JSON.stringify(freezeDirect)===JSON.stringify(["Blizzard","Elemental","Freeze Ray","Frozen Flame","Glacier","Timestop","Venom","Wraith"]),
     "Freeze direct-uses mismatch: "+freezeDirect.join(", "));
   const vampDirect = GAME_DATA.evolvedBalls.filter(e=>directBases(e).has("Vampire")).map(e=>e.name).sort();
-  console.assert(JSON.stringify(vampDirect)===JSON.stringify(["Mosquito King","Mosquito Swarm","Soul Sucker","Succubus","Vampire Lord"]),
+  console.assert(JSON.stringify(vampDirect)===JSON.stringify(["Mosquito King","Mosquito Swarm","Soul Sucker","Succubus","Vampire Lord","Zombie"]),
     "Vampire direct-uses mismatch: "+vampDirect.join(", "));
   const vampIndirect = GAME_DATA.evolvedBalls.filter(e=>!directBases(e).has("Vampire") && chainBases(e.name).has("Vampire")).map(e=>e.name).sort();
-  console.assert(JSON.stringify(vampIndirect)===JSON.stringify(["Nosferatu","Reaper","Satan"]),
+  console.assert(JSON.stringify(vampIndirect)===JSON.stringify(["Mosquito Kingdom","Nosferatu","Reaper","Satan"]),
     "Vampire indirect-uses mismatch: "+vampIndirect.join(", "));
   console.assert(findDirectEvos("Bleed","Iron").some(e=>e.name==="Hemorrhage"), "Bleed+Iron should give Hemorrhage");
+  console.assert(findDirectEvos("Bleed","Flesh").some(e=>e.name==="Hemorrhage"), "Bleed+Flesh should give Hemorrhage");
+  console.assert(findDirectEvos("Brood Mother","Flesh").some(e=>e.name==="Flesh Mound"), "Brood Mother+Flesh should give Flesh Mound");
   console.assert(findDirectEvos("Bleed","Charm").some(e=>e.name==="Berserk"), "Bleed+Charm should give Berserk");
   console.assert(findDirectEvos("Poison","Bleed").some(e=>e.name==="Virus"), "Poison+Bleed should give Virus");
   console.assert(findDirectEvos("Bleed","Poison").some(e=>e.name==="Virus"), "Bleed+Poison should give Virus");
   console.assert(findDirectEvos("Brood Mother","Egg Sac").some(e=>e.name==="Spider Queen"), "Brood Mother+Egg Sac should give Spider Queen");
   console.assert(findDirectEvos("Laser (Vertical)","Laser (Horizontal)").some(e=>e.name==="Holy Laser"), "Lasers should give Holy Laser");
   console.assert(findDirectEvos("Bleed","Bleed").length===0, "Duplicate ball must not evolve with itself");
+  const elemental = EVO_BY_NAME["Elemental"];
+  console.assert(matchRecipe(elemental.slots,[{name:"Burn"},{name:"Wind"},{name:"Freeze"},{name:"Earthquake"}],false)!==null, "Elemental should match all four ingredients");
+  console.assert(matchRecipe(elemental.slots,[{name:"Burn"},{name:"Wind"},{name:"Freeze"}],false)===null, "Elemental should require all four ingredients");
 
   const prevRun=runState?JSON.parse(JSON.stringify(runState)):null;
   const prevUndo=runUndo?JSON.parse(JSON.stringify(runUndo)):null;
@@ -2750,6 +2813,17 @@ if(runState&&runState.active) showRunDashboard(); else showRunLanding();
     console.assert(artifact&&artifact.artifact.name==="Cornucopia", "Swarm route should suggest Cornucopia");
     const recs = ballRecommendations(GAME_DATA.characters.find(c=>c.name==="The Cohabitants"), RUN_GUIDES["The Cohabitants"]);
     console.assert(recs.length === 3, "Recommendations should return top 3 choices");
+
+    runState={active:true,trackLevels:false,balls:[{name:"Brood Mother",level:1},{name:"Flesh",level:1}],passives:[{name:"Baby Rattle",level:1}],characters:["The Cohabitants"],ballCap:4,passiveCap:4,compact:false,target:null};
+    const naturalistRoute=inferBuildRoute(),fleshFit=evolutionFit(EVO_BY_NAME["Flesh Mound"],naturalistRoute),drillFit=evolutionFit(EVO_BY_NAME["Drill"],naturalistRoute);
+    console.assert(fleshFit.support.includes("Baby Rattle")&&fleshFit.score>drillFit.score, "Baby Rattle should make Flesh Mound the stronger evolution fit");
+    console.assert(rankEvolutionChoices(readyBallEvolutions(),naturalistRoute)[0].name==="Flesh Mound", "Naturalist ready choices should be ranked by current passive fit");
+
+    runState={active:true,trackLevels:false,balls:[],passives:[{name:"Rubber Headband",level:1}],characters:["The Hoary Hoarder"],ballCap:2,passiveCap:8,compact:false,target:null};
+    const hoarderPath=bestRouteArtifact(inferBuildRoute());
+    console.assert(hoarderPath&&hoarderPath.artifact.name==="Ardent Tire"&&hoarderPath.missing.includes("Wagon Wheel"), "Hoary Hoarder should follow the nearest Naturalist passive artifact");
+
+    runState={active:true,trackLevels:false,balls:[{name:"Brood Mother",level:1}],passives:[],characters:["The Cohabitants"],ballCap:4,passiveCap:4,compact:false,target:null};
 
     offerType = "ball";
     offerSelections = ["Egg Sac", "Ghost"];
