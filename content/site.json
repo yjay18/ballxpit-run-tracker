@@ -1,0 +1,15 @@
+{
+  "url": "https://yjay18.github.io/ballxpit-run-tracker/",
+  "name": "Pit Crew",
+  "title": "Pit Crew — BALL x PIT Run Tracker & Build Companion",
+  "description": "Track BALL x PIT balls, passives, levels, and evolutions with character-aware pickup suggestions, a duo builder, and a searchable encyclopedia.",
+  "guideTitle": "How to Use Pit Crew — BALL x PIT Tracker Guide",
+  "guideDescription": "Learn how to track a BALL x PIT run, compare pickups, follow evolution paths, and use Pit Crew's encyclopedia. Run progress stays in your browser.",
+  "sections": [
+    {"id": "getting-started", "title": "Track a run", "text": "Pit Crew is an unofficial BALL x PIT companion. Start a run, choose one or two characters, and add the balls and passives offered by the game. Update your loadout as you play. Level tracking is optional and starts off for faster tracking."},
+    {"id": "build-advice", "title": "Compare pickups and follow evolutions", "text": "Compare the items currently offered by the game to see character-aware suggestions for your active build. Pin a ball evolution or passive artifact target to follow its ingredients. Ready evolutions can be applied in the tracker. Suggestions use deterministic practical heuristics; they are not a claim of an optimal build."},
+    {"id": "encyclopedia", "title": "Explore balls, passives, and duo combinations", "text": "The encyclopedia includes searchable balls, evolution recipes, paths, passives, and a duo builder. Use the Balls, Evolutions, Paths, Passives, and Duo Builder tabs outside an active run to explore the data. Recipe tables and recommendations in the app require JavaScript."},
+    {"id": "saved-progress", "title": "Your saved progress", "text": "No account is required. Run state and encyclopedia checkmarks are saved in localStorage in your browser. They are not an online profile and do not automatically sync between devices. Clearing browser site data removes that saved progress. The site uses Cloudflare Web Analytics."},
+    {"id": "data-and-credits", "title": "Data and credits", "text": "The site's data is labeled as current through the Naturalist Update (August 6, 2026). Game updates and community corrections may change recipes. Pit Crew was created by Yuuv Jauhari and builds on Allena Oglivie / Cryphixi's BALL x PIT Evolution Tracker. BALL x PIT and its game art belong to Kenny Sun and Devolver Digital. This fan project is not affiliated with or endorsed by the developer or publisher."}
+  ]
+}
