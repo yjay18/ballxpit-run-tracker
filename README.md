@@ -46,13 +46,19 @@ state and encyclopedia checkmarks stay in the browser's `localStorage`.
 
 ## Run locally
 
-Open `index.html` directly in a modern browser. No install or build command is
-required.
+The tracker still opens directly from `index.html`. To include the generated guide,
+sitemap, crawler policy, and search metadata, build the complete site with Python 3
+(no third-party dependencies):
+
+```sh
+python3 scripts/build_search.py
+python3 scripts/check_search.py
+```
 
 For a local web server, run:
 
 ```sh
-python3 -m http.server 8000
+python3 -m http.server 8000 --directory dist
 ```
 
 Then open `http://localhost:8000`.
@@ -112,3 +118,10 @@ and is not affiliated with or endorsed by the developer or publisher.
 Sprite assets are included only for player convenience and will be removed on
 request. The MIT license applies to the original code, not to game data or game
 artwork.
+
+## Search and publishing
+
+See [the search audit and publishing runbook](docs/search-discoverability.md) for
+production evidence, GitHub Pages setup, crawler policy placement, verification
+tokens, sitemap submissions, preview boundaries, and optional IndexNow. Publish
+`dist/` through the supplied Pages workflow; do not publish the repository root.
